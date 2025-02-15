@@ -6,8 +6,32 @@ class Splash1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var align = Align(
+              alignment: Alignment.centerRight, // تحريك السهم إلى اليمين
+              child: Padding(
+                padding: const EdgeInsets.only(right: 30), // إضافة مسافة من الجهة اليمنى
+                child: GestureDetector(
+                  onTap: () {
+                    // الانتقال إلى الصفحة التالية عند الضغط على السهم
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Splash2()), // قم بتغيير الصفحة هنا
+                    );
+                  },
+                  child: const CircleAvatar(
+                    radius: 30, // حجم الدائرة
+                    backgroundColor: Colors.black, // لون الخلفية (دائرة سوداء)
+                    child: Icon(
+                      Icons.arrow_forward, // أيقونة السهم
+                      color: Colors.white, // لون السهم
+                      size: 30, // حجم السهم
+                    ),
+                  ),
+                ),
+              ),
+            );
     return Scaffold(
-      backgroundColor: Colors.blue[200], // لون خلفية مشابه
+      backgroundColor: const Color(0xFF93AACF), // لون خلفية مشابه
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start, // جعل العناصر تبدأ من الأعلى
@@ -39,7 +63,7 @@ class Splash1 extends StatelessWidget {
             // الصورة
             const SizedBox(height: 10), // تقليل المسافة بين الزر والصورة
             Image.asset(
-              'assets/img/cute-little-penguin-read-book-on-white-background-cartoon-animal-character-for-kids-cards-baby-shower-invitation-poster-t-shirt-composition-hous-2HXHHHG-removebg-preview 1.png', // مسار الصورة
+              'assets/img/cute-little-penguin--cartoon-animal-.png', // مسار الصورة
               width: 400, // عرض الصورة
               height: 400, // ارتفاع الصورة
             ),
@@ -62,30 +86,7 @@ class Splash1 extends StatelessWidget {
           const SizedBox(height: 40), // مسافة إضافية قبل السهم
 
             // زر السهم داخل دائرة سوداء وتحريكها لليمين
-            Align(
-              alignment: Alignment.centerRight, // تحريك السهم إلى اليمين
-              child: Padding(
-                padding: const EdgeInsets.only(right: 30), // إضافة مسافة من الجهة اليمنى
-                child: GestureDetector(
-                  onTap: () {
-                    // الانتقال إلى الصفحة التالية عند الضغط على السهم
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Splash2()), // قم بتغيير الصفحة هنا
-                    );
-                  },
-                  child: const CircleAvatar(
-                    radius: 30, // حجم الدائرة
-                    backgroundColor: Colors.black, // لون الخلفية (دائرة سوداء)
-                    child: Icon(
-                      Icons.arrow_forward, // أيقونة السهم
-                      color: Colors.white, // لون السهم
-                      size: 30, // حجم السهم
-                    ),
-                  ),
-                ),
-              ),
-            ),
+        align,
           ],
         ),
       ),
