@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Categories.dart';
+import 'package:flutter_application_3/core/app_shared_variables.dart';
 
 void main() {
   runApp(const Educartoon());
@@ -27,9 +28,9 @@ class EducartoonSelectionScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
-          'Hi, Educartoon',
-          style: TextStyle(
+        title:  Text(
+          'Hi, ${childModel?.fullName??"Educartoon"}',
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 24,
             fontWeight: FontWeight.bold,

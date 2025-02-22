@@ -14,7 +14,7 @@ abstract class IAuthDatasource {
     required String lastName,
     required String email,
     required String password,
-    required String image,
+    // required String image,
   });
   Future<RegisterModel> getUserData({required String uid});
 }
@@ -41,7 +41,6 @@ class RemoteDataSource implements IAuthDatasource {
     required String lastName,
     required String email,
     required String password,
-    required String image,
   }) async {
     RegisterModel? registerModel;
     await user
@@ -53,7 +52,6 @@ class RemoteDataSource implements IAuthDatasource {
           lastName: lastName,
           email: email,
           uId: uid,
-          image: image,
           );
       uid = value.user?.uid ?? '';
       createUser(

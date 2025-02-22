@@ -13,8 +13,8 @@ abstract class IAuthRepo {
     required String lastName,
     required String email,
     required String password,
-    required String image,
   });
 
   Future<Either<String, RegisterModel>> getUserProfile({required String uid});
 }
+

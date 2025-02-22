@@ -1,14 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
 import 'package:flutter_application_3/core/utils/auth_locator.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
-import 'package:flutter_application_3/features/auth/presentation/pages/login.dart';
 import 'package:flutter_application_3/features/home/presentation/screen/home_screen.dart';
+import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
+import 'package:flutter_application_3/features/profile/presentation/pages/profile1.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // تأكد من استيراد صفحة تسجيل الدخول
 
-class Resgister extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   final GlobalKey<FormState> signUpFormKey = GlobalKey();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -17,7 +20,8 @@ class Resgister extends StatelessWidget {
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  Resgister({super.key});
+
+  RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +39,9 @@ class Resgister extends StatelessWidget {
               ),
             );
             // AuthCubit.get(context).getUserData(uid: state.uid);
-            Navigator.pushReplacement(
+             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              MaterialPageRoute(builder: (context) => const Profile1()),
             );
           } else if (state is LoginErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -87,7 +91,7 @@ class Resgister extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 0), // مسافة قبل حقول الإدخال
-                        TextField(
+                        TextFormField(
                           controller: firstNameController,
                           decoration: const InputDecoration(
                             labelText: 'First Name',
@@ -95,9 +99,21 @@ class Resgister extends StatelessWidget {
                             filled: true,
                             fillColor: Colors.white,
                           ),
+                          validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your First Name';
+                          }
+                          return null;
+                        },
                         ),
                         const SizedBox(height: 20),
-                        TextField(
+                        TextFormField(
+                            validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your Last Name';
+                          }
+                          return null;
+                        },
                           controller: lastNameController,
                           decoration: const InputDecoration(
                             labelText: 'Last Name',
@@ -107,7 +123,13 @@ class Resgister extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        TextField(
+                        TextFormField(
+                            validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your Email';
+                          }
+                          return null;
+                        },
                           controller: emailController,
                           decoration: const InputDecoration(
                             labelText: 'Email',
@@ -117,7 +139,13 @@ class Resgister extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        TextField(
+                        TextFormField(
+                            validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your Password';
+                          }
+                          return null;
+                        },
                           obscureText: true,
                           controller: passwordController,
                           decoration: const InputDecoration(
@@ -128,7 +156,13 @@ class Resgister extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        TextField(
+                        TextFormField(
+                            validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Confirm your Password';
+                          }
+                          return null;
+                        },
                           controller: confirmPasswordController,
                           obscureText: true,
                           decoration: const InputDecoration(
@@ -148,6 +182,7 @@ class Resgister extends StatelessWidget {
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () async {
+                            log("--------------------");
                             if (passwordController.text !=
                                 confirmPasswordController.text) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -205,7 +240,7 @@ class Resgister extends StatelessWidget {
                             // الانتقال إلى صفحة تسجيل الدخول عند الضغط
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Login()),
+                              MaterialPageRoute(builder: (context) => LoginScreen()),
                             );
                           },
                           child: const Text(

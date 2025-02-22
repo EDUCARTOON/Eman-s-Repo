@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/login.dart';
-import 'package:flutter_application_3/resgister.dart';
+import 'package:flutter_application_3/features/auth/presentation/pages/resgister_screen.dart';
+import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
 
 class Signup1 extends StatelessWidget {
   const Signup1({super.key});
@@ -68,7 +68,7 @@ class Signup1 extends StatelessWidget {
                 // فتح صفحة Login عند الضغط على الزر
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Login()),
+                  MaterialPageRoute(builder: (context) =>  LoginScreen()),
                 );
               },
               style: TextButton.styleFrom(
@@ -102,7 +102,7 @@ class Signup1 extends StatelessWidget {
                 // فتح صفحة Resgister عند الضغط على الزر
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Resgister()),
+                  MaterialPageRoute(builder: (context) =>   RegisterScreen()),
                 );
               },
               style: TextButton.styleFrom(

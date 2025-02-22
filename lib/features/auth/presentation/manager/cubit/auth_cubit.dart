@@ -64,11 +64,13 @@ class AuthCubit extends Cubit<AuthState> {
       firstName: firstName,
       email: email,
       password: password,
-      image: image,
+      
       lastName: lastName,
     );
     response.fold(
-      (errMessage){if(!isClosed) { emit(RegisterErrorState(errMessage: errMessage));}},
+      (errMessage){
+        log("============error====${errMessage}");
+        if(!isClosed) { emit(RegisterErrorState(errMessage: errMessage));}},
       (r) {
 
         if(!isClosed) {

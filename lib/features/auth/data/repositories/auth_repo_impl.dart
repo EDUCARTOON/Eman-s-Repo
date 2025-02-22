@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
@@ -20,10 +22,10 @@ class AuthRepository implements IAuthRepo {
       final response =
           await remoteDataSource.signIn(email: email, password: password);
       uid = response;
-      print('uuuuuiiiiddddd$uid');
+      log('uuuuuiiiiddddd=====================$uid');
       return right(response);
     } catch (e) {
-      print('errrroooorrrrr');
+      log('errrroooorrrrr');
 
       return left(e.toString());
     }
@@ -35,14 +37,14 @@ class AuthRepository implements IAuthRepo {
     required String email,
     required String lastName,
     required String password,
-    required String image,
+    // required String image,
   }) async {
     try {
       final response = await remoteDataSource.register(
           firstName: firstName,
           email: email,
           password: password,
-          image: image,
+          // image: image,
           lastName: lastName);
       userModel = response;
       return right(response);
