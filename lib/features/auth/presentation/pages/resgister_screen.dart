@@ -191,6 +191,7 @@ class RegisterScreen extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () async {
                             log("--------------------");
+                            // AuthCubit.get(context).resetPassword(context);
                             if (passwordController.text !=
                                 confirmPasswordController.text) {
                               ScaffoldMessenger.of(context).showSnackBar(

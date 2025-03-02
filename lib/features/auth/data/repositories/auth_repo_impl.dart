@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/core/services/secure_storage_sevice.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
@@ -85,4 +86,55 @@ class AuthRepository implements IAuthRepo {
       return left(e.toString());
     }
   }
+
+  Future<void> resetPassword( BuildContext context) async {
+  log("===============");
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: "abdoalfy140@gmail.com");
+    // Optionally, show a success message to the user
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Password reset email sent!')),
+    );
+  } on FirebaseAuthException catch (e) {
+    // Handle errors, such as:
+    // - User not found
+    // - Invalid email format
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: ${e.message}')),
+    );
+  }
+}
+
+Future<void> sendEmailVerification(BuildContext context) async {
+  final user = FirebaseAuth.instance.currentUser;
+  FirebaseAuth.instance
+  .authStateChanges()
+  .listen((User? user) {
+    if (user != null) {
+      print(user.uid);
+    }
+  });
+  if (user != null && !user.emailVerified) {
+    try {
+      await user.sendEmailVerification();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Verification email sent!')),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.message}')),
+      );
+    }
+  } else if (user == null){
+     ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No user is currently logged in.')),
+      );
+  }
+  else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Email is already verified.')),
+    );
+  }
+}
+  
 }

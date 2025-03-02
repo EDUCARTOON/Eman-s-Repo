@@ -40,7 +40,7 @@ abstract class AppRouter {
           return null;
         }
 
-        if (isLogin==false) {
+        if (isLogin==true) {
           log("Redirecting to Welcome Screen");
           return Routes.splashScreen;
         } else {
