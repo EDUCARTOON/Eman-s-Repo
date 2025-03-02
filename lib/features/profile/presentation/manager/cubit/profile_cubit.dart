@@ -38,19 +38,20 @@ class ProfileCubit extends Cubit<ProfileState> {
   
 
 
-  Future<void>addChid({required ChildModel childModel})async {
+  Future<void>addChid({required ChildModel childModel,required bool isAdd})async {
     emit(FillChildDataLoadingState());
-      final response = await profileRepository.addChildData(childModel: childModel);
+      final response = await profileRepository.addChildData(childModel: childModel, isAdd: isAdd);
     response.fold(
         (errMessage){
           if(!isClosed) {
             emit(FillChildDataErrorState(errMessage: errMessage));
           }},
-        (userData){if(!isClosed) {
+        (userData)async{if(!isClosed) {
           // if(ch.pinCode!=null){
           //   emit(FillUserPinCodeSuccessState());
           //   return;
           // }
+       await   getUserChildren();
            emit(FillChildDataSuccessState());
            
            }});
@@ -58,7 +59,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void>getUserChildren()async {
-    emit(GetUserChildrenLoadingState());
+    log("=====================================");
+      if(!isClosed) {
+    emit(GetUserChildrenLoadingState());}
       final response = await profileRepository.getUserChildren();
     response.fold(
         (errMessage){

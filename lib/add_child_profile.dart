@@ -11,8 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AddChildProfileScreen extends StatefulWidget {
-  const AddChildProfileScreen({super.key,});
+  const AddChildProfileScreen({super.key, this.isAdd,});
   // final ProfileCubit profileCubit;
+  final bool? isAdd;
 
   @override
   _AddChildProfileScreenState createState() => _AddChildProfileScreenState();
@@ -175,6 +176,7 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
 context.push(Routes.favTopicsScreen,extra: {
   'childModel': child,
   'profileCubit': cubitContext.read<ProfileCubit>(),
+  'isAdd':widget.isAdd??false
 });
                           // Navigator.push(
                           //   cubitContext,

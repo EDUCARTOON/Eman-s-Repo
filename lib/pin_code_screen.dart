@@ -44,12 +44,9 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
 
  Future< void> _submitPin({required BuildContext cubitContext})async {
     String pinCode = pinList.join(""); // Convert pin list to string
-      log("--------------$pinCode--");
-
     if (pinCode.length == 4) {
-    
     await  cubitContext.read<AuthCubit>().addUserPinCode(pin: pinCode).then((_){
-      context.push(Routes.addChildProfile);
+      context.push(Routes.addChildProfile,extra: true);
       // Navigator.push(
       //   context,
       //   MaterialPageRoute(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
@@ -7,7 +9,7 @@ import '../models/user_model.dart';
 
 abstract class ProfileDataSource { 
   Future<void> fillUserProfile({required UserModel profileModel});
-  Future<void> addChildData({required ChildModel childModel});
+  Future<void> addChildData({required ChildModel childModel,required bool isAdd});
   Future<List<dynamic>> getUserChildren() ;
  }
 
@@ -41,13 +43,29 @@ Future<void> fillUserProfile({required UserModel profileModel}) async {
 }
   @override
 
-Future<void> addChildData({required ChildModel childModel}) async {
+Future<void> addChildData({required ChildModel childModel,required bool isAdd}) async {
+  log("==============isAdd==============$isAdd===============$isAddChild");
   CollectionReference profileCollection = FirebaseFirestore.instance
       .collection('users')
       .doc(uid)
       .collection("children");
-  await profileCollection.add(childModel.toMap());
+  QuerySnapshot querySnapshot = await profileCollection
+      .where(FieldPath.documentId, isEqualTo: childModel.docId)
+      .get();
+
+  if (querySnapshot.docs.isNotEmpty&&!isAddChild) {
+    String existingDocId = querySnapshot.docs.first.id;
+    await profileCollection.doc(existingDocId).update(childModel.toMap());
+    print("✅ Child updated successfully!");
+  } else {
+        DocumentReference newChildRef = profileCollection.doc(); // Auto-generate ID
+    String newDocId = newChildRef.id;
+    childModel.docId = newDocId;
+    await profileCollection.doc(childModel.docId).set(childModel.toMap());
+    print("✅ New child added successfully!");
+  }
 }
+
   @override
 
 Future<List<dynamic>> getUserChildren() async {

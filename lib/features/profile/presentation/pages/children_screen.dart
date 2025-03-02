@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/Educartoon.dart';
+import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/profile/data/models/child_model.dart';
@@ -35,96 +35,98 @@ class ChildrenScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-create: (context) => ProfileCubit(profileRepository:  getIt.get<ProfileRepoImpl>())..getUserChildren(),
-    child: Scaffold(
-        backgroundColor: const Color(0xFF93AACF), // اللون الخلفي الأزرق
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 40), // مسافة من الأعلى
-              const Text(
-                "Who will read today?",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) => isAddChild=false,  
+      child: Scaffold(
+          backgroundColor: const Color(0xFF93AACF), // اللون الخلفي الأزرق
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 40), // مسافة من الأعلى
+                const Text(
+                  "Who will read today?",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                "Choose the account by clicking on your picture",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
+                const SizedBox(height: 10),
+                const Text(
+                  "Choose the account by clicking on your picture",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40),
-              Expanded(
-                child: BlocBuilder<ProfileCubit, ProfileState>(
-                  builder: (context, state) {
-                    if (state is GetUserChildrenLoadingState) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is GetUserChildrenSuccessState) {
-                      return ChildrenList(
-                        children: state.children,
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
+                const SizedBox(height: 40),
+                Expanded(
+                  child: BlocBuilder<ProfileCubit, ProfileState>(
+                    builder: (context, state) {
+                      if (state is GetUserChildrenLoadingState) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is GetUserChildrenSuccessState) {
+                        return ChildrenList(
+                          children: state.children,
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 30),
-            ],
+      
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
-        ),
-        floatingActionButton: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (cubitContext, state) {
-            return FloatingActionButton(
-              onPressed: () {
-                log("clicked");
-                cubitContext.push(Routes.addChildProfile);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => const AddChildProfileScreen(
-                //             // profileCubit: cubitContext.read<ProfileCubit>(),
-                //           )),
-                // );
-              },
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              child: Container(
-                width: 70,
-                height: 70,
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
+          floatingActionButton: BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (cubitContext, state) {
+              return FloatingActionButton(
+                onPressed: () {
+                  log("clicked");
+                  isAddChild=true;
+                  cubitContext.push(Routes.addChildProfile,extra:true);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => const AddChildProfileScreen(
+                  //             // profileCubit: cubitContext.read<ProfileCubit>(),
+                  //           )),
+                  // );
+                },
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: const BoxDecoration(
+                    color: Colors.green,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 40,
+                  ),
                 ),
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 40,
-                ),
-              ),
-            );
-          },
+              );
+            },
+          ),
+      
+          //  FloatingActionButton(onPressed: () {
+          //
+          // },
+          //   child:
+          // )
         ),
-
-        //  FloatingActionButton(onPressed: () {
-        //
-        // },
-        //   child:
-        // ),
-      ),
     );
+ 
   }
 }
 

@@ -6,3 +6,4 @@ String uid='';
 RegisterModel? userModel;
 String userImage='';
 ChildModel ?childModel;
+bool isAddChild=true;

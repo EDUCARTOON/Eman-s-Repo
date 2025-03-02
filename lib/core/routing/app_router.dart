@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/Educartoon.dart';
+import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:flutter_application_3/FavoriteTopics.dart';
 import 'package:flutter_application_3/add_child_profile.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
@@ -8,6 +8,8 @@ import 'package:flutter_application_3/core/services/secure_storage_sevice.dart';
 import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:flutter_application_3/features/on_boarding/presentation/home.dart';
 import 'package:flutter_application_3/features/on_boarding/presentation/splash/splashscreen.dart';
+import 'package:flutter_application_3/features/profile/data/repositories/profile_repo_impl.dart';
+import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/children_screen.dart';
 import 'package:flutter_application_3/core/services/cache_helper.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
@@ -33,7 +35,7 @@ abstract class AppRouter {
           //  return Routes.onBoarding;
      
           bool isLogin = await CacheHelper.getData("isLogin")??false;
-        log( "isLogin $isLogin");
+        // log( "isLogin $isLogin");
         if (state.matchedLocation != Routes.welcomeScreen) {
           return null;
         }
@@ -52,7 +54,7 @@ abstract class AppRouter {
           routes: [
             GoRoute(
               path: Routes.homeScreen,
-              builder: (context, state) => const Educartoon(),
+              builder: (context, state) => const EducartoonScreen(),
             ),
             GoRoute(
               path: Routes.coursesScreen,
@@ -121,15 +123,24 @@ abstract class AppRouter {
       GoRoute(
           path: Routes.childrenScreen,
           builder: (BuildContext context, GoRouterState state) {
-           
-            return  const ChildrenScreen();
+//             if(state.extra!=null){
+//                return  BlocProvider.value(
+// value:  state.extra as ProfileCubit, //ProfileCubit(profileRepository:  getIt.get<ProfileRepoImpl>())..getUserChildren(),
+//     child:
+//               const ChildrenScreen());
+//             }
+            log("================---");
+          return  BlocProvider(
+create: (context) => ProfileCubit(profileRepository:  getIt.get<ProfileRepoImpl>())..getUserChildren(),
+    child:
+              const ChildrenScreen());
           },
         ),
    GoRoute(
           path: Routes.addChildProfile,
           builder: (BuildContext context, GoRouterState state) {
            
-            return  const AddChildProfileScreen();
+            return   AddChildProfileScreen(isAdd: state.extra as bool,);
           },
         ),
            GoRoute(
@@ -147,6 +158,7 @@ abstract class AppRouter {
             return   FavoriteTopicsScreen(
                       childModel: args?['childModel'],
                   profileCubit: args?['profileCubit'],
+                  isAdd: args?['isAdd'],
             );
           },
         ),

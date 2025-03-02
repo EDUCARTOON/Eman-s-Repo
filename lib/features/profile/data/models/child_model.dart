@@ -4,6 +4,7 @@ class ChildModel {
   final DateTime dateOfBirth;
   final String gender;
    List<int> favoriteTopicsIndexes;
+   String? docId;
   
 
   ChildModel({
@@ -12,6 +13,7 @@ class ChildModel {
     required this.dateOfBirth,
     required this.gender,
     required this.favoriteTopicsIndexes,
+    this.docId
   });
 
   // Convert Profile to JSON
@@ -22,6 +24,7 @@ class ChildModel {
       'dateOfBirth': dateOfBirth.toIso8601String(),
       'gender': gender,
       'favoriteTopicsIndexes': favoriteTopicsIndexes,
+      'docId': docId
     };
   }
 
@@ -33,6 +36,7 @@ class ChildModel {
       dateOfBirth: DateTime.parse(json['dateOfBirth']),
       gender: json['gender'],
       favoriteTopicsIndexes: List<int>.from(json['favoriteTopicsIndexes']),
+            docId: json['docId'],
     );
   }
 }

@@ -27,10 +27,12 @@ class LayoutCubit extends Cubit<LayoutState> {
     log("=========================================$navBarIndex");
     if (navBarIndex != index) {
 
-      navBarIndex = index;
+
       if(index==3){
-        context.push(navBarRoutes[index]);}
-        else{
+        navBarIndex=0;
+        GoRouter.of(context).go(navBarRoutes[index]);}
+      else{
+                navBarIndex = index;
       GoRouter.of(context).go(navBarRoutes[index],
        ); }// Navigate using GoRouter
       emit(NavBarState());

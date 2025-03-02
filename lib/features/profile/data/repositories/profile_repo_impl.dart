@@ -52,10 +52,10 @@ class ProfileRepoImpl implements ProfileBaseRepo {
   }
 
   @override
-  Future<Either<String, void>> addChildData({required ChildModel childModel}) async{
+  Future<Either<String, void>> addChildData({required ChildModel childModel,required bool isAdd}) async{
    try {
       final response =
-          await profileRemoteDataSource.addChildData(childModel: childModel  );
+          await profileRemoteDataSource.addChildData(childModel: childModel, isAdd: isAdd  );
       return right(response);
     } catch (e) {
 

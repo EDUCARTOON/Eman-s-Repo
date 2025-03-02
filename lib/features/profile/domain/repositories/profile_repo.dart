@@ -10,7 +10,7 @@ abstract class ProfileBaseRepo {
   });
 
   Future<Either<String, RegisterModel>> getUserProfile({required String uid});
-   Future<Either<String, void>> addChildData({required ChildModel childModel});
+   Future<Either<String, void>> addChildData({required ChildModel childModel,required bool isAdd});
      Future<Either<String, List<ChildModel>>> getUserChildren();
 }
 

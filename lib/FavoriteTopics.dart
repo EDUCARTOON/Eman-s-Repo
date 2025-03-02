@@ -10,9 +10,10 @@ import 'package:go_router/go_router.dart';
 
 class FavoriteTopicsScreen extends StatefulWidget {
   const FavoriteTopicsScreen(
-      {super.key, required this.childModel, required this.profileCubit});
+      {super.key, required this.childModel, required this.profileCubit, this.isAdd});
   final ChildModel childModel;
   final ProfileCubit profileCubit;
+  final bool? isAdd;
   @override
   _FavoriteTopicsScreenState createState() => _FavoriteTopicsScreenState();
 }
@@ -46,7 +47,8 @@ class _FavoriteTopicsScreenState extends State<FavoriteTopicsScreen> {
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (cubitContext, state) {
           if(state is FillChildDataSuccessState) {
-                      context.go(Routes.childrenScreen);
+          //  widget.profileCubit.getUserChildren();
+                      context.push(Routes.childrenScreen,);
 //             Navigator.pushAndRemoveUntil(
 //   context,
 //   MaterialPageRoute(
@@ -137,7 +139,7 @@ class _FavoriteTopicsScreenState extends State<FavoriteTopicsScreen> {
                           .map((entry) => entry.key) // Extract the indexes
                           .toList();
                       widget.profileCubit
-                          .addChid(childModel: widget.childModel);
+                          .addChid(childModel: widget.childModel, isAdd:widget.isAdd??false );
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(
