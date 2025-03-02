@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/core/services/cache_helper.dart';
+import 'package:flutter_application_3/core/services/secure_storage_sevice.dart';
+import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/auth/data/models/sign_up_model.dart';
 
 abstract class IAuthDatasource {
@@ -46,8 +48,10 @@ class RemoteDataSource implements IAuthDatasource {
     RegisterModel? registerModel;
     await user
         .createUserWithEmailAndPassword(email: email, password: password)
-        .then((value) {
+        .then((value) async{
       log('user id --------------${value.user?.uid}');
+      await  getIt<SecureStorageServices>().saveData(key: 'UID', value: value.user?.uid??" ");
+    
       registerModel = RegisterModel(
           firstName: firstName,
           lastName: lastName,
@@ -55,6 +59,9 @@ class RemoteDataSource implements IAuthDatasource {
           uId: uid,
           );
       uid = value.user?.uid ?? '';
+      if(uid!=''){
+            await  getIt<SecureStorageServices>().saveData(key: 'UID', value:uid);
+      }
       createUser(
         uId: value.user?.uid ?? '',
         registerModel: registerModel!,

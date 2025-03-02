@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
+import 'package:flutter_application_3/core/services/cache_helper.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
@@ -34,7 +35,7 @@ class RegisterScreen extends StatelessWidget {
         authRepository: getIt.get<AuthRepository>(),
       ),
       child: BlocConsumer<AuthCubit, AuthState>(
-        listener: (cubitContext, state) {
+        listener: (cubitContext, state)async {
           if (state is RegisterSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -42,6 +43,8 @@ class RegisterScreen extends StatelessWidget {
                 content: Text("sign up successfully"),
               ),
             );
+              await CacheHelper.saveData(key: 'isLogin', value: true);
+          
             // AuthCubit.get(context).getUserData(uid: state.uid);
             context.push(Routes.pinCodeScreen,extra: cubitContext.read<AuthCubit>());
             //  Navigator.push(
