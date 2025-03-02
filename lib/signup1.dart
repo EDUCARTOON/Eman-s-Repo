@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/resgister_screen.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class Signup1 extends StatelessWidget {
   const Signup1({super.key});
@@ -65,11 +67,12 @@ class Signup1 extends StatelessWidget {
             // زر تسجيل الدخول مع دائرة السهم البيضاء
             TextButton(
               onPressed: () {
+                context.push(Routes.loginScreen);
                 // فتح صفحة Login عند الضغط على الزر
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>  LoginScreen()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) =>  LoginScreen()),
+                // );
               },
               style: TextButton.styleFrom(
                 minimumSize: const Size(250,10),
@@ -100,10 +103,12 @@ class Signup1 extends StatelessWidget {
             TextButton(
               onPressed: () {
                 // فتح صفحة Resgister عند الضغط على الزر
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>   RegisterScreen()),
-                );
+              
+                context.push(Routes.registerScreen);
+                // Navigator.push
+                //   context,
+                //   MaterialPageRoute(builder: (context) =>   RegisterScreen()),
+                // );
               },
               style: TextButton.styleFrom(
                 minimumSize: const Size(200, 50),

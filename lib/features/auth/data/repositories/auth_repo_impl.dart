@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
+import 'package:flutter_application_3/core/services/secure_storage_sevice.dart';
+import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/core/utils/failure.dart';
 import 'package:flutter_application_3/features/auth/data/data_sources/auth_remote_datasource.dart';
 import 'package:flutter_application_3/features/auth/data/models/sign_up_model.dart';
@@ -22,6 +24,7 @@ class AuthRepository implements IAuthRepo {
       final response =
           await remoteDataSource.signIn(email: email, password: password);
       uid = response;
+    await  getIt<SecureStorageServices>().saveData(key: 'UID', value: response);
       log('uuuuuiiiiddddd=====================$uid');
       return right(response);
     } catch (e) {
@@ -63,6 +66,20 @@ class AuthRepository implements IAuthRepo {
       // }
       final response = await remoteDataSource.getUserData(uid: uid);
       userModel = response;
+      return right(response);
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
+    @override
+
+  Future<Either<String, void>> addUserPinCode({
+    required String pin
+  }) async {
+    try {
+      final response = await remoteDataSource.addUserPinCode(
+         pin: pin);
+    
       return right(response);
     } catch (e) {
       return left(e.toString());

@@ -148,18 +148,19 @@ class EducartoonSelectionScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.black), label: 'HOME'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book, color: Colors.black), label: 'MY COURSES'),
-          BottomNavigationBarItem(icon: Icon(Icons.inbox, color: Colors.black), label: 'INDOX'),
-          BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black), label: 'PROFILE'),
-        ],
-        unselectedItemColor: Colors.black, // اللون للأزرار غير المحددة
-        selectedItemColor: Colors.black, // اللون للأزرار المحددة
-        showSelectedLabels: true, // إظهار النصوص المحددة
-        showUnselectedLabels: true, // إظهار النصوص غير المحددة
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.black), label: 'HOME'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.menu_book, color: Colors.black), label: 'MY COURSES'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.inbox, color: Colors.black), label: 'INDOX'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black), label: 'PROFILE'),
+      //   ],
+      //   unselectedItemColor: Colors.black, // اللون للأزرار غير المحددة
+      //   selectedItemColor: Colors.black, // اللون للأزرار المحددة
+      //   showSelectedLabels: true, // إظهار النصوص المحددة
+      //   showUnselectedLabels: true, // إظهار النصوص غير المحددة
+      // ),
+    
     );
   }
 }

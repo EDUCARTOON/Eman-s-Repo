@@ -16,5 +16,8 @@ abstract class IAuthRepo {
   });
 
   Future<Either<String, RegisterModel>> getUserProfile({required String uid});
+    Future<Either<String, void>> addUserPinCode({
+    required String pin
+  }) ;
 }
 

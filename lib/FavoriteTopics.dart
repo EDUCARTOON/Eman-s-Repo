@@ -1,24 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/Reader.dart';
+import 'package:flutter_application_3/core/routing/routes.dart';
+import 'package:flutter_application_3/features/profile/presentation/pages/children_screen.dart';
 import 'package:flutter_application_3/features/profile/data/models/child_model.dart';
 import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-// void main() {
-//   runApp(const FavoriteTopicsApp());
-// }
 
-// class FavoriteTopicsApp extends StatelessWidget {
-//   const FavoriteTopicsApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: FavoriteTopicsScreen(),
-//     );
-//   }
-// }
 
 class FavoriteTopicsScreen extends StatefulWidget {
   const FavoriteTopicsScreen(
@@ -58,11 +46,15 @@ class _FavoriteTopicsScreenState extends State<FavoriteTopicsScreen> {
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (cubitContext, state) {
           if(state is FillChildDataSuccessState) {
-             Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>  ReaderApp(profileCubit:cubitContext.read<ProfileCubit>() ,)),
-                    );
+                      context.go(Routes.childrenScreen);
+//             Navigator.pushAndRemoveUntil(
+//   context,
+//   MaterialPageRoute(
+//     builder: (context) => const ChildrenScreen(),
+//   ),
+//   (route) => false, // هذا يجعل الشاشة الجديدة هي الوحيدة في السجل
+// );
+
           }
         },
         child: Scaffold(

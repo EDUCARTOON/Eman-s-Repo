@@ -2,13 +2,17 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
-import 'package:flutter_application_3/core/utils/auth_locator.dart';
+import 'package:flutter_application_3/core/routing/routes.dart';
+import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:flutter_application_3/features/home/presentation/screen/home_screen.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
+import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile1.dart';
+import 'package:flutter_application_3/pin_code_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 // تأكد من استيراد صفحة تسجيل الدخول
 
 class RegisterScreen extends StatelessWidget {
@@ -30,7 +34,7 @@ class RegisterScreen extends StatelessWidget {
         authRepository: getIt.get<AuthRepository>(),
       ),
       child: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (cubitContext, state) {
           if (state is RegisterSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -39,10 +43,11 @@ class RegisterScreen extends StatelessWidget {
               ),
             );
             // AuthCubit.get(context).getUserData(uid: state.uid);
-             Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Profile1()),
-            );
+            context.push(Routes.pinCodeScreen,extra: cubitContext.read<AuthCubit>());
+            //  Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) =>  PinCodeScreen(cubit: cubitContext.read<AuthCubit>(),)),
+            // );
           } else if (state is LoginErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -238,10 +243,11 @@ class RegisterScreen extends StatelessWidget {
                         TextButton(
                           onPressed: () {
                             // الانتقال إلى صفحة تسجيل الدخول عند الضغط
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => LoginScreen()),
-                            );
+                            context.push(Routes.loginScreen);
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => LoginScreen()),
+                            // );
                           },
                           child: const Text(
                             "Already have an Account? SIGN IN",

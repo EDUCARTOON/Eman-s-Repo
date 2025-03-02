@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/features/on_boarding/presentation/home.dart';
+import 'package:go_router/go_router.dart';
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
@@ -12,9 +16,11 @@ class _SplashscreenState extends State<Splashscreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const Home();
-      }));
+      log('Splashscreen');
+      context.go(Routes.onBoarding);
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      //   return const Home();
+      // }));
     });
     super.initState();
   }

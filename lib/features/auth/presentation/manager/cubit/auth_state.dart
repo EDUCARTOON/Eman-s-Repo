@@ -35,3 +35,11 @@ class GetUserDataErrorState extends AuthState {
    final String errMessage;
   GetUserDataErrorState({required this.errMessage});
 }
+
+class AddUserPinLoadingState extends AuthState {}
+class AddUserPinSuccessState extends AuthState {
+  }
+class AddUserPinErrorState extends AuthState {
+   final String errMessage;
+  AddUserPinErrorState({required this.errMessage});
+}

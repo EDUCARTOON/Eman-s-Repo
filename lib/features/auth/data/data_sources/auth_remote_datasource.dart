@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
-import 'package:flutter_application_3/core/cache_helper.dart';
+import 'package:flutter_application_3/core/services/cache_helper.dart';
 import 'package:flutter_application_3/features/auth/data/models/sign_up_model.dart';
 
 abstract class IAuthDatasource {
@@ -17,6 +17,7 @@ abstract class IAuthDatasource {
     // required String image,
   });
   Future<RegisterModel> getUserData({required String uid});
+   Future<void> addUserPinCode({required String pin});
 }
 
 class RemoteDataSource implements IAuthDatasource {
@@ -69,10 +70,16 @@ class RemoteDataSource implements IAuthDatasource {
         .collection(AppConstant.kUsers)
         .doc(uId)
         .set(registerModel.toMap());
-    // await FirebaseFirestore.instance
-    //     .collection(AppConstant.kUsers)
-    //     .doc(uId)
-    //     .update({'uid': uId});
+
+  }
+  
+  @override
+ Future<void> addUserPinCode({required String pin})async {
+  log("=============$pin=====================");
+       await FirebaseFirestore.instance
+        .collection(AppConstant.kUsers)
+        .doc(uid)
+        .update({'pin': pin});
   }
 
   @override

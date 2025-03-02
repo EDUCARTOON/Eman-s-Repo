@@ -89,4 +89,16 @@ class AuthCubit extends Cubit<AuthState> {
           }},
         (userData){if(!isClosed) { emit(GetUserDataSuccessState(userData: userData));}});
   }
+
+    Future<void> addUserPinCode({required String pin}) async {
+      if(!isClosed) {
+    emit(AddUserPinLoadingState());}
+    final response = await authRepository.addUserPinCode(pin: pin);
+    response.fold(
+        (errMessage){
+          if(!isClosed) {
+            emit(AddUserPinErrorState(errMessage: errMessage));
+          }},
+        (userData){if(!isClosed) { emit(AddUserPinSuccessState());}});
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/features/on_boarding/presentation/splash/splash1.dart'; // تأكد من استيراد صفحة Splash1
+import 'package:flutter_application_3/core/routing/routes.dart';
+import 'package:flutter_application_3/features/on_boarding/presentation/splash/splash1.dart';
+import 'package:go_router/go_router.dart'; // تأكد من استيراد صفحة Splash1
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -22,10 +24,12 @@ class Home extends StatelessWidget {
                 child: TextButton(
                   onPressed: () {
                     // فتح صفحة Splash1 عند الضغط على الزر
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Splash1()),
-                    );
+                     context.push(Routes.splash1sScreen);
+                           
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => const Splash1()),
+                    // );
                   },
                   child: const Text(
                     'Skip',
@@ -70,11 +74,13 @@ class Home extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 30), // إضافة مسافة من الجهة اليمنى
                 child: GestureDetector(
                   onTap: () {
+                     context.push(Routes.splash1sScreen);
+
                     // الانتقال إلى الصفحة التالية عند الضغط على السهم
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Splash1()), // قم بتغيير الصفحة هنا
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => const Splash1()), // قم بتغيير الصفحة هنا
+                    // );
                   },
                   child: const CircleAvatar(
                     radius: 30, // حجم الدائرة

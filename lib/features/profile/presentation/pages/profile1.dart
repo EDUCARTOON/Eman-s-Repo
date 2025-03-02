@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/core/utils/auth_locator.dart';
+import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/profile/data/models/user_model.dart';
 import 'package:flutter_application_3/features/profile/data/repositories/profile_repo_impl.dart';
 import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../pin.dart';
+import '../../../../pin_code_screen.dart';
 
 class Profile1 extends StatefulWidget {
   const Profile1({super.key});
@@ -42,10 +42,10 @@ class _Profile1State extends State<Profile1> {
         body: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (cubitContext, state) {
             if (state is FillUserDataSuccessState) {
-              Navigator.push(
-                cubitContext,
-                MaterialPageRoute(builder: (context) =>  Pin(cubit:cubitContext.read<ProfileCubit>())),
-              );
+              // Navigator.push(
+              //   cubitContext,
+              //   MaterialPageRoute(builder: (context) =>  Pin(cubit:cubitContext.read<ProfileCubit>())),
+              // );
             } else if (state is FillUserDataErrorState) {
               ScaffoldMessenger.of(cubitContext).showSnackBar(
                 SnackBar(content: Text(state.errMessage)),
