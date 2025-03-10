@@ -37,9 +37,19 @@ class GetUserDataErrorState extends AuthState {
 }
 
 class AddUserPinLoadingState extends AuthState {}
-class AddUserPinSuccessState extends AuthState {
-  }
+class AddUserPinSuccessState extends AuthState {}
 class AddUserPinErrorState extends AuthState {
    final String errMessage;
   AddUserPinErrorState({required this.errMessage});
 }
+
+
+// class GetUserDataLoadingState extends AuthState {}
+// class GetUserDataSuccessState extends AuthState {
+//    final RegisterModel userData;
+//    GetUserDataSuccessState({required this.userData});
+// }
+// class GetUserDataErrorState extends AuthState {
+//    final String errMessage;
+//   GetUserDataErrorState({required this.errMessage});
+// }

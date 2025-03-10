@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/utils/failure.dart';
 import 'package:flutter_application_3/features/auth/data/models/sign_up_model.dart';
 
@@ -19,5 +20,7 @@ abstract class IAuthRepo {
     Future<Either<String, void>> addUserPinCode({
     required String pin
   }) ;
+  
+Future<bool> isEmailVerified(String email, BuildContext context);
 }
 

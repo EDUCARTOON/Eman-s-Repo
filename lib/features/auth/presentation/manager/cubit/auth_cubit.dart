@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/features/auth/data/models/sign_up_model.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
@@ -100,5 +101,9 @@ class AuthCubit extends Cubit<AuthState> {
             emit(AddUserPinErrorState(errMessage: errMessage));
           }},
         (userData){if(!isClosed) { emit(AddUserPinSuccessState());}});
+  }
+
+      Future<bool> checkIsEmailVerified({required String email,required BuildContext context}) async {
+    return await authRepository.isEmailVerified( email,context);
   }
 }

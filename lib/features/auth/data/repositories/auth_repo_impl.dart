@@ -87,6 +87,54 @@ class AuthRepository implements IAuthRepo {
     }
   }
 
+@override
+  Future<bool> isEmailVerified(String email, BuildContext context) async {
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: 'dummy_password', // Use a dummy password
+    );
+
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null && user.emailVerified) {
+      // User exists and is verified
+      return true;
+    } else {
+      // User exists but is not verified
+      return false;
+    }
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      // User does not exist
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No user found with that email.')),
+      );
+      return false;
+    } else if (e.code == 'wrong-password') {
+      // This is expected, we only need the user object
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && user.emailVerified) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      // Handle other sign-in errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.message}')),
+      );
+      return false;
+    }
+  } catch (e) {
+    // Handle any other errors
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('An unexpected error occurred.')),
+    );
+    return false;
+  }
+}
+
   Future<void> resetPassword( BuildContext context) async {
   log("===============");
   try {
