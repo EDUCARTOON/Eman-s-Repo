@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
             );
           }
         },
-        builder: (context, state) {
+        builder: (cubitContext, state) {
           return Scaffold(
             backgroundColor: const Color(0xFF93AACF),
             body: SingleChildScrollView(
@@ -132,8 +132,8 @@ class LoginScreen extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const ForgotPassword()),
+                                cubitContext,
+                                MaterialPageRoute(builder: (context) =>ForgotPassword(authCubit:cubitContext.read<AuthCubit>())),
                               );
                             },
                             child: const Text('Forgot Password?'),
@@ -144,7 +144,7 @@ class LoginScreen extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           if (signInFormKey.currentState!.validate()) {
-                            await AuthCubit.get(context).login(
+                            await AuthCubit.get(cubitContext).login(
                               email: emailController.text,
                               password: passwordController.text,
                             );
@@ -160,7 +160,7 @@ class LoginScreen extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           Navigator.push(
-                            context,
+                            cubitContext,
                             MaterialPageRoute(builder: (context) =>  RegisterScreen()),
                           );
                         },

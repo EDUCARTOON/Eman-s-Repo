@@ -44,6 +44,22 @@ class AddUserPinErrorState extends AuthState {
 }
 
 
+class SendVerifyLoadingState extends AuthState {}
+class SendVerifySuccessState extends AuthState {}
+class SendVerifyErrorState extends AuthState {
+   final String errMessage;
+  SendVerifyErrorState({required this.errMessage});
+}
+
+
+class ResetPassLoadingState extends AuthState {}
+class ResetPassSuccessState extends AuthState {}
+class ResetPassErrorState extends AuthState {
+   final String errMessage;
+  ResetPassErrorState({required this.errMessage});
+}
+
+
 // class GetUserDataLoadingState extends AuthState {}
 // class GetUserDataSuccessState extends AuthState {
 //    final RegisterModel userData;

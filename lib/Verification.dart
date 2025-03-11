@@ -36,10 +36,10 @@ class _VerificationPageState extends State<Verification> {
 
   void _onVerifyPressed() {
     // الانتقال إلى صفحة إنشاء كلمة المرور
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Newpassword()),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => const Newpassword()),
+    // );
   }
 
   @override

@@ -124,6 +124,7 @@ class AuthRepository implements IAuthRepo {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.message}')),
       );
+      log('Error: ${e.message}');
       return false;
     }
   } catch (e) {
@@ -135,25 +136,47 @@ class AuthRepository implements IAuthRepo {
   }
 }
 
-  Future<void> resetPassword( BuildContext context) async {
-  log("===============");
+ @override
+  Future<Either<String, void>> resetUserPassword(String newPassword, BuildContext context) async {
   try {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: "abdoalfy140@gmail.com");
-    // Optionally, show a success message to the user
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Password reset email sent!')),
-    );
+    final user = FirebaseAuth.instance.currentUser;
+    log("======${user?.email}");
+    if (user != null) {
+      await user.updatePassword(newPassword);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password reset successfully!')),
+      );
+      return right(null);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No user is currently logged in.')),
+      );
+      return left('No user is currently logged in.');
+    }
   } on FirebaseAuthException catch (e) {
-    // Handle errors, such as:
-    // - User not found
-    // - Invalid email format
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Error: ${e.message}')),
     );
+    return left(e.message?? 'Error');
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('An unexpected error occurred.')),
+    );
+    return left('An unexpected error occurred.');
   }
 }
 
-Future<void> sendEmailVerification(BuildContext context) async {
+// Example usage:
+
+// ElevatedButton(
+//   onPressed: () {
+//     resetUserPassword(newPasswordController.text, context);
+//   },
+//   child: const Text('Reset Password'),
+// )
+
+@override
+  Future<Either<String, void>> sendEmailVerification(BuildContext context) async {
   final user = FirebaseAuth.instance.currentUser;
   FirebaseAuth.instance
   .authStateChanges()
@@ -168,20 +191,25 @@ Future<void> sendEmailVerification(BuildContext context) async {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Verification email sent!')),
       );
+      return right(null);
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.message}')),
       );
+       return left(e.message?? 'Error');
     }
   } else if (user == null){
      ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('No user is currently logged in.')),
       );
+         return left( 'No user is currently logged in.');
   }
   else {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Email is already verified.')),
     );
+             return left( 'Email is already verified.');
+
   }
 }
   
