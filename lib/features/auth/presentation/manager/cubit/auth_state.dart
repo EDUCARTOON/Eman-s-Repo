@@ -58,6 +58,12 @@ class ResetPassErrorState extends AuthState {
    final String errMessage;
   ResetPassErrorState({required this.errMessage});
 }
+class SendResetPassLoadingState extends AuthState {}
+class SendResetPassSuccessState extends AuthState {}
+class SendResetPassErrorState extends AuthState {
+   final String errMessage;
+  SendResetPassErrorState({required this.errMessage});
+}
 
 
 // class GetUserDataLoadingState extends AuthState {}

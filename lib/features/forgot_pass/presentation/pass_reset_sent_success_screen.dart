@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/features/forgot_pass/presentation/pass_reset_sent_success_screen.dart';
+import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:flutter_application_3/features/forgot_pass/presentation/newpassword.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key, required this.authCubit});
+class PassResetSentSuccessScreen extends StatefulWidget {
+  const PassResetSentSuccessScreen({super.key, required this.authCubit});
   final AuthCubit authCubit;
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<PassResetSentSuccessScreen> createState() => _PassResetSentSuccessScreenState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
-  final GlobalKey<FormState> _forgotPassFormKey = GlobalKey();
-  final TextEditingController _emailController = TextEditingController();
+class _PassResetSentSuccessScreenState extends State<PassResetSentSuccessScreen> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          'Forgot Password',
+          'Reset Password',
           style: TextStyle(color: Colors.black, fontSize: 20),
         ),
       ),
@@ -38,16 +37,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           builder: (cubitContext, state) {
             return BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
-               if(state is SendResetPassSuccessState){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>  PassResetSentSuccessScreen(authCubit: widget.authCubit,)),
-                );
-               }
+              //  if(state is SendResetPassSuccessState){
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (context) =>  Newpassword(authCubit: widget.authCubit,)),
+              //   );
+              //  }
               },
-              child: Form(
-                key: _forgotPassFormKey,
-                child: Padding(
+              child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -66,36 +63,26 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        'Select which contact details should we use to Reset Your Password',
+                        "We've sent a password reset link to your email. Please check your inbox and follow the instructions.",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 18),
                       ),
                       const SizedBox(height: 30),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your Email';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 30),
+              
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
-                            if (_forgotPassFormKey.currentState!.validate()) {
-                                await widget.authCubit.sendPassReset(_emailController.text,context);
+                                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  LoginScreen()),
+                );
+
+                            // if (_forgotPassFormKey.currentState!.validate()) {
+                            //     await widget.authCubit.sendPassReset(_emailController.text,context);
                
-                              // _showVerificationDialog(cubitContext);
-                            }
+                            //   // _showVerificationDialog(cubitContext);
+                            // }
                           },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -106,7 +93,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             side: const BorderSide(color: Color(0xFF6200EE)),
                           ),
                           child: const Text(
-                            'Continue',
+                            'Login Again',
                             style: TextStyle(
                               color: Color(0xFF6200EE),
                               fontSize: 16,
@@ -117,7 +104,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ],
                   ),
                 ),
-              ),
+             
             );
           },
         ),
@@ -126,27 +113,28 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   /// **Shows the verification dialog**
-  void _showVerificationDialog(BuildContext cubitContext) {
-    showDialog(
-      context: cubitContext,
-      builder: (BuildContext context) {
-        return BlocProvider.value(
-          value: widget.authCubit, //cubitContext.read<AuthCubit>(),
-          child: AlertDialog(
-            title: const Text("Verification Link Sent"),
-            content: const Text(
-                "We have sent a verification link to your email, please check it and try again."),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () async {
+  // void _showVerificationDialog(BuildContext cubitContext) {
+  //   showDialog(
+  //     context: cubitContext,
+  //     builder: (BuildContext context) {
+  //       return BlocProvider.value(
+  //         value: widget.authCubit, //cubitContext.read<AuthCubit>(),
+  //         child: AlertDialog(
+  //           title: const Text("Verification Link Sent"),
+  //           content: const Text(
+  //               "We have sent a verification link to your email, please check it and try again."),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: const Text("OK"),
+  //               onPressed: () async {
                    
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
 }

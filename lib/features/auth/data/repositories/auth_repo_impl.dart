@@ -165,16 +165,6 @@ class AuthRepository implements IAuthRepo {
     return left('An unexpected error occurred.');
   }
 }
-
-// Example usage:
-
-// ElevatedButton(
-//   onPressed: () {
-//     resetUserPassword(newPasswordController.text, context);
-//   },
-//   child: const Text('Reset Password'),
-// )
-
 @override
   Future<Either<String, void>> sendEmailVerification(BuildContext context) async {
   final user = FirebaseAuth.instance.currentUser;
@@ -210,6 +200,21 @@ class AuthRepository implements IAuthRepo {
     );
              return left( 'Email is already verified.');
 
+  }
+}
+
+@override
+  Future<Either<String, void>>sendPassResetToEmail(String email)async{
+     log("email $email");
+  try{
+   
+    final fireBase= FirebaseAuth.instance;
+    await fireBase.setLanguageCode('en');
+
+  await fireBase.sendPasswordResetEmail(email: email);
+  return right(null);
+  }catch(e){
+    return left(e.toString());
   }
 }
   

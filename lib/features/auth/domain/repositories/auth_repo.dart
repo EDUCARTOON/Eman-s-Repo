@@ -24,5 +24,6 @@ abstract class IAuthRepo {
 Future<bool> isEmailVerified(String email, BuildContext context);
  Future<Either<String, void>> sendEmailVerification(BuildContext context) ;
   Future<Either<String, void>>resetUserPassword(String newPassword, BuildContext context);
+Future<Either<String, void>>sendPassResetToEmail(String email);
 }
 

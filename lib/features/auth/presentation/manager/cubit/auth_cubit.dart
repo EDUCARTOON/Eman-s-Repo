@@ -131,4 +131,16 @@ class AuthCubit extends Cubit<AuthState> {
         (userData){if(!isClosed) { emit(ResetPassSuccessState());}});
   }
 
+      Future<void> sendPassReset(String newPass,BuildContext context) async {
+      if(!isClosed) {
+    emit(SendResetPassLoadingState());}
+    final response = await authRepository.sendPassResetToEmail(newPass);
+    response.fold(
+        (errMessage){
+          if(!isClosed) {
+            emit(SendResetPassErrorState(errMessage: errMessage));
+          }},
+        (userData){if(!isClosed) { emit(SendResetPassSuccessState());}});
+  }
+
 }
