@@ -11,9 +11,9 @@ class Routes {
         static const String pinCodeScreen = '/pinCodeScreen';
         static const String favTopicsScreen = '/favTopicsScreen';
         static const String splashScreen = '/splashScreen';
-
-        
-                static const String splash1sScreen = '/splash1sScreen';
+        static const String splash1sScreen = '/splash1sScreen';
+        static const String popularCoursesScreen = '/popularCoursesScreen';
+        static const String topScoreScreen = '/topScoreScreen';
 
 
 

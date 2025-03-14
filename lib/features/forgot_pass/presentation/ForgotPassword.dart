@@ -126,27 +126,27 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   /// **Shows the verification dialog**
-  void _showVerificationDialog(BuildContext cubitContext) {
-    showDialog(
-      context: cubitContext,
-      builder: (BuildContext context) {
-        return BlocProvider.value(
-          value: widget.authCubit, //cubitContext.read<AuthCubit>(),
-          child: AlertDialog(
-            title: const Text("Verification Link Sent"),
-            content: const Text(
-                "We have sent a verification link to your email, please check it and try again."),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () async {
+  // void _showVerificationDialog(BuildContext cubitContext) {
+  //   showDialog(
+  //     context: cubitContext,
+  //     builder: (BuildContext context) {
+  //       return BlocProvider.value(
+  //         value: widget.authCubit, //cubitContext.read<AuthCubit>(),
+  //         child: AlertDialog(
+  //           title: const Text("Verification Link Sent"),
+  //           content: const Text(
+  //               "We have sent a verification link to your email, please check it and try again."),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: const Text("OK"),
+  //               onPressed: () async {
                    
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }

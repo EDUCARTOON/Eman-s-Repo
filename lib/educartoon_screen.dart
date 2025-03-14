@@ -3,6 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Categories.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
+import 'package:flutter_application_3/core/routing/routes.dart';
+import 'package:flutter_application_3/popular.dart';
+import 'package:flutter_application_3/top.dart';
+import 'package:go_router/go_router.dart';
 
 // void main() {
 //   runApp(const Educartoon());
@@ -117,7 +121,13 @@ class EducartoonScreen extends StatelessWidget {
                     'Popular Courses',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  TextButton(onPressed: () {}, child: const Text('SEE ALL')),
+                  TextButton(onPressed: () {
+   Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PopularCoursesScreen()),
+    );
+                    // context.push(Routes.popularCoursesScreen);
+                  }, child: const Text('SEE ALL')),
                 ],
               ),
               const Row(
@@ -135,7 +145,13 @@ class EducartoonScreen extends StatelessWidget {
                     'Top Mentor',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  TextButton(onPressed: () {}, child: const Text('SEE ALL')),
+                  TextButton(onPressed: () {
+                       Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const TopScoreScreen()),
+    );
+                    // context.push(Routes.topScoreScreen);
+                  }, child: const Text('SEE ALL')),
                 ],
               ),
               const Row(

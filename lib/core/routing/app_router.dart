@@ -23,10 +23,12 @@ import 'package:flutter_application_3/features/inbox/presentation/pages/inbox_sc
 import 'package:flutter_application_3/features/layout/layout_body.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter_application_3/pin_code_screen.dart';
+import 'package:flutter_application_3/top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/on_boarding/presentation/splash/splash1.dart';
+import '../../popular.dart';
 
 abstract class AppRouter {
   static GoRouter router = GoRouter(
@@ -40,7 +42,7 @@ abstract class AppRouter {
           return null;
         }
 
-        if (isLogin==true) {
+        if (isLogin==false) {
           log("Redirecting to Welcome Screen");
           return Routes.splashScreen;
         } else {
@@ -68,6 +70,16 @@ abstract class AppRouter {
               path: Routes.profileScreen,
               builder: (context, state) => const ProfileScreen(),
             ),
+            GoRoute(
+              path: Routes.popularCoursesScreen,
+              builder: (context, state) => const PopularCoursesScreen(),
+            ),
+             GoRoute(
+              path: Routes.topScoreScreen,
+              builder: (context, state) => const TopScoreScreen(),
+            ),
+            
+
             // GoRoute(
             //   path: Routes.searchScreen,
             //   builder: (context, state) {
