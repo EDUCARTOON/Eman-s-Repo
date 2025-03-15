@@ -72,7 +72,7 @@ abstract class AppRouter {
             ),
             GoRoute(
               path: Routes.popularCoursesScreen,
-              builder: (context, state) => const PopularCoursesScreen(),
+              builder: (context, state) => const Popular(),
             ),
              GoRoute(
               path: Routes.topScoreScreen,
@@ -122,7 +122,7 @@ abstract class AppRouter {
           path: Routes.loginScreen,
           builder: (BuildContext context, GoRouterState state) {
            
-            return  LoginScreen();
+            return   const LoginScreen();
           },
         ),
         

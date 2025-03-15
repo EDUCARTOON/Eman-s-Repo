@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/resgister_screen.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
-import 'package:go_router/go_router.dart';
 
 class Signup1 extends StatelessWidget {
   const Signup1({super.key});
@@ -31,84 +29,89 @@ class Signup1 extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20), // مسافة بين النص
-            // أزرار تسجيل الدخول
+            
+            // زر تسجيل الدخول باستخدام Google
             TextButton.icon(
-              onPressed: () {
-                // هنا يمكنك إضافة الإجراء لتسجيل الدخول باستخدام Google
-              },
-              icon: const Icon(Icons.mail, color: Colors.black), // أيقونة Gmail
-              label: const Text('Continue with Google', style: TextStyle(color: Colors.black)),
+              onPressed: () {},
+              icon: Image.asset(
+                'assets/img/Circle.png', // ضع المسار الصحيح للصورة هنا
+                width: 24, // حجم الصورة ليكون مشابهاً للأيقونة
+                height: 24,
+              ),
+              label: const Text(
+                'Continue with Google',
+                style: TextStyle(color: Colors.black),
+              ),
               style: TextButton.styleFrom(
                 minimumSize: const Size(200, 50),
               ),
             ),
-            const SizedBox(height: 10), // مسافة بين الأزرار
-            TextButton.icon(
-              onPressed: () {
-                // هنا يمكنك إضافة الإجراء لتسجيل الدخول باستخدام Apple
-              },
-              icon: const Icon(Icons.apple, color: Colors.black),
-              label: const Text('Continue with Apple', style: TextStyle(color: Colors.black)),
-              style: TextButton.styleFrom(
-                minimumSize: const Size(200, 50),
-              ),
-            ),
+
             const SizedBox(height: 10), // مسافة بين الأزرار
             TextButton(
-              onPressed: () {
-                // هنا يمكنك إضافة الإجراء لتسجيل الدخول كضيف
-              },
+              onPressed: () {},
               style: TextButton.styleFrom(
                 minimumSize: const Size(200, 50),
               ),
               child: const Text('or', style: TextStyle(color: Colors.black)),
             ),
-            const SizedBox(height: 20), // مسافة بين الأزرار
+            const SizedBox(height: 20),
+
             // زر تسجيل الدخول مع دائرة السهم البيضاء
             TextButton(
               onPressed: () {
-                context.push(Routes.loginScreen);
-                // فتح صفحة Login عند الضغط على الزر
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) =>  LoginScreen()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  const LoginScreen()),
+                );
               },
               style: TextButton.styleFrom(
-                minimumSize: const Size(250,10),
-                backgroundColor: Colors.white, // لون خلفية الزر
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: const BorderSide(color: Colors.black, width: 2),
+                ),
               ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center, // جعل المحتوى في المنتصف
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Sign In with Your Account',
-                    style: TextStyle(color: Colors.black),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      'Sign In with Your Account',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                  SizedBox(width: 10), // مسافة بين النص والأيقونة
-                  // دائرة سوداء بداخلها سهم أبيض
-                  CircleAvatar(
-                    radius: 25, // حجم الدائرة
-                    backgroundColor: Colors.black, // لون الخلفية (دائرة سوداء)
-                    child: Icon(
-                      Icons.arrow_forward, // أيقونة السهم
-                      color: Colors.white, // لون السهم
-                      size: 20, // حجم السهم
+                  const SizedBox(width: 10),
+                  Container(
+                    width: 35,
+                    height: 35,
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                      size: 20,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 10), // مسافة بين الزر والنص
+
+            const SizedBox(height: 10),
             TextButton(
               onPressed: () {
-                // فتح صفحة Resgister عند الضغط على الزر
-              
-                context.push(Routes.registerScreen);
-                // Navigator.push
-                //   context,
-                //   MaterialPageRoute(builder: (context) =>   RegisterScreen()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen()),
+                );
               },
               style: TextButton.styleFrom(
                 minimumSize: const Size(200, 50),
@@ -121,3 +124,5 @@ class Signup1 extends StatelessWidget {
     );
   }
 }
+
+

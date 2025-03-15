@@ -124,7 +124,7 @@ class EducartoonScreen extends StatelessWidget {
                   TextButton(onPressed: () {
    Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const PopularCoursesScreen()),
+      MaterialPageRoute(builder: (context) => const Popular()),
     );
                     // context.push(Routes.popularCoursesScreen);
                   }, child: const Text('SEE ALL')),

@@ -75,7 +75,7 @@ class _PassResetSentSuccessScreenState extends State<PassResetSentSuccessScreen>
                           onPressed: () async {
                                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) =>  LoginScreen()),
+                  MaterialPageRoute(builder: (context) =>   const LoginScreen()),
                 );
 
                             // if (_forgotPassFormKey.currentState!.validate()) {

@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/popular.dart';
 
 void main() {
-  runApp(const StartCoursesPage());
+  runApp(const EntertainmentCoursesApp());
 }
 
-class StartCoursesApp extends StatelessWidget {
-  const StartCoursesApp({super.key, required Course course});
+class EntertainmentCoursesApp extends StatelessWidget {
+  const EntertainmentCoursesApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: StartCoursesPage(),
+      home: EntertainmentCoursesApp(),
     );
   }
 }
 
-class StartCoursesPage extends StatelessWidget {
-  const StartCoursesPage({super.key});
+class EntertainmentCoursesPage extends StatelessWidget {
+  const EntertainmentCoursesPage({super.key, required Course course});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class StartCoursesPage extends StatelessWidget {
           onPressed: () {},
         ),
         title: const Text(
-          'Start Courses',
+          'Entertainment Courses',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
@@ -58,8 +58,8 @@ class StartCoursesPage extends StatelessWidget {
           Expanded(
             child: ListView(
               children: const [
-                CourseSection(sectionTitle: 'Section 01 - Education', duration: '25 Mins'),
-                CourseSection(sectionTitle: 'Section 02 - Education', duration: '25 Mins'),
+                CourseSection(sectionTitle: 'Section 01 - Entertainment', duration: '25 Mins'),
+                CourseSection(sectionTitle: 'Section 02 - Entertainment', duration: '25 Mins'),
               ],
             ),
           ),
@@ -97,8 +97,8 @@ class CourseSection extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              const CourseItem(index: '01', title: 'name', duration: '15 Mins'),
-              const CourseItem(index: '02', title: 'name', duration: '10 Mins'),
+              const CourseItem(index: '01', title: 'Course 1', duration: '15 Mins'),
+              const CourseItem(index: '02', title: 'Course 2', duration: '10 Mins'),
               const CourseItem(index: '03', title: 'Quiz', duration: ''),
             ],
           ),

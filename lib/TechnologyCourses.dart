@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/popular.dart';
 
 void main() {
-  runApp(const StartCoursesPage());
+  runApp(const TechnologyCoursesPage());
 }
 
-class StartCoursesApp extends StatelessWidget {
-  const StartCoursesApp({super.key, required Course course});
+class TechnologyCoursesApp extends StatelessWidget {
+  const TechnologyCoursesApp({super.key, required Course course});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: StartCoursesPage(),
+      home: TechnologyCoursesPage(),
     );
   }
 }
 
-class StartCoursesPage extends StatelessWidget {
-  const StartCoursesPage({super.key});
+class TechnologyCoursesPage extends StatelessWidget {
+  const TechnologyCoursesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class StartCoursesPage extends StatelessWidget {
           onPressed: () {},
         ),
         title: const Text(
-          'Start Courses',
+          'Technology Courses',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
@@ -58,8 +58,8 @@ class StartCoursesPage extends StatelessWidget {
           Expanded(
             child: ListView(
               children: const [
-                CourseSection(sectionTitle: 'Section 01 - Education', duration: '25 Mins'),
-                CourseSection(sectionTitle: 'Section 02 - Education', duration: '25 Mins'),
+                CourseSection(sectionTitle: 'Section 01 - Technology', duration: '25 Mins'),
+                CourseSection(sectionTitle: 'Section 02 - Technology', duration: '25 Mins'),
               ],
             ),
           ),

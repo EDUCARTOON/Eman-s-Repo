@@ -1,28 +1,19 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
-import 'package:flutter_application_3/core/routing/routes.dart';
-import 'package:flutter_application_3/core/services/cache_helper.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
+import 'package:flutter_application_3/core/utils/auth_locator.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
-import 'package:flutter_application_3/features/home/presentation/screen/home_screen.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
-import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile1.dart';
-import 'package:flutter_application_3/pin_code_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-// تأكد من استيراد صفحة تسجيل الدخول
 
 class RegisterScreen extends StatelessWidget {
   final GlobalKey<FormState> signUpFormKey = GlobalKey();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
+  final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
 
@@ -35,22 +26,18 @@ class RegisterScreen extends StatelessWidget {
         authRepository: getIt.get<AuthRepository>(),
       ),
       child: BlocConsumer<AuthCubit, AuthState>(
-        listener: (cubitContext, state)async {
+        listener: (context, state) {
           if (state is RegisterSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 backgroundColor: Colors.green,
-                content: Text("sign up successfully"),
+                content: Text("Sign up successfully"),
               ),
             );
-              await CacheHelper.saveData(key: 'isLogin', value: true);
-          
-            // AuthCubit.get(context).getUserData(uid: state.uid);
-            context.push(Routes.pinCodeScreen,extra: cubitContext.read<AuthCubit>());
-            //  Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) =>  PinCodeScreen(cubit: cubitContext.read<AuthCubit>(),)),
-            // );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const Profile1()),
+            );
           } else if (state is LoginErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -62,7 +49,7 @@ class RegisterScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Colors.blue[200], // لون الخلفية
+            backgroundColor:const Color(0xFF93AACF),
             body: Form(
               key: signUpFormKey,
               child: Center(
@@ -73,113 +60,40 @@ class RegisterScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/img/Untitled_design__3_-removebg-preview.png', // مسار اللوجو (استبدل بمسار اللوجو الفعلي)
+                          'assets/img/Untitled_design__3_-removebg-preview.png',
                           width: 800,
                           height: 100,
                         ),
-
-                        // إضافة صورة اللوجو
-                        const SizedBox(height: 0), // مسافة بين الصورة والنص
-                        const Text(
-                          'Getting Started!                                            ',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                        const SizedBox(height: 10),
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Getting Started!',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 0), // مسافة بين النص
+                        const SizedBox(height: 10),
                         const Text(
                           'Create an Account to Continue your allCourses',
-                          textAlign: TextAlign.left, // محاذاة النص إلى المنتصف
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.black54,
                           ),
                         ),
-                        const SizedBox(height: 0), // مسافة قبل حقول الإدخال
-                        TextFormField(
-                          controller: firstNameController,
-                          decoration: const InputDecoration(
-                            labelText: 'First Name',
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your First Name';
-                          }
-                          return null;
-                        },
-                        ),
                         const SizedBox(height: 20),
-                        TextFormField(
-                            validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your Last Name';
-                          }
-                          return null;
-                        },
-                          controller: lastNameController,
-                          decoration: const InputDecoration(
-                            labelText: 'Last Name',
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                        ),
+                        _buildTextField(firstNameController, 'First Name'),
                         const SizedBox(height: 20),
-                        TextFormField(
-                            validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your Email';
-                          }
-                          return null;
-                        },
-                          controller: emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                        ),
+                        _buildTextField(lastNameController, 'Last Name'),
                         const SizedBox(height: 20),
-                        TextFormField(
-                            validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your Password';
-                          }
-                          return null;
-                        },
-                          obscureText: true,
-                          controller: passwordController,
-                          decoration: const InputDecoration(
-                            labelText: 'Password',
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                        ),
+                        _buildTextField(emailController, 'Email'),
                         const SizedBox(height: 20),
-                        TextFormField(
-                            validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please Confirm your Password';
-                          }
-                          return null;
-                        },
-                          controller: confirmPasswordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            labelText: 'Confirm Password',
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                        ),
+                        _buildTextField(passwordController, 'Password', obscureText: true),
+                        const SizedBox(height: 20),
+                        _buildTextField(confirmPasswordController, 'Confirm Password', obscureText: true),
                         const SizedBox(height: 10),
                         Row(
                           children: [
@@ -188,74 +102,85 @@ class RegisterScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () async {
+                        GestureDetector(
+                          onTap: () async {
                             log("--------------------");
-                            // AuthCubit.get(context).resetPassword(context);
-                            if (passwordController.text !=
-                                confirmPasswordController.text) {
+                            if (passwordController.text != confirmPasswordController.text) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   backgroundColor: Colors.red,
-                                  content: Text(
-                                      "please enter the same password in both fields"),
+                                  content: Text("Please enter the same password in both fields"),
                                 ),
                               );
                               return;
                             }
                             if (signUpFormKey.currentState!.validate()) {
                               await AuthCubit.get(context).register(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  firstName: firstNameController.text,
-                                  image: AppConstant.kDefaultUserImage,
-                                  lastName: lastNameController.text);
+                                email: emailController.text,
+                                password: passwordController.text,
+                                firstName: firstNameController.text,
+                                image: AppConstant.kDefaultUserImage,
+                                lastName: lastNameController.text,
+                              );
                             }
-                            // هنا يمكنك إضافة الإجراء المطلوب عند الضغط على زر "تسجيل الاشتراك"
                           },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 100, vertical: 15),
-                            backgroundColor: const Color.fromARGB(
-                                255, 255, 255, 255), // لون الزر
+                          child: Container(
+                            height: 50,
+                            width: 250,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(color: Colors.black, width: 2),
+                            ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                const Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 5,
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.black,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: const Text('Sign Up'),
                         ),
                         const SizedBox(height: 20),
-                        const Text('Or Continue With'),
+                        const Text("Or Continue With"),
+                        const SizedBox(height: 10),
+                        Image.asset('assets/img/Circle.png', width: 50, height: 50),
                         const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.apple),
-                              onPressed: () {
-                                // هنا يمكنك إضافة الإجراء المطلوب عند الضغط على زر "Apple"
-                              },
-                            ),
-                            const SizedBox(width: 20),
-                            IconButton(
-                              icon: const Icon(Icons
-                                  .facebook), // يمكنك استخدام أي أيقونة مناسبة
-                              onPressed: () {
-                                // هنا يمكنك إضافة الإجراء المطلوب عند الضغط على زر "Facebook"
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        TextButton(
-                          onPressed: () {
-                            // الانتقال إلى صفحة تسجيل الدخول عند الضغط
-                            context.push(Routes.loginScreen);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => LoginScreen()),
-                            // );
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            );
                           },
                           child: const Text(
                             "Already have an Account? SIGN IN",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ],
@@ -269,4 +194,25 @@ class RegisterScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildTextField(TextEditingController controller, String labelText, {bool obscureText = false}) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: const OutlineInputBorder(),
+        filled: true,
+        fillColor: Colors.white,
+      ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter your $labelText';
+        }
+        return null;
+      },
+    );
+  }
 }
+
+

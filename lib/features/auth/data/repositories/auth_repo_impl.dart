@@ -130,7 +130,7 @@ class AuthRepository implements IAuthRepo {
   } catch (e) {
     // Handle any other errors
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('An unexpected error occurred.')),
+      const SnackBar(content: Text('An unexpected error occurred.')),
     );
     return false;
   }

@@ -35,7 +35,7 @@ class _CongratulationsScreenState extends State<CongratulationsScreen> {
     Timer(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) =>  LoginScreen()),
+        MaterialPageRoute(builder: (context) =>  const LoginScreen()),
       );
     });
   }

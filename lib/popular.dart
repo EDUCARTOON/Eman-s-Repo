@@ -1,97 +1,220 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/educartoon_screen.dart';
+import 'package:flutter_application_3/CivilizationCourses.dart';
+import 'package:flutter_application_3/EntertainmentCourses.dart';
+import 'package:flutter_application_3/ReligionCourses.dart';
+import 'package:flutter_application_3/StartCourses.dart';
+import 'package:flutter_application_3/TechnologyCourses.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// void main() {
-//   runApp(const Popular());
-// }
-
-// class Popular extends StatelessWidget {
-//   const Popular({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: PopularCoursesScreen(),
-//     );
-//   }
-// }
-
-class PopularCoursesScreen extends StatefulWidget {
-  const PopularCoursesScreen({super.key});
-
-  @override
-  _PopularCoursesScreenState createState() => _PopularCoursesScreenState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  bool isSearching = false;
-  String searchQuery = "";
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  final List<Map<String, dynamic>> courses = [
-    {'title': 'Education', 'rating': 4.2, 'students': 7830},
-    {'title': 'Religion', 'rating': 3.9, 'students': 12680},
-    {'title': 'Technology', 'rating': 4.2, 'students': 990},
-    {'title': 'Civilization', 'rating': 4.9, 'students': 14580},
-    {'title': 'Entertainment', 'rating': 4.5, 'students': 7500},
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Popular(),
+    );
+  }
+}
+
+class Course {
+  final String title;
+  final String category;
+  final double rating;
+  final int students;
+  final String ageGroup;
+  bool isFavorite;
+
+  Course({
+    required this.title,
+    required this.category,
+    required this.rating,
+    required this.students,
+    required this.ageGroup,
+    this.isFavorite = false,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'category': category,
+      'rating': rating,
+      'students': students,
+      'ageGroup': ageGroup,
+      'isFavorite': isFavorite,
+    };
+  }
+
+  factory Course.fromMap(Map<String, dynamic> map) {
+    return Course(
+      title: map['title'],
+      category: map['category'],
+      rating: map['rating'],
+      students: map['students'],
+      ageGroup: map['ageGroup'] ?? '',
+      isFavorite: map['isFavorite'] ?? false,
+    );
+  }
+}
+
+class Popular extends StatefulWidget {
+  const Popular({super.key});
+
+  @override
+  _PopularState createState() => _PopularState();
+}
+
+class _PopularState extends State<Popular> {
+  List<Course> favoriteCourses = [];
+  List<Course> courses = [
+    Course(title: "Education", category: "Education", rating: 3.5, students: 3000, ageGroup: "3-5"),
+    Course(title: "Education", category: "Education", rating: 4.2, students: 3500, ageGroup: "5-8"),
+    Course(title: "Education", category: "Education", rating: 4.2, students: 3500, ageGroup: "8-12"),
+    Course(title: "Religion", category: "Religion", rating: 3.9, students: 2800, ageGroup: "3-5"),
+    Course(title: "Religion", category: "Religion", rating: 4.1, students: 3200, ageGroup: "5-8"),
+    Course(title: "Religion", category: "Religion", rating: 4.1, students: 3200, ageGroup: "8-12"),
+    Course(title: "Technology", category: "Technology", rating: 4.2, students: 4000, ageGroup: "3-5"),
+    Course(title: "Technology", category: "Technology", rating: 4.5, students: 4500, ageGroup: "5-8"),
+    Course(title: "Technology", category: "Technology", rating: 4.5, students: 4500, ageGroup: "8-12"),
+    Course(title: "Civilization", category: "Civilization", rating: 4.9, students: 5000, ageGroup: "3-5"),
+    Course(title: "Civilization", category: "Civilization", rating: 4.7, students: 5200, ageGroup: "5-8"),
+    Course(title: "Civilization", category: "Civilization", rating: 4.7, students: 5200, ageGroup: "8-12"),
+    Course(title: "Entertainment", category: "Entertainment", rating: 4.0, students: 3500, ageGroup: "3-5"),
+    Course(title: "Entertainment", category: "Entertainment", rating: 4.3, students: 3800, ageGroup: "5-8"),
+    Course(title: "Entertainment", category: "Entertainment", rating: 4.3, students: 3800, ageGroup: "8-12"),
+    // أضف المزيد من الدورات حسب الحاجة
   ];
 
-  List<Map<String, dynamic>> filteredCourses = [];
+  String selectedCategory = "All";
+  String searchQuery = "";
+  bool isSearching = false;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    filteredCourses = courses;
+    loadFavorites();
   }
 
-  void _filterCourses(String query) {
+  Future<void> loadFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favoriteData = prefs.getStringList('favorites') ?? [];
+    if (mounted) {
+      setState(() {
+        for (var course in courses) {
+          if (favoriteData.contains(course.title)) {
+            course.isFavorite = true;
+            if (!favoriteCourses.contains(course)) {
+              favoriteCourses.add(course);
+            }
+          }
+        }
+      });
+    }
+  }
+
+  Future<void> saveFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favoriteTitles = favoriteCourses.map((c) => c.title).toList();
+    await prefs.setStringList('favorites', favoriteTitles);
+  }
+
+  List<Course> get filteredCourses {
+    List<Course> filtered = selectedCategory == "All"
+        ? courses
+        : selectedCategory == "Favorite Courses"
+            ? favoriteCourses
+            : courses.where((course) => course.category == selectedCategory).toList();
+    return filtered.where((course) => course.title.toLowerCase().contains(searchQuery.toLowerCase())).toList();
+  }
+
+  void toggleFavorite(Course course) {
     setState(() {
-      searchQuery = query.toLowerCase();
-      filteredCourses = courses.where((course) {
-        return course['title'].toLowerCase().contains(searchQuery);
-      }).toList();
+      course.isFavorite = !course.isFavorite;
+      if (course.isFavorite) {
+        if (!favoriteCourses.contains(course)) {
+          favoriteCourses.add(course);
+        }
+      } else {
+        favoriteCourses.removeWhere((c) => c.title == course.title);
+      }
+      saveFavorites();
     });
+  }
+
+  void setCategory(String category) {
+    setState(() {
+      selectedCategory = category;
+    });
+  }
+
+  void _filterCategories(String query) {
+    setState(() {
+      searchQuery = query;
+    });
+  }
+
+  Widget _buildFilterButton(String category) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: ElevatedButton(
+        onPressed: () => setCategory(category),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: selectedCategory == category ? Colors.black : Colors.white,
+          foregroundColor: selectedCategory == category ? Colors.white : Colors.black,
+        ),
+        child: Text(category),
+      ),
+    );
+  }
+
+  void _navigateToCourseDetail(Course course) {
+    Map<String, Widget> coursePages = {
+      "Education": StartCoursesApp(course: course), // استبدل StartCoursesPage باسم الصفحة الخاصة بكل كورس
+      "Religion": ReligionCoursesApp(course: course), // مثال على صفحة أخرى
+       "Civilization": CivilizationCoursesApp(course: course), // مثال على صفحة أخرى
+        "Technology": TechnologyCoursesApp(course: course), // مثال على صفحة أخرى
+      "Entertainment": EntertainmentCoursesPage(course: course), // 
+    };
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => coursePages[course.title] ?? YourCustomPage(course: course),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFB0C4DE),
+      backgroundColor: const Color(0xFF93AACF),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: const Color(0xFF93AACF),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const EducartoonScreen()),
-            );
+            Navigator.pop(context);
           },
         ),
         title: isSearching
             ? TextField(
                 controller: _searchController,
-                onChanged: _filterCourses,
+                onChanged: _filterCategories,
                 autofocus: true,
                 decoration: const InputDecoration(
-                  hintText: "Search for courses...",
+                  hintText: "Search...",
                   hintStyle: TextStyle(color: Colors.black54),
                   border: InputBorder.none,
                 ),
                 style: const TextStyle(color: Colors.black, fontSize: 18),
               )
-            : const Text(
-                "Popular Courses",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            : const Text("Popular Courses", style: TextStyle(color: Colors.black)),
         actions: [
           IconButton(
             icon: Icon(isSearching ? Icons.close : Icons.search, color: Colors.black),
@@ -100,7 +223,7 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
                 isSearching = !isSearching;
                 if (!isSearching) {
                   _searchController.clear();
-                  filteredCourses = courses;
+                  searchQuery = "";
                 }
               });
             },
@@ -111,86 +234,107 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildCategoryButton('Favorite', true),
-                _buildCategoryButton('All', false),
-                _buildCategoryButton('Education', false),
-                _buildCategoryButton('Religion', false),
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildFilterButton("All"),
+                  if (favoriteCourses.isNotEmpty) _buildFilterButton("Favorite Courses"),
+                  _buildFilterButton("Education"),
+                  _buildFilterButton("Religion"),
+                  _buildFilterButton("Technology"),
+                  _buildFilterButton("Civilization"),
+                  _buildFilterButton("Entertainment"),
+                ],
+              ),
             ),
           ),
           Expanded(
             child: ListView.builder(
               itemCount: filteredCourses.length,
               itemBuilder: (context, index) {
-                return _buildCourseCard(filteredCourses[index]);
+                var course = filteredCourses[index];
+                return Card(
+                  color: Colors.white,
+                  child: ListTile(
+                    leading: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    title: Text("${course.title} (${course.ageGroup})"),             
+                    subtitle: Text("⭐ ${course.rating} | ${course.students} Students"),
+                    trailing: IconButton(
+                      icon: Icon(
+                        course.isFavorite ? Icons.bookmark : Icons.bookmark_border,
+                        color: course.isFavorite ? Colors.green : Colors.grey,
+                      ),
+                      onPressed: () => toggleFavorite(course),
+                    ),
+                    onTap: () => _navigateToCourseDetail(course),
+                  ),
+                );
               },
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black54,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'MY COURSES'),
-          BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'INBOX'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'PROFILE'),
-        ],
-      ),
     );
   }
+}
 
-  Widget _buildCategoryButton(String text, bool isSelected) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-      decoration: BoxDecoration(
-        color: isSelected ? Colors.green : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: isSelected ? Colors.white : Colors.black,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
+class YourCustomPage extends StatelessWidget {
+  final Course course;
 
-  Widget _buildCourseCard(Map<String, dynamic> course) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(10),
-        leading: Container(
-          width: 50,
-          height: 50,
-          color: Colors.black,
-        ),
-        title: Text(
-          course['title'],
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-        ),
-        subtitle: Row(
+  const YourCustomPage({super.key, required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(course.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.star, color: Colors.amber, size: 16),
-            const SizedBox(width: 5),
-            Text('${course['rating']}'),
-            const SizedBox(width: 10),
-            Text('${course['students']} Std'),
+            Text(course.title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            Text("Category: ${course.category}"),
+            Text("Rating: ${course.rating} ⭐"),
+            Text("Students: ${course.students}"),
+            Text("Age Group: ${course.ageGroup}"),
+            const SizedBox(height: 20),
+            const Text("Course Details go here..."),
           ],
         ),
-        trailing: const Icon(Icons.bookmark, color: Colors.green),
       ),
     );
   }
 }
+
+// مثال على صفحة جديدة لكل كورس
+class StartCoursesPage extends StatelessWidget {
+  final Course course;
+
+  const StartCoursesPage({super.key, required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(course.title)),
+      body: Center(child: Text("Welcome to ${course.title}")),
+    );
+  }
+}
+
+
+
 
 
 

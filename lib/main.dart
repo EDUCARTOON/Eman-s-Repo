@@ -16,34 +16,40 @@ import 'package:flutter_application_3/features/on_boarding/presentation/splash/s
 import 'package:flutter_application_3/features/on_boarding/presentation/splash/splash2.dart';
 import 'package:flutter_application_3/features/on_boarding/presentation/splash/splashscreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
+import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
+import 'package:flutter_application_3/features/profile/data/repositories/profile_repo_impl.dart';
+import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
 
-void main()async {
-    WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-    setupLocator();
-      Bloc.observer = MyBlocObserver();
-// await getIt<CacheHelper>().init();
+  setupLocator();
+  Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
-     uid =
-            await getIt<SecureStorageServices>().getData(key: 'UID')??"";
-  
-  runApp(const MyApp());
+  uid = await getIt<SecureStorageServices>().getData(key: 'UID') ?? "";
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthCubit(authRepository: getIt<AuthRepository>())),
+        BlocProvider(create: (context) => ProfileCubit(profileRepository: getIt.get<ProfileRepoImpl>())),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp.router(
-     routerConfig: AppRouter.router,
-      debugShowCheckedModeBanner :false,
-      // home:Splashscreen()
+    return MaterialApp.router(
+      routerConfig: AppRouter.router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
-
-

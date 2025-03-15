@@ -1,47 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
-import 'package:flutter_application_3/features/profile/presentation/pages/children_screen.dart';
-import 'package:flutter_application_3/core/services/cache_helper.dart';
+import 'package:flutter_application_3/features/profile/presentation/pages/profile1.dart';
 import 'package:flutter_application_3/features/forgot_pass/presentation/ForgotPassword.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/resgister_screen.dart';
-import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
-import 'package:flutter_application_3/features/profile/presentation/pages/profile1.dart';
+import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
-import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
-import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> signInFormKey = GlobalKey();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  LoginScreen({super.key});
+  bool rememberMe = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(authRepository: getIt.get<AuthRepository>()),
+      create: (context) => AuthCubit(authRepository: getIt<AuthRepository>()),
       child: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state)async {
+        listener: (context, state) {
           if (state is LoginSuccessState) {
-            await CacheHelper.saveData(key: 'isLogin', value: true);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 backgroundColor: Colors.green,
                 content: Text("Login successfully"),
               ),
             );
-            context.push(Routes.childrenScreen);
-//             Navigator.push(
-//   context,
-//   MaterialPageRoute(
-//     builder: (context) => const ChildrenScreen(),
-//   ),
-//   // هذا يجعل الشاشة الجديدة هي الوحيدة في السجل
-// );
-
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const Profile1()),
+            );
           } else if (state is LoginErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -51,7 +47,7 @@ class LoginScreen extends StatelessWidget {
             );
           }
         },
-        builder: (cubitContext, state) {
+        builder: (context, state) {
           return Scaffold(
             backgroundColor: const Color(0xFF93AACF),
             body: SingleChildScrollView(
@@ -60,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                 child: Form(
                   key: signInFormKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
                         'assets/img/Untitled_design__3_-removebg-preview.png',
@@ -68,22 +64,27 @@ class LoginScreen extends StatelessWidget {
                         height: 100,
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Let’s Sign In.!',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Let’s Sign In.!',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 0),
-                      const Text(
-                        'Login to Your Account to Continue your Courses',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color.fromARGB(133, 0, 0, 0),
+                      const SizedBox(height: 10),
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Login to Your Account to Continue your Courses',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 40),
@@ -95,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                           filled: true,
                           fillColor: Colors.white,
                         ),
-                           validator: (value) {
+                        validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter your Email';
                           }
@@ -125,48 +126,106 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Checkbox(value: false, onChanged: (value) {}),
+                              Checkbox(
+                                value: rememberMe,
+                                onChanged: (value) {
+                                  setState(() {
+                                    rememberMe = value!;
+                                  });
+                                },
+                              ),
                               const Text('Remember Me'),
                             ],
                           ),
                           TextButton(
                             onPressed: () {
                               Navigator.push(
-                                cubitContext,
-                                MaterialPageRoute(builder: (context) =>ForgotPassword(authCubit:cubitContext.read<AuthCubit>())),
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ForgotPassword(
+                                    authCubit: context.read<AuthCubit>(),
+                                  ),
+                                ),
                               );
                             },
-                            child: const Text('Forgot Password?'),
+                            child: const Text(
+                              'Forgot Password?',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (signInFormKey.currentState!.validate()) {
-                            await AuthCubit.get(cubitContext).login(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                          backgroundColor: Colors.white,
+                      Center(
+                        child: GestureDetector(
+                          onTap: () async {
+                            if (signInFormKey.currentState!.validate()) {
+                              await context.read<AuthCubit>().login(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                            }
+                          },
+                          child: Container(
+                            width: 300,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(40),
+                              border: Border.all(color: Colors.black, width: 2),
+                            ),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Text(
+                                      '                  Sign In',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 10),
+                                    width: 40,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.black,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                        child: const Text('Sign In', style: TextStyle(color: Colors.black)),
                       ),
                       const SizedBox(height: 20),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            cubitContext,
-                            MaterialPageRoute(builder: (context) =>  RegisterScreen()),
-                          );
-                        },
-                        child: const Text(
-                          "Don't have an Account? SIGN Up",
-                          style: TextStyle(color: Colors.black),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisterScreen()),
+                            );
+                          },
+                          child: const Text(
+                            "Don't have an Account? SIGN Up",
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                     ],

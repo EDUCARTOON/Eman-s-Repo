@@ -22,7 +22,7 @@ class _Profile1State extends State<Profile1> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(profileRepository:  getIt.get<ProfileRepoImpl>()),
+      create: (context) => ProfileCubit(profileRepository: getIt.get<ProfileRepoImpl>()),
       child: Scaffold(
         backgroundColor: const Color(0xFF93AACF),
         appBar: AppBar(
@@ -42,10 +42,7 @@ class _Profile1State extends State<Profile1> {
         body: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (cubitContext, state) {
             if (state is FillUserDataSuccessState) {
-              // Navigator.push(
-              //   cubitContext,
-              //   MaterialPageRoute(builder: (context) =>  Pin(cubit:cubitContext.read<ProfileCubit>())),
-              // );
+              // Handle success
             } else if (state is FillUserDataErrorState) {
               ScaffoldMessenger.of(cubitContext).showSnackBar(
                 SnackBar(content: Text(state.errMessage)),
@@ -91,7 +88,6 @@ class _Profile1State extends State<Profile1> {
                     ),
                     const SizedBox(height: 30),
                     
-                    // Full Name Input
                     TextField(
                       controller: fullNameController,
                       decoration: InputDecoration(
@@ -105,7 +101,6 @@ class _Profile1State extends State<Profile1> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Year Dropdown
                     DropdownButtonFormField<int>(
                       value: selectedYear,
                       decoration: InputDecoration(
@@ -124,12 +119,13 @@ class _Profile1State extends State<Profile1> {
                         );
                       }),
                       onChanged: (value) {
-                        selectedYear = value;
+                        setState(() {
+                          selectedYear = value;
+                        });
                       },
                     ),
                     const SizedBox(height: 20),
 
-                    // Country & Phone Number
                     Column(
                       children: [
                         DropdownButtonFormField<String>(
@@ -148,10 +144,6 @@ class _Profile1State extends State<Profile1> {
                             {'name': 'Australia', 'code': '+61'},
                             {'name': 'Egypt', 'code': '+20'},
                             {'name': 'India', 'code': '+91'},
-                            {'name': 'Germany', 'code': '+49'},
-                            {'name': 'France', 'code': '+33'},
-                            {'name': 'China', 'code': '+86'},
-                            {'name': 'Japan', 'code': '+81'}
                           ].map((country) {
                             return DropdownMenuItem(
                               value: country['code'],
@@ -159,12 +151,12 @@ class _Profile1State extends State<Profile1> {
                             );
                           }).toList(),
                           onChanged: (value) {
-                            selectedCountry = value;
+                            setState(() {
+                              selectedCountry = value;
+                            });
                           },
                         ),
                         const SizedBox(height: 10),
-
-                        // Phone Number Input
                         TextField(
                           controller: phoneController,
                           keyboardType: TextInputType.phone,
@@ -181,37 +173,51 @@ class _Profile1State extends State<Profile1> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Continue Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          cubit.fillUserProfile(
-                             profileModel: UserModel(
-                              name: fullNameController.text, year: selectedYear!,
-                               country: selectedCountry!, phoneNumber: phoneController.text,
-                                image: '',),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                    GestureDetector(
+                      onTap: () {
+                        cubit.fillUserProfile(
+                          profileModel: UserModel(
+                            name: fullNameController.text,
+                            year: selectedYear!,
+                            country: selectedCountry!,
+                            phoneNumber: phoneController.text,
+                            image: '',
                           ),
-                          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 250,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: Colors.black, width: 2),
                         ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Stack(
+                          alignment: Alignment.center,
                           children: [
-                            Text(
+                            const Text(
                               'Continue',
-                              style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 16),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            SizedBox(width: 10),
-                            CircleAvatar(
-                              radius: 15,
-                              backgroundColor: Color.fromARGB(255, 0, 0, 0),
-                              child: Icon(Icons.arrow_forward, color: Color.fromARGB(255, 255, 251, 251), size: 16),
+                            Positioned(
+                              right: 5,
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  color: Colors.black,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -227,3 +233,4 @@ class _Profile1State extends State<Profile1> {
     );
   }
 }
+

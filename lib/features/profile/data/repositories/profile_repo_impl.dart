@@ -46,10 +46,7 @@ class ProfileRepoImpl implements ProfileBaseRepo {
   }
   
   @override
-  Future<Either<String, RegisterModel>> getUserProfile({required String uid}) {
-    // TODO: implement getUserProfile
-    throw UnimplementedError();
-  }
+  Future<Either<String, RegisterModel>> getUserProfile({required String uid}) => throw UnimplementedError();
 
   @override
   Future<Either<String, void>> addChildData({required ChildModel childModel,required bool isAdd}) async{

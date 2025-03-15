@@ -12,7 +12,6 @@ import 'package:go_router/go_router.dart';
 
 class AddChildProfileScreen extends StatefulWidget {
   const AddChildProfileScreen({super.key, this.isAdd,});
-  // final ProfileCubit profileCubit;
   final bool? isAdd;
 
   @override
@@ -38,10 +37,9 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
   ];
 
   @override
-
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(profileRepository:  getIt.get<ProfileRepoImpl>()),
+      create: (context) => ProfileCubit(profileRepository: getIt.get<ProfileRepoImpl>()),
       child: Scaffold(
         backgroundColor: const Color(0xFF93AACF),
         appBar: AppBar(
@@ -87,13 +85,10 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
                       firstDate: DateTime(1900),
                       lastDate: DateTime.now(),
                     );
-                    if (pickedDate != null) {
-                      setState(() {
-                        selectedDate = pickedDate;
-                        dateOfBirthController.text =
-                            "${pickedDate.toLocal()}".split(' ')[0];
-                      });
-                    }
+                    setState(() {
+                      selectedDate = pickedDate;
+                      dateOfBirthController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+                    });
                   },
                   decoration: InputDecoration(
                     labelText: 'Date of Birth',
@@ -150,50 +145,73 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
                 ),
                 const SizedBox(height: 30),
                 Center(
-                  child: BlocBuilder<ProfileCubit, ProfileState>(
-                    builder: (cubitContext, state) {
-                      return ElevatedButton(
-                        onPressed: () {
-                          if (fullNameController.text.isEmpty ||
-                              selectedDate == null ||
-                              selectedGender == null ||
-                              selectedPicture == null) {
-                            ScaffoldMessenger.of(cubitContext).showSnackBar(
-                              const SnackBar(
-                                content: Text('Please fill all fields'),
-                              ),
-                            );
-                            return;
-                          }
-
-                          ChildModel child = ChildModel(
-                            image: selectedPicture!,
-                            fullName: fullNameController.text,
-                            dateOfBirth: selectedDate!,
-                            gender: selectedGender!,
-                            favoriteTopicsIndexes: [], // Add selected topics later
-                          );
-context.push(Routes.favTopicsScreen,extra: {
-  'childModel': child,
-  'profileCubit': cubitContext.read<ProfileCubit>(),
-  'isAdd':widget.isAdd??false
-});
-                          // Navigator.push(
-                          //   cubitContext,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => FavoriteTopicsScreen(
-                          //       childModel: child,
-                          //       profileCubit: cubitContext.read<ProfileCubit>(),
-                          //     ),
-                          //   ),
-                          // );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 50),
-                        ),
-                        child: const Text('Continue'),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (fullNameController.text.isEmpty ||
+                          selectedDate == null ||
+                          selectedGender == null ||
+                          selectedPicture == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill all fields'),
+                          ),
+                        );
+                        return;
+                      }
+                      ChildModel child = ChildModel(
+                        image: selectedPicture!,
+                        fullName: fullNameController.text,
+                        dateOfBirth: selectedDate!,
+                        gender: selectedGender!,
+                        favoriteTopicsIndexes: [],
                       );
+                      context.push(Routes.favTopicsScreen, extra: {
+                        'childModel': child,
+                        'profileCubit': context.read<ProfileCubit>(),
+                        'isAdd': widget.isAdd ?? false,
+                      });
                     },
+                    child: Container(
+                      width: 300,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(40),
+                        border: Border.all(color: Colors.black, width: 2),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                '                  Continue',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              width: 40,
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                color: Colors.black,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
