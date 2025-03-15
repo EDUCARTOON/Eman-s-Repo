@@ -31,7 +31,7 @@ class ContinueCoursesPage extends StatelessWidget {
           onPressed: () {},
         ),
         title: const Text(
-          'Continue Courses',
+          'My Courses',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
@@ -80,7 +80,7 @@ class ContinueCoursesPage extends StatelessWidget {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Continue Courses', style: TextStyle(color: Colors.black, fontSize: 16)),
+                  Text('Start Course Again', style: TextStyle(color: Colors.black, fontSize: 16)),
                   SizedBox(width: 8),
                   Icon(Icons.arrow_forward, color: Colors.black),
                 ],
@@ -192,4 +192,3 @@ class StartCoursesPage extends StatelessWidget {
     );
   }
 }
-
