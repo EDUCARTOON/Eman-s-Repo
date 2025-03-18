@@ -1,6 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/course_video_player.dart';
+import 'package:flutter_application_3/features/courses/presentation/pages/web_view.dart';
 import 'package:flutter_application_3/popular.dart';
 
 void main() {
@@ -135,6 +136,14 @@ class CourseItem extends StatelessWidget {
           padding: const EdgeInsets.all(10),
         ),
         onPressed: () {
+          if(index=='03'){
+              Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const   WebViewScreen(url:
+            "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",)),
+          );
+          return;
+          }
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const CourseVideoPlayerScreen(videoUrl:
