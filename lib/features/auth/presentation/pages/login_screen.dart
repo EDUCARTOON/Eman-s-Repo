@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
+import 'package:flutter_application_3/core/services/cache_helper.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile1.dart';
 import 'package:flutter_application_3/features/forgot_pass/presentation/ForgotPassword.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/resgister_screen.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_application_3/features/auth/presentation/manager/cubit/a
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,18 +28,20 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider(
       create: (context) => AuthCubit(authRepository: getIt<AuthRepository>()),
       child: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (context, state)async {
           if (state is LoginSuccessState) {
+            await CacheHelper.saveData(key: 'isLogin', value: true);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 backgroundColor: Colors.green,
                 content: Text("Login successfully"),
               ),
             );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Profile1()),
-            );
+             context.push(Routes.childrenScreen);
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const Profile1()),
+            // );
           } else if (state is LoginErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

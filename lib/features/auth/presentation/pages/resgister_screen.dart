@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
+import 'package:flutter_application_3/core/routing/routes.dart';
+import 'package:flutter_application_3/core/services/cache_helper.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/core/utils/auth_locator.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_application_3/features/auth/presentation/manager/cubit/a
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile1.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatelessWidget {
   final GlobalKey<FormState> signUpFormKey = GlobalKey();
@@ -26,20 +29,24 @@ class RegisterScreen extends StatelessWidget {
         authRepository: getIt.get<AuthRepository>(),
       ),
       child: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (cubitContext, state)async {
           if (state is RegisterSuccessState) {
-            ScaffoldMessenger.of(context).showSnackBar(
+            ScaffoldMessenger.of(cubitContext).showSnackBar(
               const SnackBar(
                 backgroundColor: Colors.green,
                 content: Text("Sign up successfully"),
               ),
             );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Profile1()),
-            );
+                        await CacheHelper.saveData(key: 'isLogin', value: true);
+          
+            // AuthCubit.get(context).getUserData(uid: state.uid);
+            context.push(Routes.pinCodeScreen,extra: cubitContext.read<AuthCubit>());
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const Profile1()),
+            // );
           } else if (state is LoginErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
+            ScaffoldMessenger.of(cubitContext).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.red,
                 content: Text(state.errMessage.toString()),
