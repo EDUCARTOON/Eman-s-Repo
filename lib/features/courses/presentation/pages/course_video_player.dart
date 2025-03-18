@@ -77,6 +77,7 @@ import 'package:video_player/video_player.dart';
 //   }
 // }
 
+
 class CourseVideoPlayerScreen extends StatefulWidget {
   final String videoUrl;
 
@@ -90,6 +91,7 @@ class CourseVideoPlayerScreen extends StatefulWidget {
 class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
   late VideoPlayerController _controller;
   bool isPlaying = true;
+  bool isMuted = false;
 
   @override
   void initState() {
@@ -101,6 +103,11 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
         _controller.play();
       })
       ..setLooping(true);
+
+    // Listen to video state changes
+    _controller.addListener(() {
+      setState(() {}); // Refresh UI on change
+    });
   }
 
   @override
@@ -134,46 +141,115 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
     });
   }
 
+  /// Toggles mute/unmute
+  void _toggleMute() {
+    setState(() {
+      isMuted = !isMuted;
+      _controller.setVolume(isMuted ? 0 : 1);
+    });
+  }
+
+  /// Seeks to a specific position in the video
+  void _seekToPosition(double value) {
+    final Duration position = Duration(seconds: value.toInt());
+    _controller.seekTo(position);
+  }
+
+  /// Formats video duration into mm:ss
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    final String minutes = twoDigits(duration.inMinutes);
+    final String seconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$minutes:$seconds";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(),
+      backgroundColor: Colors.black,
+      appBar: AppBar(title: const Text("Video Player")),
       body: _controller.value.isInitialized
           ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    ),
-                    Positioned(
-                      // top: 10, // Positioning it at the top-center like YouTube
-                      child: GestureDetector(
-                        onTap: _togglePlayPause,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black54,
-                          radius: 25,
-                          child: Icon(
-                            isPlaying ? Icons.pause : Icons.play_arrow,
-                            color: Colors.white,
-                            size: 30,
+                AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      VideoPlayer(_controller),
+                      // GestureDetector(
+                      //   onTap: _togglePlayPause,
+                      //   child: CircleAvatar(
+                      //     backgroundColor: Colors.black54,
+                      //     radius: 25,
+                      //     child: Icon(
+                      //       isPlaying ? Icons.pause : Icons.play_arrow,
+                      //       color: Colors.white,
+                      //       size: 30,
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                // Video Progress Slider
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            _formatDuration(_controller.value.position),
+                            style: const TextStyle(color: Colors.white),
                           ),
-                        ),
+                          Text(
+                            _formatDuration(_controller.value.duration),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
                       ),
+                      Slider(
+                        min: 0,
+                        max: _controller.value.duration.inSeconds.toDouble(),
+                        value: _controller.value.position.inSeconds.toDouble(),
+                        onChanged: _seekToPosition,
+                        activeColor: Colors.red,
+                        inactiveColor: Colors.white30,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Video Controls (Play/Pause & Mute)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        isPlaying ? Icons.pause : Icons.play_arrow,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onPressed: _togglePlayPause,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        isMuted ? Icons.volume_off : Icons.volume_up,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onPressed: _toggleMute,
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                const CourseItem(index: '02', title: 'name', duration: '10 Mins'),
-                const CourseItem(index: '03', title: 'Quiz', duration: ''),
               ],
             )
           : const Center(child: CircularProgressIndicator()),
     );
   }
 }
-
-
