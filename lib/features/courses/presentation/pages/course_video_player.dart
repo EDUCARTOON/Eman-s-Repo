@@ -99,14 +99,13 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
     String directLink = _convertGoogleDriveLink(widget.videoUrl);
     _controller = VideoPlayerController.networkUrl(Uri.parse(directLink))
       ..initialize().then((_) {
-        setState(() {}); // Update UI when initialized
+        setState(() {});
         _controller.play();
       })
       ..setLooping(true);
 
-    // Listen to video state changes
     _controller.addListener(() {
-      setState(() {}); // Refresh UI on change
+      setState(() {}); 
     });
   }
 
@@ -116,7 +115,6 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
     super.dispose();
   }
 
-  /// Converts a standard Google Drive file link to a direct download link
   String _convertGoogleDriveLink(String url) {
     if (url.contains("drive.google.com")) {
       RegExp regExp = RegExp(r"/d/([^/]+)/");
@@ -125,10 +123,9 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
         return "https://drive.google.com/uc?export=download&id=${match.group(1)}";
       }
     }
-    return url; // Return original if not a Google Drive link
+    return url;
   }
 
-  /// Toggles play/pause
   void _togglePlayPause() {
     setState(() {
       if (_controller.value.isPlaying) {
@@ -141,7 +138,6 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
     });
   }
 
-  /// Toggles mute/unmute
   void _toggleMute() {
     setState(() {
       isMuted = !isMuted;
@@ -149,13 +145,11 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
     });
   }
 
-  /// Seeks to a specific position in the video
   void _seekToPosition(double value) {
     final Duration position = Duration(seconds: value.toInt());
     _controller.seekTo(position);
   }
 
-  /// Formats video duration into mm:ss
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     final String minutes = twoDigits(duration.inMinutes);
