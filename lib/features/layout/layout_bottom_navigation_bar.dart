@@ -10,6 +10,7 @@ class LayoutNavigationBar extends StatelessWidget {
     return BlocBuilder<LayoutCubit, LayoutState>(
       builder: (context, state) {
         int currentIndex = LayoutCubit.get(context).navBarIndex;
+
         return BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) {
@@ -26,7 +27,7 @@ class LayoutNavigationBar extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.inbox),
-              label: 'INBOX',
+              label: 'chatbot',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),

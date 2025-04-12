@@ -1,6 +1,5 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
+import 'package:flutter_application_3/popular.dart';
 
 void main() {
   runApp(const CivilizationCoursesPage());
@@ -29,41 +28,48 @@ class CivilizationCoursesPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+  icon: const Icon(Icons.arrow_back, color: Colors.black),
+  onPressed: () {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Popular(
+          courseTitle: "Default Title", // حط عنوان مناسب هنا
+          course: null, // أو حط كائن حقيقي لو متوفر
         ),
+      ),
+    );
+  },
+),
         title: const Text(
           'Civilization Courses',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for ...',
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: const Icon(Icons.search, color: Colors.black),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none,
+      body: SingleChildScrollView( // إضافة التمرير هنا
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0), // تقليل المسافة هنا
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search for ...',
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: const Icon(Icons.search, color: Colors.black),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              children: const [
-                CourseSection(sectionTitle: 'Section 01 - Civilization', duration: '25 Mins'),
-                CourseSection(sectionTitle: 'Section 02 - Civilization', duration: '25 Mins'),
-              ],
-            ),
-          ),
-        ],
+            // تقليل المسافة بين العناصر
+            const CourseSection(sectionTitle: 'Section 01 - Civilization', duration: '25 Mins'),
+            const CourseSection(sectionTitle: 'Section 02 - Civilization', duration: '25 Mins'),
+          ],
+        ),
       ),
     );
   }
@@ -78,11 +84,11 @@ class CourseSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0), // تقليل المسافة بين الأقسام
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0), // تقليل المسافة داخل البطاقة
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -115,6 +121,8 @@ class CourseItem extends StatelessWidget {
 
   const CourseItem({super.key, required this.index, required this.title, required this.duration});
 
+  get tor => null;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -134,6 +142,7 @@ class CourseItem extends StatelessWidget {
           padding: const EdgeInsets.all(10),
         ),
         onPressed: () {
+          // تم تعديل الكود هنا
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PlaceholderPage()),
@@ -156,3 +165,4 @@ class PlaceholderPage extends StatelessWidget {
     );
   }
 }
+

@@ -1,6 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
+import 'package:flutter_application_3/popular.dart';
 
 void main() {
   runApp(const ReligionCoursesPage());
@@ -29,9 +29,19 @@ class ReligionCoursesPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+  icon: const Icon(Icons.arrow_back, color: Colors.black),
+  onPressed: () {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Popular(
+          courseTitle: "Default Title", // حط عنوان مناسب هنا
+          course: null, // أو حط كائن حقيقي لو متوفر
         ),
+      ),
+    );
+  },
+),
         title: const Text(
           'Religion Courses',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -41,7 +51,7 @@ class ReligionCoursesPage extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(10.0),
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Search for ...',
@@ -78,11 +88,11 @@ class CourseSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
