@@ -10,7 +10,6 @@ class LayoutNavigationBar extends StatelessWidget {
     return BlocBuilder<LayoutCubit, LayoutState>(
       builder: (context, state) {
         int currentIndex = LayoutCubit.get(context).navBarIndex;
-
         return BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) {
