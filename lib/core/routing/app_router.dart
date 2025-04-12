@@ -19,66 +19,44 @@ import 'package:flutter_application_3/features/auth/presentation/pages/resgister
 import 'package:flutter_application_3/features/courses/presentation/pages/courses_screen.dart';
 import 'package:flutter_application_3/features/home/presentation/screen/home_screen.dart';
 import 'package:flutter_application_3/features/inbox/presentation/cubit/inbox_cubit.dart';
-import 'package:flutter_application_3/features/inbox/presentation/pages/inbox_screen.dart';
+import 'package:flutter_application_3/features/inbox/presentation/pages/ChatBotApp.dart';
 import 'package:flutter_application_3/features/layout/layout_body.dart';
-import 'package:flutter_application_3/features/profile/presentation/pages/profile_screen.dart';
-import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/features/profile/presentation/pages/profile2.dart';
 import 'package:flutter_application_3/pin_code_screen.dart';
 import 'package:flutter_application_3/top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/on_boarding/presentation/splash/splash1.dart';
-import '../../features/popular_courses/presentation/pages/popular.dart';
+import '../../popular.dart';
 
 abstract class AppRouter {
   static GoRouter router = GoRouter(
       initialLocation: Routes.welcomeScreen,
-      // redirect: (context, state) async {
-      //     //  return Routes.onBoarding;
-      //
-      //     bool isLogin = await CacheHelper.getData("isLogin")??false;
-      //   // log( "isLogin $isLogin");
-      //   if (state.matchedLocation != Routes.welcomeScreen) {
-      //     return null;
-      //   }
-      //
-      //   if (isLogin==false) {
-      //     log("Redirecting to Welcome Screen");
-      //     return Routes.splashScreen;
-      //   } else {
-      //     log("Redirecting to Home Screen");
-      //     return Routes.childrenScreen;
-      //   }
-      // },
-      redirect: (context, state) {
+      redirect: (context, state) async {
+          //  return Routes.onBoarding;
+     
+          bool isLogin = await CacheHelper.getData("isLogin")??false;
+        // log( "isLogin $isLogin");
         if (state.matchedLocation != Routes.welcomeScreen) {
           return null;
         }
 
-        if (!isLogin) {
-          log("Redirecting to Splash Screen");
+        if (isLogin==false) {
+          log("Redirecting to Welcome Screen");
           return Routes.splashScreen;
         } else {
-          log("Redirecting to Children Screen");
+          log("Redirecting to Home Screen");
           return Routes.childrenScreen;
         }
-      },
-      errorBuilder: (context, state) {
-        return Scaffold(
-          body: Center(
-            child: Text('Routing Error: ${state.error}'),
-          ),
-        );
       },
       routes: <RouteBase>[
         ShellRoute(
           builder: (context, state, child) => Layout(child: child),
-
           routes: [
             GoRoute(
               path: Routes.homeScreen,
-              builder: (context, state) => const EducartoonScreen(),
+              builder: (context, state) => const EducartoonScreen(course: null, courseTitle: '',),
             ),
             GoRoute(
               path: Routes.coursesScreen,
@@ -86,15 +64,15 @@ abstract class AppRouter {
             ),
             GoRoute(
               path: Routes.inboxScreen,
-              builder: (context, state) => const InboxScreen(),
+              builder: (context, state) => const ChatBotApp(),
             ),
             GoRoute(
               path: Routes.profileScreen,
-              builder: (context, state) => const ProfileScreen(),
+              builder: (context, state) => Profile2Page(onDarkModeToggle: () {  },),
             ),
             GoRoute(
               path: Routes.popularCoursesScreen,
-              builder: (context, state) => const Popular(),
+              builder: (context, state) => const Popular(courseTitle: '', course: null,),
             ),
              GoRoute(
               path: Routes.topScoreScreen,

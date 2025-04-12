@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(ContinueCoursesApp());
+  runApp(const ContinueCoursesApp());
 }
 
 class ContinueCoursesApp extends StatelessWidget {
@@ -9,7 +9,7 @@ class ContinueCoursesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: ContinueCoursesPage(),
     );
@@ -22,15 +22,15 @@ class ContinueCoursesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFB0C4DE),
+      backgroundColor: const Color(0xFFB0C4DE),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {},
         ),
-        title: Text(
+        title: const Text(
           'Continue Courses',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
@@ -45,7 +45,7 @@ class ContinueCoursesPage extends StatelessWidget {
                 hintText: 'Search for ...',
                 filled: true,
                 fillColor: Colors.white,
-                prefixIcon: Icon(Icons.search, color: Colors.black),
+                prefixIcon: const Icon(Icons.search, color: Colors.black),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none,
@@ -55,7 +55,7 @@ class ContinueCoursesPage extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: [
+              children: const [
                 CourseSection(sectionTitle: 'Section 01 - Education', duration: '25 Mins'),
                 CourseSection(sectionTitle: 'Section 02 - Education', duration: '25 Mins'),
               ],
@@ -65,19 +65,19 @@ class ContinueCoursesPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFBDF2EB),
+                backgroundColor: const Color(0xFFBDF2EB),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
               ),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => StartCoursesPage()),
+                  MaterialPageRoute(builder: (context) => const StartCoursesPage()),
                 );
               },
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Continue Courses', style: TextStyle(color: Colors.black, fontSize: 16)),
@@ -115,15 +115,15 @@ class CourseSection extends StatelessWidget {
                 children: [
                   Text(
                     sectionTitle,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                  Text(duration, style: TextStyle(color: Colors.blue)),
+                  Text(duration, style: const TextStyle(color: Colors.blue)),
                 ],
               ),
-              SizedBox(height: 8),
-              CourseItem(index: '01', title: 'name', duration: '15 Mins'),
-              CourseItem(index: '02', title: 'name', duration: '10 Mins'),
-              CourseItem(index: '03', title: 'Quiz', duration: ''),
+              const SizedBox(height: 8),
+              const CourseItem(index: '01', title: 'name', duration: '15 Mins'),
+              const CourseItem(index: '02', title: 'name', duration: '10 Mins'),
+              const CourseItem(index: '03', title: 'Quiz', duration: ''),
             ],
           ),
         ),
@@ -144,26 +144,26 @@ class CourseItem extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Colors.blue[100],
-        child: Text(index, style: TextStyle(color: Colors.black)),
+        child: Text(index, style: const TextStyle(color: Colors.black)),
       ),
       title: Text(
         title,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: duration.isNotEmpty ? Text(duration) : null,
       trailing: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
-          shape: CircleBorder(),
-          padding: EdgeInsets.all(10),
+          shape: const CircleBorder(),
+          padding: const EdgeInsets.all(10),
         ),
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PlaceholderPage()),
+            MaterialPageRoute(builder: (context) => const PlaceholderPage()),
           );
         },
-        child: Icon(Icons.play_arrow, color: Colors.white),
+        child: const Icon(Icons.play_arrow, color: Colors.white),
       ),
     );
   }
@@ -175,8 +175,8 @@ class PlaceholderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("New Page")),
-      body: Center(child: Text("Content of new page")),
+      appBar: AppBar(title: const Text("New Page")),
+      body: const Center(child: Text("Content of new page")),
     );
   }
 }
@@ -187,8 +187,8 @@ class StartCoursesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Start Courses")),
-      body: Center(child: Text("Start Courses Content")),
+      appBar: AppBar(title: const Text("Start Courses")),
+      body: const Center(child: Text("Start Courses Content")),
     );
   }
 }

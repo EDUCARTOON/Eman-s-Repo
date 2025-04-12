@@ -65,7 +65,7 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const EducartoonScreen()),
+              MaterialPageRoute(builder: (context) => const EducartoonScreen(courseTitle: '', course: null,)),
             );
           },
         ),

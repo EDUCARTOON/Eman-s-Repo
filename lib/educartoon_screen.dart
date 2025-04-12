@@ -1,42 +1,44 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Categories.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
-import 'package:flutter_application_3/core/routing/routes.dart';
-import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
+import 'package:flutter_application_3/popular.dart';
 import 'package:flutter_application_3/top.dart';
-import 'package:go_router/go_router.dart';
-
-// void main() {
-//   runApp(const Educartoon());
-// }
-
-// class Educartoon extends StatelessWidget {
-//   const Educartoon({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: EducartoonSelectionScreen(),
-//     );
-//   }
-// }
 
 class EducartoonScreen extends StatelessWidget {
-  const EducartoonScreen({super.key});
-  
+  const EducartoonScreen({super.key, required String courseTitle, required course});
+
   @override
   Widget build(BuildContext context) {
     log("${childModel?.fullName}");
+
+    final List<String> categories = [
+      'Education',
+      'Religion',
+      'Behavior',
+      'Technology',
+      'Civilization',
+      'Entertainment',
+    ];
+
+    final List<Map<String, dynamic>> courses = [
+      {'title': 'Education', 'rating': 4.2, 'students': 7830, 'instructor': 'name'},
+      {'title': 'Religion', 'rating': 4.3, 'students': 4560, 'instructor': 'name'},
+      {'title': 'Behavior', 'rating': 4.1, 'students': 3980, 'instructor': 'name'},
+      {'title': 'Technology', 'rating': 4.5, 'students': 6240, 'instructor': 'name'},
+      {'title': 'Civilization', 'rating': 4.0, 'students': 2100, 'instructor': 'name'},
+      {'title': 'Entertainment', 'rating': 4.4, 'students': 5100, 'instructor': 'name'},
+    ];
+
+    final List<String> mentorNames = ['Lina', 'Omar', 'Sara', 'Youssef', 'Mona', 'Ali'];
+
     return Scaffold(
-      backgroundColor:const Color(0xFF93AACF),
+      backgroundColor: const Color(0xFF93AACF),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title:  Text(
-          'Hi, ${childModel?.fullName??"Educartoon"}',
+        title: Text(
+          'Hi, ${childModel?.fullName ?? "Educartoon"}',
           style: const TextStyle(
             color: Colors.black,
             fontSize: 24,
@@ -74,15 +76,12 @@ class EducartoonScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              
-              // زيادة حجم الصورة المتحركة
               Center(
                 child: Image.asset(
                   'assets/img/Hello-Dribbble--unscreen.gif',
-                  height: 200, // زيادة الارتفاع
+                  height: 200,
                 ),
               ),
-              
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,25 +92,28 @@ class EducartoonScreen extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Categories()),
-    );
-  },
-  child: const Text(
-    'SEE ALL',
-    style: TextStyle(color: Color.fromARGB(255, 26, 73, 112)),
-  ),
-),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Categories()),
+                      );
+                    },
+                    child: const Text(
+                      'SEE ALL',
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                  ),
                 ],
               ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CategoryCard(title: 'Education'),
-                  CategoryCard(title: 'Religion'),
-                  CategoryCard(title: 'Behavior'),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: categories
+                      .map((category) => Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: CategoryCard(title: category),
+                          ))
+                      .toList(),
+                ),
               ),
               const SizedBox(height: 24),
               Row(
@@ -121,23 +123,42 @@ class EducartoonScreen extends StatelessWidget {
                     'Popular Courses',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  TextButton(onPressed: () {
-   Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Popular()),
-    );
-                    // context.push(Routes.popularCoursesScreen);
-                  }, child: const Text('SEE ALL')),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Popular(courseTitle: '', course: null),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'SEE ALL',
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                  ),
                 ],
               ),
-              const Row(
-                children: [
-                  CourseCard(title: 'Education', rating: 4.2, students: 7830),
-                  SizedBox(width: 16),
-                  CourseCard(title: 'Religion', rating: 4.2, students: 1234),
-                ],
+              SizedBox(
+                height: 210,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: courses.length,
+                  itemBuilder: (context, index) {
+                    final course = courses[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: CourseCard(
+                        title: course['title'],
+                        rating: course['rating'],
+                        students: course['students'],
+                        instructor: course['instructor'],
+                      ),
+                    );
+                  },
+                ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -145,42 +166,35 @@ class EducartoonScreen extends StatelessWidget {
                     'Top Mentor',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  TextButton(onPressed: () {
-                       Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const TopScoreScreen()),
-    );
-                    // context.push(Routes.topScoreScreen);
-                  }, child: const Text('SEE ALL')),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const TopScoreScreen()),
+                      );
+                    },
+                  child: const Text(
+                      'SEE ALL',
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                  ),
                 ],
               ),
-              const Row(
-                children: [
-                  MentorCard(),
-                  SizedBox(width: 16),
-                  MentorCard(),
-                  SizedBox(width: 16),
-                  MentorCard(),
-                ],
+              SizedBox(
+                height: 120,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: mentorNames.length,
+                  itemBuilder: (context, index) {
+                    return const MentorCircle();
+                  },
+                ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             ],
           ),
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.black), label: 'HOME'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.menu_book, color: Colors.black), label: 'MY COURSES'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.inbox, color: Colors.black), label: 'INDOX'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black), label: 'PROFILE'),
-      //   ],
-      //   unselectedItemColor: Colors.black, // اللون للأزرار غير المحددة
-      //   selectedItemColor: Colors.black, // اللون للأزرار المحددة
-      //   showSelectedLabels: true, // إظهار النصوص المحددة
-      //   showUnselectedLabels: true, // إظهار النصوص غير المحددة
-      // ),
-    
     );
   }
 }
@@ -192,15 +206,16 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        // إزالة الخلفية المستطيلة
-        padding: const EdgeInsets.all(16),
-        child: Center(
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -211,58 +226,95 @@ class CourseCard extends StatelessWidget {
   final String title;
   final double rating;
   final int students;
+  final String instructor;
 
-  const CourseCard({super.key, required this.title, required this.rating, required this.students});
+  const CourseCard({
+    super.key,
+    required this.title,
+    required this.rating,
+    required this.students,
+    required this.instructor,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    return Container(
+      width: 180,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(2, 2)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 100,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             ),
-            const SizedBox(height: 8),
-            Row(
+            child: Center(
+              child: Text(
+                title,
+                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.star, color: Colors.amber, size: 16),
-                const SizedBox(width: 4),
-                Text(rating.toString()),
-                const Spacer(),
-                Text('$students Std'),
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const SizedBox(height: 4),
+                Text(instructor, style: const TextStyle(color: Colors.grey, fontSize: 14)),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(Icons.star, color: Colors.amber, size: 16),
+                    const SizedBox(width: 4),
+                    Text('$rating'),
+                    const SizedBox(width: 8),
+                    const Text('|'),
+                    const SizedBox(width: 8),
+                    Text('$students Std'),
+                    const Spacer(),
+                    const Icon(Icons.bookmark_border),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class MentorCard extends StatelessWidget {
-  const MentorCard({super.key});
+class MentorCircle extends StatelessWidget {
+  const MentorCircle({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: const Center(
-          child: Text('name', style: TextStyle(fontSize: 14)),
-        ),
+    return Container(
+      width: 80,
+      margin: const EdgeInsets.only(right: 10),
+      child: const Column(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.white,
+            child: Icon(Icons.person, size: 30, color: Colors.grey),
+          ),
+          SizedBox(height: 8),
+          Text('name', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+        ],
       ),
     );
   }
 }
+
