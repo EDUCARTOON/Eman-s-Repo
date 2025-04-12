@@ -1,8 +1,7 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/course_video_player.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/web_view.dart';
-import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
+import 'package:flutter_application_3/popular.dart';
 
 void main() {
   runApp(const StartCoursesPage());
@@ -32,7 +31,17 @@ class StartCoursesPage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Popular(
+                  courseTitle: "Default Title", // حط عنوان مناسب هنا
+                  course: null, // أو حط كائن حقيقي لو متوفر
+                ),
+              ),
+            );
+          },
         ),
         title: const Text(
           'Start Courses',
@@ -40,32 +49,29 @@ class StartCoursesPage extends StatelessWidget {
         ),
         centerTitle: false,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for ...',
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: const Icon(Icons.search, color: Colors.black),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none,
+      body: SingleChildScrollView( // التمرير لعرض الصفحة بالكامل
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0), // تقليل المسافة هنا
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search for ...',
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: const Icon(Icons.search, color: Colors.black),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              children: const [
-                CourseSection(sectionTitle: 'Section 01 - Education', duration: '25 Mins'),
-                CourseSection(sectionTitle: 'Section 02 - Education', duration: '25 Mins'),
-              ],
-            ),
-          ),
-        ],
+            // تقليل المسافة بين العناصر
+            const CourseSection(sectionTitle: 'Section 01 - Education', duration: '25 Mins'),
+            const CourseSection(sectionTitle: 'Section 02 - Education', duration: '25 Mins'),
+          ],
+        ),
       ),
     );
   }
@@ -80,11 +86,11 @@ class CourseSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0), // تقليل المسافة بين الأقسام
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0), // تقليل المسافة داخل البطاقة
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -136,24 +142,21 @@ class CourseItem extends StatelessWidget {
           padding: const EdgeInsets.all(10),
         ),
         onPressed: () {
-          if(index=='03'){
-              Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const   WebViewScreen(url:
-            "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",)),
-          );
-          return;
+          if(index == '03'){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const WebViewScreen(url:
+              "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",)),
+            );
+            return;
           }
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>  const CourseVideoPlayerScreen(
-              videoUrl:
-             //'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'
-            //"https://drive.google.com/file/d/1UAZPaYY5h0maiSQScKDh5Awci1eAxikk/view"
-              "https://youtu.be/XssE6fZrx6s?si=-TvBLwC86sUZa4lP"
-            )),
+            MaterialPageRoute(builder: (context) => const CourseVideoPlayerScreen(videoUrl:
+            // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'
+            "https://drive.google.com/file/d/1UAZPaYY5h0maiSQScKDh5Awci1eAxikk/view"
+            ,)),
           );
-
         },
         child: const Icon(Icons.play_arrow, color: Colors.white),
       ),
@@ -161,14 +164,28 @@ class CourseItem extends StatelessWidget {
   }
 }
 
-class PlaceholderPage extends StatelessWidget {
-  const PlaceholderPage({super.key});
+class WebViewScreen extends StatelessWidget {
+  final String url;
+  const WebViewScreen({super.key, required this.url});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("New Page")),
-      body: const Center(child: Text("Content of new page")),
+      appBar: AppBar(title: const Text("Web View")),
+      body: Center(child: Text('Loading $url')),
+    );
+  }
+}
+
+class CourseVideoPlayerScreen extends StatelessWidget {
+  final String videoUrl;
+  const CourseVideoPlayerScreen({super.key, required this.videoUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Course Video Player")),
+      body: Center(child: Text('Playing video from $videoUrl')),
     );
   }
 }
