@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:flutter_application_3/popular.dart';
 
 void main() {
@@ -35,78 +36,92 @@ class _CoursesScreenState extends State<CoursesScreen> {
       backgroundColor: const Color(0xFFB0C4DE),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
+        elevation: 3,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            // هنا يمكن أن تحدد الصفحة التي تريد الانتقال إليها بدلاً من الرجوع للخلف
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EducartoonScreen(courseTitle: '', course: null,), // استبدل بـاسم الصفحة التي تريد الانتقال إليها
+              ),
+            );
+          },
         ),
-        title: const Text(
-          'Courses Screen',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              'Courses Screen',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
-        centerTitle: true,
+        centerTitle: false,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search for ...',
-                    filled: true,
-                    fillColor: Colors.white,
-                    prefixIcon: const Icon(Icons.search, color: Colors.black54),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search for ...',
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: const Icon(Icons.search, color: Colors.black54),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
                   ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isCompleted = true;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: isCompleted ? Colors.green : Colors.grey[300],
-                      ),
-                      child: const Text("Completed", style: TextStyle(color: Colors.white)),
+              ),
+              const SizedBox(height: 6),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isCompleted = true;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                      backgroundColor: isCompleted ? Colors.green : Colors.grey[300],
                     ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isCompleted = false;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: isCompleted ? Colors.grey[300] : Colors.green,
-                      ),
-                      child: const Text("Ongoing", style: TextStyle(color: Colors.white)),
+                    child: const Text("Completed", style: TextStyle(color: Colors.white, fontSize: 12)),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isCompleted = false;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                      backgroundColor: isCompleted ? Colors.grey[300] : Colors.green,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                    child: const Text("Ongoing", style: TextStyle(color: Colors.white, fontSize: 12)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return CourseCard(isCompleted: isCompleted);
+                },
+              ),
+            ],
           ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return CourseCard(isCompleted: isCompleted);
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -119,17 +134,17 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
           Container(
-            width: 50,
-            height: 50,
+            width: 70,
+            height: 70,
             color: Colors.black,
           ),
           const SizedBox(width: 10),
@@ -137,25 +152,26 @@ class CourseCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Course Name", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                const Text("Instructor Name", style: TextStyle(fontSize: 14, color: Colors.grey)),
-                const SizedBox(height: 4),
+                const Text("Course Name", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                const Text("Instructor Name", style: TextStyle(fontSize: 12, color: Colors.grey)),
+                const SizedBox(height: 2),
                 const Row(
                   children: [
-                    Icon(Icons.star, color: Colors.amber, size: 16),
-                    SizedBox(width: 4),
-                    Text("4.5", style: TextStyle(fontSize: 14)),
-                    SizedBox(width: 10),
-                    Text("2 Hrs 30 Mins", style: TextStyle(fontSize: 14, color: Colors.grey)),
+                    Icon(Icons.star, color: Colors.amber, size: 13),
+                    SizedBox(width: 2),
+                    Text("4.5", style: TextStyle(fontSize: 12)),
+                    SizedBox(width: 6),
+                    Text("2 Hrs 30 Mins", style: TextStyle(fontSize: 12, color: Colors.grey)),
                   ],
                 ),
                 if (!isCompleted)
                   Padding(
-                    padding: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.only(top: 5),
                     child: LinearProgressIndicator(
                       value: 0.7,
                       backgroundColor: Colors.grey[300],
                       color: Colors.green,
+                      minHeight: 5,
                     ),
                   ),
               ],

@@ -20,7 +20,7 @@ class LayoutCubit extends Cubit<LayoutState> {
     Routes.homeScreen,
     Routes.coursesScreen,
     Routes.inboxScreen,
-    Routes.childrenScreen,
+    Routes.profileScreen,
   ];
 
   void changeNavBar({required int index, required BuildContext context}) {

@@ -4,6 +4,8 @@ import 'package:flutter_application_3/EntertainmentCourses.dart';
 import 'package:flutter_application_3/ReligionCourses.dart';
 import 'package:flutter_application_3/StartCourses.dart';
 import 'package:flutter_application_3/TechnologyCourses.dart';
+import 'package:flutter_application_3/BehaviorCourses.dart'; // تأكد من أن لديك ملف BehaviorCourses.dart
+import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Popular(),
+      home: Popular(courseTitle: '', course: null,),
     );
   }
 }
@@ -63,7 +65,7 @@ class Course {
 }
 
 class Popular extends StatefulWidget {
-  const Popular({super.key});
+  const Popular({super.key, required String courseTitle, required course});
 
   @override
   _PopularState createState() => _PopularState();
@@ -87,6 +89,9 @@ class _PopularState extends State<Popular> {
     Course(title: "Entertainment", category: "Entertainment", rating: 4.0, students: 3500, ageGroup: "3-5"),
     Course(title: "Entertainment", category: "Entertainment", rating: 4.3, students: 3800, ageGroup: "5-8"),
     Course(title: "Entertainment", category: "Entertainment", rating: 4.3, students: 3800, ageGroup: "8-12"),
+    Course(title: "Behavior", category: "Behavior", rating: 3.8, students: 3100, ageGroup: "3-5"),
+    Course(title: "Behavior", category: "Behavior", rating: 4.0, students: 3400, ageGroup: "5-8"),
+    Course(title: "Behavior", category: "Behavior", rating: 4.3, students: 3700, ageGroup: "8-12"),
     // أضف المزيد من الدورات حسب الحاجة
   ];
 
@@ -161,31 +166,32 @@ class _PopularState extends State<Popular> {
 
   Widget _buildFilterButton(String category) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: ElevatedButton(
         onPressed: () => setCategory(category),
         style: ElevatedButton.styleFrom(
           backgroundColor: selectedCategory == category ? Colors.black : Colors.white,
           foregroundColor: selectedCategory == category ? Colors.white : Colors.black,
         ),
-        child: Text(category),
+        child: Text(category, style: const TextStyle(fontSize: 12)), // تقليل حجم النص
       ),
     );
   }
 
   void _navigateToCourseDetail(Course course) {
     Map<String, Widget> coursePages = {
-      "Education": StartCoursesApp(course: course), // استبدل StartCoursesPage باسم الصفحة الخاصة بكل كورس
-      "Religion": ReligionCoursesApp(course: course), // مثال على صفحة أخرى
-       "Civilization": CivilizationCoursesApp(course: course), // مثال على صفحة أخرى
-        "Technology": TechnologyCoursesApp(course: course), // مثال على صفحة أخرى
-      "Entertainment": EntertainmentCoursesPage(course: course), // 
+      "Education": StartCoursesApp(course: course),
+      "Religion": ReligionCoursesApp(course: course),
+      "Civilization": CivilizationCoursesApp(course: course),
+      "Technology": TechnologyCoursesApp(course: course),
+      "Entertainment": EntertainmentCoursesPage(course: course),
+      "Behavior": BehaviorCoursesApp(course: course),
     };
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => coursePages[course.title] ?? YourCustomPage(course: course),
+        builder: (context) => coursePages[course.category] ?? BehaviorCoursesApp(course: course),
       ),
     );
   }
@@ -196,10 +202,18 @@ class _PopularState extends State<Popular> {
       backgroundColor: const Color(0xFF93AACF),
       appBar: AppBar(
         backgroundColor: const Color(0xFF93AACF),
-        leading: IconButton(
+          leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EducartoonScreen(
+                  courseTitle: "Default Title", // حط عنوان مناسب هنا
+                  course: null, // أو حط كائن حقيقي لو متوفر
+                ),
+              ),
+            );
           },
         ),
         title: isSearching
@@ -212,7 +226,7 @@ class _PopularState extends State<Popular> {
                   hintStyle: TextStyle(color: Colors.black54),
                   border: InputBorder.none,
                 ),
-                style: const TextStyle(color: Colors.black, fontSize: 18),
+                style: const TextStyle(color: Colors.black, fontSize: 16),
               )
             : const Text("Popular Courses", style: TextStyle(color: Colors.black)),
         actions: [
@@ -233,7 +247,7 @@ class _PopularState extends State<Popular> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -243,9 +257,10 @@ class _PopularState extends State<Popular> {
                   if (favoriteCourses.isNotEmpty) _buildFilterButton("Favorite Courses"),
                   _buildFilterButton("Education"),
                   _buildFilterButton("Religion"),
-                  _buildFilterButton("Technology"),
                   _buildFilterButton("Civilization"),
+                  _buildFilterButton("Technology"),
                   _buildFilterButton("Entertainment"),
+                  _buildFilterButton("Behavior"),
                 ],
               ),
             ),
@@ -259,14 +274,14 @@ class _PopularState extends State<Popular> {
                   color: Colors.white,
                   child: ListTile(
                     leading: Container(
-                      width: 80,
-                      height: 80,
+                      width: 70,
+                      height: 70,
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    title: Text("${course.title} (${course.ageGroup})"),             
+                    title: Text("${course.title} (${course.ageGroup})"),
                     subtitle: Text("⭐ ${course.rating} | ${course.students} Students"),
                     trailing: IconButton(
                       icon: Icon(
@@ -286,56 +301,3 @@ class _PopularState extends State<Popular> {
     );
   }
 }
-
-class YourCustomPage extends StatelessWidget {
-  final Course course;
-
-  const YourCustomPage({super.key, required this.course});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(course.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(course.title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            Text("Category: ${course.category}"),
-            Text("Rating: ${course.rating} ⭐"),
-            Text("Students: ${course.students}"),
-            Text("Age Group: ${course.ageGroup}"),
-            const SizedBox(height: 20),
-            const Text("Course Details go here..."),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// مثال على صفحة جديدة لكل كورس
-class StartCoursesPage extends StatelessWidget {
-  final Course course;
-
-  const StartCoursesPage({super.key, required this.course});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(course.title)),
-      body: Center(child: Text("Welcome to ${course.title}")),
-    );
-  }
-}
-
-
-
-
-
-
-

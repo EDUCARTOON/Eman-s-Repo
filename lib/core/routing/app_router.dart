@@ -19,9 +19,9 @@ import 'package:flutter_application_3/features/auth/presentation/pages/resgister
 import 'package:flutter_application_3/features/courses/presentation/pages/courses_screen.dart';
 import 'package:flutter_application_3/features/home/presentation/screen/home_screen.dart';
 import 'package:flutter_application_3/features/inbox/presentation/cubit/inbox_cubit.dart';
-import 'package:flutter_application_3/features/inbox/presentation/pages/inbox_screen.dart';
+import 'package:flutter_application_3/features/inbox/presentation/pages/ChatBotApp.dart';
 import 'package:flutter_application_3/features/layout/layout_body.dart';
-import 'package:flutter_application_3/features/profile/presentation/pages/profile_screen.dart';
+import 'package:flutter_application_3/features/profile/presentation/pages/profile2.dart';
 import 'package:flutter_application_3/pin_code_screen.dart';
 import 'package:flutter_application_3/top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +56,7 @@ abstract class AppRouter {
           routes: [
             GoRoute(
               path: Routes.homeScreen,
-              builder: (context, state) => const EducartoonScreen(),
+              builder: (context, state) => const EducartoonScreen(course: null, courseTitle: '',),
             ),
             GoRoute(
               path: Routes.coursesScreen,
@@ -64,15 +64,15 @@ abstract class AppRouter {
             ),
             GoRoute(
               path: Routes.inboxScreen,
-              builder: (context, state) => const InboxScreen(),
+              builder: (context, state) => const ChatBotApp(),
             ),
             GoRoute(
               path: Routes.profileScreen,
-              builder: (context, state) => const ProfileScreen(),
+              builder: (context, state) => Profile2Page(onDarkModeToggle: () {  },),
             ),
             GoRoute(
               path: Routes.popularCoursesScreen,
-              builder: (context, state) => const Popular(),
+              builder: (context, state) => const Popular(courseTitle: '', course: null,),
             ),
              GoRoute(
               path: Routes.topScoreScreen,
