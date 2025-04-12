@@ -22,37 +22,59 @@ import 'package:flutter_application_3/features/inbox/presentation/cubit/inbox_cu
 import 'package:flutter_application_3/features/inbox/presentation/pages/inbox_screen.dart';
 import 'package:flutter_application_3/features/layout/layout_body.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile_screen.dart';
+import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/pin_code_screen.dart';
 import 'package:flutter_application_3/top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/on_boarding/presentation/splash/splash1.dart';
-import '../../popular.dart';
+import '../../features/popular_courses/presentation/pages/popular.dart';
 
 abstract class AppRouter {
   static GoRouter router = GoRouter(
       initialLocation: Routes.welcomeScreen,
-      redirect: (context, state) async {
-          //  return Routes.onBoarding;
-     
-          bool isLogin = await CacheHelper.getData("isLogin")??false;
-        // log( "isLogin $isLogin");
+      // redirect: (context, state) async {
+      //     //  return Routes.onBoarding;
+      //
+      //     bool isLogin = await CacheHelper.getData("isLogin")??false;
+      //   // log( "isLogin $isLogin");
+      //   if (state.matchedLocation != Routes.welcomeScreen) {
+      //     return null;
+      //   }
+      //
+      //   if (isLogin==false) {
+      //     log("Redirecting to Welcome Screen");
+      //     return Routes.splashScreen;
+      //   } else {
+      //     log("Redirecting to Home Screen");
+      //     return Routes.childrenScreen;
+      //   }
+      // },
+      redirect: (context, state) {
         if (state.matchedLocation != Routes.welcomeScreen) {
           return null;
         }
 
-        if (isLogin==false) {
-          log("Redirecting to Welcome Screen");
+        if (!isLogin) {
+          log("Redirecting to Splash Screen");
           return Routes.splashScreen;
         } else {
-          log("Redirecting to Home Screen");
+          log("Redirecting to Children Screen");
           return Routes.childrenScreen;
         }
+      },
+      errorBuilder: (context, state) {
+        return Scaffold(
+          body: Center(
+            child: Text('Routing Error: ${state.error}'),
+          ),
+        );
       },
       routes: <RouteBase>[
         ShellRoute(
           builder: (context, state, child) => Layout(child: child),
+
           routes: [
             GoRoute(
               path: Routes.homeScreen,

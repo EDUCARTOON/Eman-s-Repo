@@ -1,6 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/popular.dart';
+import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
 
 void main() {
   runApp(const EntertainmentCoursesApp());

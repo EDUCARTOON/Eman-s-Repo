@@ -44,6 +44,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyDTvskbWXPcDO9RtyfNLBl8YKPT8rKrrlY',
     appId: '1:373074661731:web:cf9cac8b95a7fe91174356',
     messagingSenderId: '373074661731',
+    databaseURL: "https://elearning-6c0ee-default-rtdb.firebaseio.com/",
     projectId: 'elearning-6c0ee',
     authDomain: 'elearning-6c0ee.firebaseapp.com',
     storageBucket: 'elearning-6c0ee.firebasestorage.app',

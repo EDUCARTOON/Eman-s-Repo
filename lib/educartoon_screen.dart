@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Categories.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
-import 'package:flutter_application_3/popular.dart';
+import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
 import 'package:flutter_application_3/top.dart';
 import 'package:go_router/go_router.dart';
 
