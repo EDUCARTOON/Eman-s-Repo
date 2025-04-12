@@ -15,13 +15,17 @@ class RegisterModel {
   final String? lastName;
   @HiveField(4)
   final String? image;
+  @HiveField(5)
+  final String? pin;
 
-  RegisterModel({
+
+  RegisterModel( {
     required this.firstName,
     required this.lastName,
     required this.email,
     required this.uId,
     this.image,
+    this.pin,
   });
 
   factory RegisterModel.fromJson({required Map<String, dynamic>? json}) {
@@ -31,8 +35,11 @@ class RegisterModel {
       email: json?['email'] ?? '',
       uId: json?['uid'] ?? "",
       image: json?['image'] ?? '',
+      pin: json?['pin'] ?? '',
+      
     );
   }
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -41,6 +48,7 @@ class RegisterModel {
       'email': email,
       'uid': uId,
       'image': image,
+      'pin':pin
     };
   }
 }

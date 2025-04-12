@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/newpassword.dart';
-import 'new_password_page.dart'; // تأكد من استيراد الصفحة الجديدة
+import 'package:flutter_application_3/features/forgot_pass/presentation/newpassword.dart';
+import 'features/forgot_pass/presentation/new_password_page.dart'; // تأكد من استيراد الصفحة الجديدة
 
 class Verification extends StatefulWidget {
   const Verification({super.key});
@@ -36,10 +36,10 @@ class _VerificationPageState extends State<Verification> {
 
   void _onVerifyPressed() {
     // الانتقال إلى صفحة إنشاء كلمة المرور
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Newpassword()),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => const Newpassword()),
+    // );
   }
 
   @override

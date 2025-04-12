@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/features/auth/data/models/sign_up_model.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
@@ -64,11 +65,13 @@ class AuthCubit extends Cubit<AuthState> {
       firstName: firstName,
       email: email,
       password: password,
-      image: image,
+      
       lastName: lastName,
     );
     response.fold(
-      (errMessage){if(!isClosed) { emit(RegisterErrorState(errMessage: errMessage));}},
+      (errMessage){
+        log("============error====${errMessage}");
+        if(!isClosed) { emit(RegisterErrorState(errMessage: errMessage));}},
       (r) {
 
         if(!isClosed) {
@@ -87,4 +90,57 @@ class AuthCubit extends Cubit<AuthState> {
           }},
         (userData){if(!isClosed) { emit(GetUserDataSuccessState(userData: userData));}});
   }
+
+    Future<void> addUserPinCode({required String pin}) async {
+      if(!isClosed) {
+    emit(AddUserPinLoadingState());}
+    final response = await authRepository.addUserPinCode(pin: pin);
+    response.fold(
+        (errMessage){
+          if(!isClosed) {
+            emit(AddUserPinErrorState(errMessage: errMessage));
+          }},
+        (userData){if(!isClosed) { emit(AddUserPinSuccessState());}});
+  }
+
+      Future<bool> checkIsEmailVerified({required String email,required BuildContext context}) async {
+    return await authRepository.isEmailVerified( email,context);
+  }
+    Future<void> sendVerification(BuildContext context) async {
+      if(!isClosed) {
+    emit(SendVerifyLoadingState());}
+    final response = await authRepository.sendEmailVerification(context);
+    response.fold(
+        (errMessage){
+          if(!isClosed) {
+            emit(SendVerifyErrorState(errMessage: errMessage));
+          }},
+        (userData){if(!isClosed) { emit(SendVerifySuccessState());}});
+  }
+
+
+     Future<void> resetPass(String newPass,BuildContext context) async {
+      if(!isClosed) {
+    emit(ResetPassLoadingState());}
+    final response = await authRepository.resetUserPassword(newPass,context);
+    response.fold(
+        (errMessage){
+          if(!isClosed) {
+            emit(ResetPassErrorState(errMessage: errMessage));
+          }},
+        (userData){if(!isClosed) { emit(ResetPassSuccessState());}});
+  }
+
+      Future<void> sendPassReset(String newPass,BuildContext context) async {
+      if(!isClosed) {
+    emit(SendResetPassLoadingState());}
+    final response = await authRepository.sendPassResetToEmail(newPass);
+    response.fold(
+        (errMessage){
+          if(!isClosed) {
+            emit(SendResetPassErrorState(errMessage: errMessage));
+          }},
+        (userData){if(!isClosed) { emit(SendResetPassSuccessState());}});
+  }
+
 }
