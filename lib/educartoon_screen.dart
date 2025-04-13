@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Categories.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
-import 'package:flutter_application_3/popular.dart';
+
 import 'package:flutter_application_3/top.dart';
 
 class EducartoonScreen extends StatelessWidget {

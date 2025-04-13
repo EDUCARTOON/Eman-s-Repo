@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // استيراد Course من popular.dart
-import 'popular.dart';  // تأكد من المسار المناسب بناءً على مكان ملف popular.dart
+ // تأكد من المسار المناسب بناءً على مكان ملف popular.dart
 
 void main() {
   runApp(BehaviorCoursesApp(course: Course(title: 'Behavior Course', category: 'Behavior', rating: 4.0, students: 100, ageGroup: '5-8')));

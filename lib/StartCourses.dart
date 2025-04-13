@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/course_video_player.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/web_view.dart';
-import 'package:flutter_application_3/popular.dart';
+
 
 void main() {
   runApp(const StartCoursesPage());
@@ -154,7 +154,8 @@ class CourseItem extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => const CourseVideoPlayerScreen(videoUrl:
             // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'
-            "https://drive.google.com/file/d/1UAZPaYY5h0maiSQScKDh5Awci1eAxikk/view"
+            //"https://drive.google.com/file/d/1UAZPaYY5h0maiSQScKDh5Awci1eAxikk/view"
+              "https://youtu.be/CiI5AexYO2E?si=ZyTFJFBwO4pPdqEf"
             ,)),
           );
         },

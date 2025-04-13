@@ -1,25 +1,15 @@
-import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/CivilizationCourses.dart';
 import 'package:flutter_application_3/EntertainmentCourses.dart';
 import 'package:flutter_application_3/ReligionCourses.dart';
 import 'package:flutter_application_3/StartCourses.dart';
 import 'package:flutter_application_3/TechnologyCourses.dart';
-import 'package:flutter_application_3/features/courses/data/repositories/courses_repo_impl.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_application_3/BehaviorCourses.dart'; // تأكد من أن لديك ملف BehaviorCourses.dart
+import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../courses/data/models/course_model.dart';
-import '../../data/data_sources/courses_remote_datasources.dart';
-import '../../data/repositories/courses_repo_impl.dart';
-import '../manager/cubit/courses_cubit.dart';
-
 void main() {
-  runApp(
-    const MyApp(),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Popular(),
+      home: Popular(courseTitle: '', course: null,),
     );
   }
 }
@@ -75,7 +65,7 @@ class Course {
 }
 
 class Popular extends StatefulWidget {
-  const Popular({super.key});
+  const Popular({super.key, required String courseTitle, required course});
 
   @override
   _PopularState createState() => _PopularState();
@@ -84,96 +74,24 @@ class Popular extends StatefulWidget {
 class _PopularState extends State<Popular> {
   List<Course> favoriteCourses = [];
   List<Course> courses = [
-    Course(
-        title: "Education",
-        category: "Education",
-        rating: 3.5,
-        students: 3000,
-        ageGroup: "3-5"),
-    Course(
-        title: "Education",
-        category: "Education",
-        rating: 4.2,
-        students: 3500,
-        ageGroup: "5-8"),
-    Course(
-        title: "Education",
-        category: "Education",
-        rating: 4.2,
-        students: 3500,
-        ageGroup: "8-12"),
-    Course(
-        title: "Religion",
-        category: "Religion",
-        rating: 3.9,
-        students: 2800,
-        ageGroup: "3-5"),
-    Course(
-        title: "Religion",
-        category: "Religion",
-        rating: 4.1,
-        students: 3200,
-        ageGroup: "5-8"),
-    Course(
-        title: "Religion",
-        category: "Religion",
-        rating: 4.1,
-        students: 3200,
-        ageGroup: "8-12"),
-    Course(
-        title: "Technology",
-        category: "Technology",
-        rating: 4.2,
-        students: 4000,
-        ageGroup: "3-5"),
-    Course(
-        title: "Technology",
-        category: "Technology",
-        rating: 4.5,
-        students: 4500,
-        ageGroup: "5-8"),
-    Course(
-        title: "Technology",
-        category: "Technology",
-        rating: 4.5,
-        students: 4500,
-        ageGroup: "8-12"),
-    Course(
-        title: "Civilization",
-        category: "Civilization",
-        rating: 4.9,
-        students: 5000,
-        ageGroup: "3-5"),
-    Course(
-        title: "Civilization",
-        category: "Civilization",
-        rating: 4.7,
-        students: 5200,
-        ageGroup: "5-8"),
-    Course(
-        title: "Civilization",
-        category: "Civilization",
-        rating: 4.7,
-        students: 5200,
-        ageGroup: "8-12"),
-    Course(
-        title: "Entertainment",
-        category: "Entertainment",
-        rating: 4.0,
-        students: 3500,
-        ageGroup: "3-5"),
-    Course(
-        title: "Entertainment",
-        category: "Entertainment",
-        rating: 4.3,
-        students: 3800,
-        ageGroup: "5-8"),
-    Course(
-        title: "Entertainment",
-        category: "Entertainment",
-        rating: 4.3,
-        students: 3800,
-        ageGroup: "8-12"),
+    Course(title: "Education", category: "Education", rating: 3.5, students: 3000, ageGroup: "3-5"),
+    Course(title: "Education", category: "Education", rating: 4.2, students: 3500, ageGroup: "5-8"),
+    Course(title: "Education", category: "Education", rating: 4.2, students: 3500, ageGroup: "8-12"),
+    Course(title: "Religion", category: "Religion", rating: 3.9, students: 2800, ageGroup: "3-5"),
+    Course(title: "Religion", category: "Religion", rating: 4.1, students: 3200, ageGroup: "5-8"),
+    Course(title: "Religion", category: "Religion", rating: 4.1, students: 3200, ageGroup: "8-12"),
+    Course(title: "Technology", category: "Technology", rating: 4.2, students: 4000, ageGroup: "3-5"),
+    Course(title: "Technology", category: "Technology", rating: 4.5, students: 4500, ageGroup: "5-8"),
+    Course(title: "Technology", category: "Technology", rating: 4.5, students: 4500, ageGroup: "8-12"),
+    Course(title: "Civilization", category: "Civilization", rating: 4.9, students: 5000, ageGroup: "3-5"),
+    Course(title: "Civilization", category: "Civilization", rating: 4.7, students: 5200, ageGroup: "5-8"),
+    Course(title: "Civilization", category: "Civilization", rating: 4.7, students: 5200, ageGroup: "8-12"),
+    Course(title: "Entertainment", category: "Entertainment", rating: 4.0, students: 3500, ageGroup: "3-5"),
+    Course(title: "Entertainment", category: "Entertainment", rating: 4.3, students: 3800, ageGroup: "5-8"),
+    Course(title: "Entertainment", category: "Entertainment", rating: 4.3, students: 3800, ageGroup: "8-12"),
+    Course(title: "Behavior", category: "Behavior", rating: 3.8, students: 3100, ageGroup: "3-5"),
+    Course(title: "Behavior", category: "Behavior", rating: 4.0, students: 3400, ageGroup: "5-8"),
+    Course(title: "Behavior", category: "Behavior", rating: 4.3, students: 3700, ageGroup: "8-12"),
     // أضف المزيد من الدورات حسب الحاجة
   ];
 
@@ -205,24 +123,6 @@ class _PopularState extends State<Popular> {
     }
   }
 
-  // String urlImg({required String cat, required String age,required List<CourseModel> courses}) {
-  //   final matchingCourse = courses.firstWhere(
-  //         (element) => element.category == cat && element.age == age,
-  //     orElse: () => null,
-  //       );
-  //   return matchingCourse.url;
-  // }
-  // String urlImg({required String cat, required String age}) {
-  //   var course = PopularCoursesCubit.get(context)
-  //       .courses
-  //       .where(
-  //         (element) => element.category == cat && element.age == age,
-  //       )
-  //       .first;
-  //   log(course.url);
-  //   return course.url;
-  // }
-
   Future<void> saveFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     final favoriteTitles = favoriteCourses.map((c) => c.title).toList();
@@ -234,13 +134,8 @@ class _PopularState extends State<Popular> {
         ? courses
         : selectedCategory == "Favorite Courses"
             ? favoriteCourses
-            : courses
-                .where((course) => course.category == selectedCategory)
-                .toList();
-    return filtered
-        .where((course) =>
-            course.title.toLowerCase().contains(searchQuery.toLowerCase()))
-        .toList();
+            : courses.where((course) => course.category == selectedCategory).toList();
+    return filtered.where((course) => course.title.toLowerCase().contains(searchQuery.toLowerCase())).toList();
   }
 
   void toggleFavorite(Course course) {
@@ -271,225 +166,188 @@ class _PopularState extends State<Popular> {
 
   Widget _buildFilterButton(String category) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: ElevatedButton(
         onPressed: () => setCategory(category),
         style: ElevatedButton.styleFrom(
-          backgroundColor:
-              selectedCategory == category ? Colors.black : Colors.white,
-          foregroundColor:
-              selectedCategory == category ? Colors.white : Colors.black,
+          backgroundColor: selectedCategory == category ? Colors.black : Colors.white,
+          foregroundColor: selectedCategory == category ? Colors.white : Colors.black,
         ),
-        child: Text(category),
+        child: Text(category, style: const TextStyle(fontSize: 12)), // تقليل حجم النص
       ),
     );
   }
 
   void _navigateToCourseDetail(Course course) {
     Map<String, Widget> coursePages = {
-      "Education": StartCoursesApp(
-          course:
-              course), // استبدل StartCoursesPage باسم الصفحة الخاصة بكل كورس
-      "Religion": ReligionCoursesApp(course: course), // مثال على صفحة أخرى
-      "Civilization":
-          CivilizationCoursesApp(course: course), // مثال على صفحة أخرى
-      "Technology": TechnologyCoursesApp(course: course), // مثال على صفحة أخرى
-      "Entertainment": EntertainmentCoursesPage(course: course), //
+      "Education": StartCoursesApp(course: course),
+      "Religion": ReligionCoursesApp(course: course),
+      "Civilization": CivilizationCoursesApp(course: course),
+      "Technology": TechnologyCoursesApp(course: course),
+      "Entertainment": EntertainmentCoursesPage(course: course),
+      "Behavior": BehaviorCoursesApp(course: course),
     };
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            coursePages[course.title] ?? YourCustomPage(course: course),
+        builder: (context) => coursePages[course.category] ?? BehaviorCoursesApp(course: course),
       ),
     );
+  }
+  String convertGoogleDriveUrl(String url) {
+    final regex = RegExp(r'd/([a-zA-Z0-9_-]+)');
+    final match = regex.firstMatch(url);
+    if (match != null && match.groupCount >= 1) {
+      final fileId = match.group(1);
+      return 'https://drive.google.com/uc?export=view&id=$fileId';
+    } else {
+      throw Exception('Invalid Google Drive URL');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PopularCoursesCubit(
-        PopularCoursesRepoImpl(
-          popularCoursesRemoteDataSource: PopularCoursesRemoteDataSource(),
-        ),
-      )..fetchCourses(),
-      child: Scaffold(
+        create: (context) => PopularCourseCubit(
+      PopularCourseRepoImpl(
+        popularCoursesRemoteDataSource: PopularCourseRemoteDataSource(),
+      ),
+    )..fetchCourses(),
+    child: Scaffold(
+      backgroundColor: const Color(0xFF93AACF),
+      appBar: AppBar(
         backgroundColor: const Color(0xFF93AACF),
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF93AACF),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: isSearching
-              ? TextField(
-                  controller: _searchController,
-                  onChanged: _filterCategories,
-                  autofocus: true,
-                  decoration: const InputDecoration(
-                    hintText: "Search...",
-                    hintStyle: TextStyle(color: Colors.black54),
-                    border: InputBorder.none,
-                  ),
-                  style: const TextStyle(color: Colors.black, fontSize: 18),
-                )
-              : const Text("Popular Courses",
-                  style: TextStyle(color: Colors.black)),
-          actions: [
-            IconButton(
-              icon: Icon(isSearching ? Icons.close : Icons.search,
-                  color: Colors.black),
-              onPressed: () {
-                setState(() {
-                  isSearching = !isSearching;
-                  if (!isSearching) {
-                    _searchController.clear();
-                    searchQuery = "";
-                  }
-                });
-              },
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildFilterButton("All"),
-                    if (favoriteCourses.isNotEmpty)
-                      _buildFilterButton("Favorite Courses"),
-                    _buildFilterButton("Education"),
-                    _buildFilterButton("Religion"),
-                    _buildFilterButton("Technology"),
-                    _buildFilterButton("Civilization"),
-                    _buildFilterButton("Entertainment"),
-                  ],
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EducartoonScreen(
+                  courseTitle: "Default Title", // حط عنوان مناسب هنا
+                  course: null, // أو حط كائن حقيقي لو متوفر
                 ),
               ),
-            ),
-            Expanded(
-              child: BlocBuilder<PopularCoursesCubit, PopularCoursesState>(
-                builder: (context, state) {
-                  if (state is NotFounded){
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return ListView.builder(
-                    itemCount: filteredCourses.length,
-                    itemBuilder: (context, index) {
-                      var course = filteredCourses[index];
-                      var course1 =PopularCoursesCubit.get(context);
-                      return Card(
-                        color: Colors.white,
-                        child: ListTile(
-                          leading: SizedBox(
-                            width: 80,
-                            height:100,
-                            child: CachedNetworkImage(
-                              imageUrl: "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=", //course1.urlImg(age: course.ageGroup,cat: course.category), // Replace with your actual image URL
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Container(
-                                color: Colors.grey[300],
-                                child: const Center(
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: 2)),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Container(
-                                color: Colors.grey,
-                                child: const Icon(Icons.error,
-                                    color: Colors.red),
-                              ),
-                            ),
-                          ),
-                          //Container(
-                          //   width: 80,
-                          //   height: 80,
-                          //   decoration: BoxDecoration(
-                          //     color: Colors.black,
-                          //     borderRadius: BorderRadius.circular(8.0),
-                          //   ),
-                          // ),
-                          title: Text("${course.title} (${course.ageGroup})"),
-                          subtitle: Text(
-                              "⭐ ${course.rating} | ${course.students} Students"),
-                          trailing: IconButton(
-                            icon: Icon(
-                              course.isFavorite
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_border,
-                              color: course.isFavorite
-                                  ? Colors.green
-                                  : Colors.grey,
-                            ),
-                            onPressed: () => toggleFavorite(course),
-                          ),
-                          onTap: () => _navigateToCourseDetail(course),
-                        ),
-                      );
-                    },
-                  );
-                },
+            );
+          },
+        ),
+        title: isSearching
+            ? TextField(
+                controller: _searchController,
+                onChanged: _filterCategories,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: "Search...",
+                  hintStyle: TextStyle(color: Colors.black54),
+                  border: InputBorder.none,
+                ),
+                style: const TextStyle(color: Colors.black, fontSize: 16),
+              )
+            : const Text("Popular Courses", style: TextStyle(color: Colors.black)),
+        actions: [
+          IconButton(
+            icon: Icon(isSearching ? Icons.close : Icons.search, color: Colors.black),
+            onPressed: () {
+              setState(() {
+                isSearching = !isSearching;
+                if (!isSearching) {
+                  _searchController.clear();
+                  searchQuery = "";
+                }
+              });
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildFilterButton("All"),
+                  if (favoriteCourses.isNotEmpty) _buildFilterButton("Favorite Courses"),
+                  _buildFilterButton("Education"),
+                  _buildFilterButton("Religion"),
+                  _buildFilterButton("Civilization"),
+                  _buildFilterButton("Technology"),
+                  _buildFilterButton("Entertainment"),
+                  _buildFilterButton("Behavior"),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: BlocBuilder<PopularCoursesCubit, PopularCoursesState>(
+              builder: (context, state) {
+                if (state is NotFounded){
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return ListView.builder(
+                  itemCount: filteredCourses.length,
+                  itemBuilder: (context, index) {
+                    var course = filteredCourses[index];
+                    var course1 =PopularCoursesCubit.get(context);
+                    return Card(
+                      color: Colors.white,
+                      child: ListTile(
+                        leading: SizedBox(
+                          width: 80,
+                          height:100,
+                          child: CachedNetworkImage(
+                            imageUrl: convertGoogleDriveUrl(course1.urlImg(age: course.ageGroup,cat: course.category)),
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              color: Colors.grey[300],
+                              child: const Center(
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2)),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Container(
+                                  color: Colors.grey,
+                                  child: const Icon(Icons.error,
+                                      color: Colors.red),
+                                ),
+                          ),
+                        ),
+                        //Container(
+                        //   width: 80,
+                        //   height: 80,
+                        //   decoration: BoxDecoration(
+                        //     color: Colors.black,
+                        //     borderRadius: BorderRadius.circular(8.0),
+                        //   ),
+                        // ),
+                        title: Text("${course.title} (${course.ageGroup})"),
+                        subtitle: Text(
+                            "⭐ ${course.rating} | ${course.students} Students"),
+                        trailing: IconButton(
+                          icon: Icon(
+                            course.isFavorite
+                                ? Icons.bookmark
+                                : Icons.bookmark_border,
+                            color: course.isFavorite
+                                ? Colors.green
+                                : Colors.grey,
+                          ),
+                          onPressed: () => toggleFavorite(course),
+                        ),
+                        onTap: () => _navigateToCourseDetail(course),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
-    );
-  }
-}
-
-class YourCustomPage extends StatelessWidget {
-  final Course course;
-
-  const YourCustomPage({super.key, required this.course});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(course.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(course.title,
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            Text("Category: ${course.category}"),
-            Text("Rating: ${course.rating} ⭐"),
-            Text("Students: ${course.students}"),
-            Text("Age Group: ${course.ageGroup}"),
-            const SizedBox(height: 20),
-            const Text("Course Details go here..."),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// مثال على صفحة جديدة لكل كورس
-class StartCoursesPage extends StatelessWidget {
-  final Course course;
-
-  const StartCoursesPage({super.key, required this.course});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(course.title)),
-      body: Center(child: Text("Welcome to ${course.title}")),
+    ),
     );
   }
 }

@@ -1,7 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/educartoon_screen.dart';
-import 'package:flutter_application_3/popular.dart';
+
 
 void main() {
   runApp(const CoursesScreenApp());
