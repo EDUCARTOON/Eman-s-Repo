@@ -3,16 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class CourseVideoPlayerScreen extends StatefulWidget {
+class CourseVideoPlayerScreenBody extends StatefulWidget {
   final String videoUrl;
 
-  const CourseVideoPlayerScreen({super.key, required this.videoUrl});
+  const CourseVideoPlayerScreenBody({super.key, required this.videoUrl});
 
   @override
-  State<CourseVideoPlayerScreen> createState() => _CourseVideoPlayerScreenState();
+  State<CourseVideoPlayerScreenBody> createState() => _CourseVideoPlayerScreenState();
 }
 
-class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
+class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreenBody> {
   late VideoPlayerController _videoController;
   YoutubePlayerController? _youtubeController;
 
@@ -97,7 +97,6 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
       builder: (context, player) {
         return Scaffold(
           backgroundColor: Colors.black,
-          appBar: AppBar(title: const Text("YouTube Player")),
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +111,6 @@ class _CourseVideoPlayerScreenState extends State<CourseVideoPlayerScreen> {
     )
         : Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(title: const Text("Video Player")),
       body: _videoController.value.isInitialized
           ? Column(
         mainAxisAlignment: MainAxisAlignment.center,

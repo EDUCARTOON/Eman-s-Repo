@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/CivilizationCourses.dart';
 import 'package:flutter_application_3/EntertainmentCourses.dart';
@@ -6,7 +7,12 @@ import 'package:flutter_application_3/StartCourses.dart';
 import 'package:flutter_application_3/TechnologyCourses.dart';
 import 'package:flutter_application_3/BehaviorCourses.dart'; // تأكد من أن لديك ملف BehaviorCourses.dart
 import 'package:flutter_application_3/educartoon_screen.dart';
+import 'package:flutter_application_3/features/popular_courses/data/repositories/courses_repo_impl.dart';
+import 'package:flutter_application_3/features/popular_courses/presentation/manager/cubit/courses_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../data/data_sources/courses_remote_datasources.dart';
 
 void main() {
   runApp(const MyApp());
@@ -202,16 +208,16 @@ class _PopularState extends State<Popular> {
       final fileId = match.group(1);
       return 'https://drive.google.com/uc?export=view&id=$fileId';
     } else {
-      throw Exception('Invalid Google Drive URL');
+      return"";
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => PopularCourseCubit(
-      PopularCourseRepoImpl(
-        popularCoursesRemoteDataSource: PopularCourseRemoteDataSource(),
+        create: (context) => PopularCoursesCubit(
+      PopularCoursesRepoImpl(
+        popularCoursesRemoteDataSource: PopularCoursesRemoteDataSource(),
       ),
     )..fetchCourses(),
     child: Scaffold(
@@ -337,7 +343,12 @@ class _PopularState extends State<Popular> {
                           ),
                           onPressed: () => toggleFavorite(course),
                         ),
-                        onTap: () => _navigateToCourseDetail(course),
+                        onTap: () =>Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => StartCoursesApp(course: courses[index],)
+                          ),
+                        ) ,//_navigateToCourseDetail(course),
                       ),
                     );
                   },

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_application_3/core/widgets/custom_snack_bar.dart';
 
-class WebViewScreen extends StatefulWidget {
-  const WebViewScreen({super.key, required this.url});
+class WebViewScreenBody extends StatefulWidget {
+  const WebViewScreenBody({super.key, required this.url});
   final String url;
 
   @override
-  State<WebViewScreen> createState() => _WebViewScreenState();
+  State<WebViewScreenBody> createState() => _WebViewScreenState();
 }
 
-class _WebViewScreenState extends State<WebViewScreen> {
+class _WebViewScreenState extends State<WebViewScreenBody> {
   InAppWebViewController? webViewController;
 
   @override

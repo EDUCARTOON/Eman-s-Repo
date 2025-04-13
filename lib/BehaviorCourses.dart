@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'features/popular_courses/presentation/pages/popular.dart';
 // استيراد Course من popular.dart
  // تأكد من المسار المناسب بناءً على مكان ملف popular.dart
 

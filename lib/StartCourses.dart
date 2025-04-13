@@ -2,26 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/course_video_player.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/web_view.dart';
 
+import 'features/popular_courses/presentation/pages/popular.dart';
 
-void main() {
-  runApp(const StartCoursesPage());
-}
+
+// void main() {
+//   runApp(const StartCoursesPage());
+// }
 
 class StartCoursesApp extends StatelessWidget {
-  const StartCoursesApp({super.key, required Course course});
-
+  const StartCoursesApp({super.key, required this.course});
+final Course course;
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: StartCoursesPage(),
+      home: StartCoursesPage(course: course,),
     );
   }
 }
 
 class StartCoursesPage extends StatelessWidget {
-  const StartCoursesPage({super.key});
-
+  const StartCoursesPage({super.key, required this.course});
+final Course course;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +70,8 @@ class StartCoursesPage extends StatelessWidget {
               ),
             ),
             // تقليل المسافة بين العناصر
-            const CourseSection(sectionTitle: 'Section 01 - Education', duration: '25 Mins'),
-            const CourseSection(sectionTitle: 'Section 02 - Education', duration: '25 Mins'),
+             CourseSection(sectionTitle: course.title, duration: '25 Mins'),
+             CourseSection(sectionTitle: course.title, duration: '25 Mins'),
           ],
         ),
       ),
@@ -173,7 +175,7 @@ class WebViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Web View")),
-      body: Center(child: Text('Loading $url')),
+      body: WebViewScreenBody(url: url,),
     );
   }
 }
@@ -186,7 +188,7 @@ class CourseVideoPlayerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Course Video Player")),
-      body: Center(child: Text('Playing video from $videoUrl')),
+      body: CourseVideoPlayerScreenBody(videoUrl: videoUrl,),
     );
   }
 }

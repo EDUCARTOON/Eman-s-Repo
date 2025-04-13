@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'features/popular_courses/presentation/pages/popular.dart';
+
 
 void main() {
   runApp(const CivilizationCoursesPage());
