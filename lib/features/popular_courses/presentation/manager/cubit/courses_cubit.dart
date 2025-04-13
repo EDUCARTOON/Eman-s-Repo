@@ -26,7 +26,7 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
           log(r.toString());
         },);
   }
-  urlImg({required String cat, required String age,}){
+  String urlImg({required String cat, required String age,}){
     try {
       final matchingCourse =  courses.firstWhere(
                 (element) => element.category == cat && element.age == age,
@@ -35,8 +35,8 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
       return  matchingCourse.url;
 
     } catch (e) {
-      emit(NotFounded());
-      return"";
+      //emit(NotFounded());
+      return "https://drive.google.com/file/d/1lCjmKi6Cz2qFrBayw9d2QbWISRUkHiNB/view?usp=drive_link";
     }
   }
 }

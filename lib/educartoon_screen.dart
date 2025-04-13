@@ -5,6 +5,8 @@ import 'package:flutter_application_3/core/app_shared_variables.dart';
 
 import 'package:flutter_application_3/top.dart';
 
+import 'features/popular_courses/presentation/pages/popular.dart';
+
 class EducartoonScreen extends StatelessWidget {
   const EducartoonScreen({super.key, required String courseTitle, required course});
 

@@ -22,12 +22,14 @@ import 'package:flutter_application_3/features/inbox/presentation/cubit/inbox_cu
 import 'package:flutter_application_3/features/inbox/presentation/pages/ChatBotApp.dart';
 import 'package:flutter_application_3/features/layout/layout_body.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile2.dart';
+import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/pin_code_screen.dart';
 import 'package:flutter_application_3/top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/on_boarding/presentation/splash/splash1.dart';
+import '../../features/popular_courses/presentation/pages/popular.dart';
 
 
 abstract class AppRouter {
@@ -37,7 +39,7 @@ abstract class AppRouter {
         if (state.matchedLocation != Routes.welcomeScreen) {
           return null;
         }
-        if (isLogin==false) {
+        if (!isLogin==false) {
           log("Redirecting to Welcome Screen");
           return Routes.splashScreen;
         } else {
