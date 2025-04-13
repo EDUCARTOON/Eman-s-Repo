@@ -11,6 +11,7 @@ class PopularCoursesRemoteDataSource implements PopularCoursesDataSource{
 final DatabaseReference ref = FirebaseDatabase.instance.ref().child('uploads');
 @override
 Future<Map<dynamic, dynamic>?> fetchCourses() async{
+
       //Map<dynamic,dynamic>? data;
       final DatabaseEvent event = await ref.once();
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
@@ -20,7 +21,9 @@ Future<Map<dynamic, dynamic>?> fetchCourses() async{
       //   log(fetchData.toString());
       // },);
       //log(data.toString());
+
 return data;
+
 
 }
 

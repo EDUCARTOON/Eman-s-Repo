@@ -4,6 +4,7 @@ import 'package:flutter_application_3/features/courses/data/models/course_model.
 import 'package:flutter_application_3/features/courses/data/repositories/courses_repo_impl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/models/course_model.dart';
 import '../../../data/repositories/courses_repo_impl.dart';
 
 part 'courses_state.dart';

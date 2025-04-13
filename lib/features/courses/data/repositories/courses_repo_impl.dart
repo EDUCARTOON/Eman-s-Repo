@@ -11,7 +11,7 @@ class CoursesRepoImpl implements CourseRepo {
   CoursesRepoImpl({required this.coursesRemoteDataSource});
 
   @override
-  Future <Either<String, List<CourseModel>>> fetchCourses() async{
+  Future <Either<String, List<CoursesModel>>> fetchCourses() async{
     try {
       final courses = await coursesRemoteDataSource.fetchCourses();
       // List<CourseModel> coursesList = [];
@@ -23,7 +23,7 @@ class CoursesRepoImpl implements CourseRepo {
       // return right(coursesList);
 
       return right(courses!.entries.map((entry) {
-        return CourseModel.fromMap(entry.value);
+        return CoursesModel.fromMap(entry.value);
       }).toList());
     } catch (e) {
       return left(e.toString());

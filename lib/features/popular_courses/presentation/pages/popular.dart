@@ -184,23 +184,23 @@ class _PopularState extends State<Popular> {
     );
   }
 
-  void _navigateToCourseDetail(Course course) {
-    Map<String, Widget> coursePages = {
-      "Education": StartCoursesApp(course: course),
-      "Religion": ReligionCoursesApp(course: course),
-      "Civilization": CivilizationCoursesApp(course: course),
-      "Technology": TechnologyCoursesApp(course: course),
-      "Entertainment": EntertainmentCoursesPage(course: course),
-      "Behavior": BehaviorCoursesApp(course: course),
-    };
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => coursePages[course.category] ?? BehaviorCoursesApp(course: course),
-      ),
-    );
-  }
+  // void _navigateToCourseDetail(Course course) {
+  //   Map<String, Widget> coursePages = {
+  //     //"Education": StartCoursesApp(course: course),
+  //     "Religion": ReligionCoursesApp(course: course),
+  //     "Civilization": CivilizationCoursesApp(course: course),
+  //     "Technology": TechnologyCoursesApp(course: course),
+  //     "Entertainment": EntertainmentCoursesPage(course: course),
+  //     "Behavior": BehaviorCoursesApp(course: course),
+  //   };
+  //
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => coursePages[course.category] ?? BehaviorCoursesApp(course: course),
+  //     ),
+  //   );
+  // }
   String convertGoogleDriveUrl(String url) {
     final regex = RegExp(r'd/([a-zA-Z0-9_-]+)');
     final match = regex.firstMatch(url);
@@ -321,14 +321,6 @@ class _PopularState extends State<Popular> {
                                 ),
                           ),
                         ),
-                        //Container(
-                        //   width: 80,
-                        //   height: 80,
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.black,
-                        //     borderRadius: BorderRadius.circular(8.0),
-                        //   ),
-                        // ),
                         title: Text("${course.title} (${course.ageGroup})"),
                         subtitle: Text(
                             "⭐ ${course.rating} | ${course.students} Students"),
@@ -346,7 +338,7 @@ class _PopularState extends State<Popular> {
                         onTap: () =>Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => StartCoursesApp(course: courses[index],)
+                            builder: (context) => StartCoursesApp(course: courses[index], courseModel: course1.courses[index],)
                           ),
                         ) ,//_navigateToCourseDetail(course),
                       ),

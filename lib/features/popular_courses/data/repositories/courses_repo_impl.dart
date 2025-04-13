@@ -4,6 +4,7 @@ import 'package:flutter_application_3/features/courses/data/models/course_model.
 
 import '../../domain/repositories/courses_repo.dart';
 import '../data_sources/courses_remote_datasources.dart';
+import '../models/course_model.dart';
 
 class PopularCoursesRepoImpl implements PopularCourseRepo {
   final PopularCoursesRemoteDataSource popularCoursesRemoteDataSource;
@@ -13,6 +14,7 @@ class PopularCoursesRepoImpl implements PopularCourseRepo {
   @override
   Future <Either<String, List<CourseModel>>> fetchCourses() async{
     try {
+      print("process started");
       final courses = await popularCoursesRemoteDataSource.fetchCourses();
       // List<CourseModel> coursesList = [];
       // if (courses != null) {
@@ -21,11 +23,13 @@ class PopularCoursesRepoImpl implements PopularCourseRepo {
       //   });
       // }
       // return right(coursesList);
-
-      return right(courses!.entries.map((entry) {
-        return CourseModel.fromMap(entry.value);
+      if (courses == null)return right([]);
+      return right(courses.entries.map((entry) {
+        final itemMap = entry.value as Map<dynamic, dynamic> ;
+        return CourseModel.fromMap(itemMap);
       }).toList());
     } catch (e) {
+      print(e.toString());
       return left(e.toString());
     }
   }

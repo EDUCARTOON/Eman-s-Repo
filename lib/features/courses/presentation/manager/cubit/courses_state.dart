@@ -9,7 +9,7 @@ abstract class CoursesState  {
 
 class CoursesInitial extends CoursesState {}
 class CoursesSuccess extends CoursesState {
-  final List<CourseModel> courses;
+  final List<CoursesModel> courses;
 
   CoursesSuccess({required this.courses});
 }

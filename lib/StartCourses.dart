@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/features/courses/data/models/course_model.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/course_video_player.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/web_view.dart';
 
+import 'features/popular_courses/data/models/course_model.dart';
 import 'features/popular_courses/presentation/pages/popular.dart';
-
 
 // void main() {
 //   runApp(const StartCoursesPage());
 // }
 
 class StartCoursesApp extends StatelessWidget {
-  const StartCoursesApp({super.key, required this.course});
-final Course course;
+  const StartCoursesApp(
+      {super.key, required this.course, required this.courseModel});
+  final Course course;
+  final CourseModel courseModel;
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: StartCoursesPage(course: course,),
+      home: StartCoursesPage(
+        course: course,
+        courseModel: courseModel,
+      ),
     );
   }
 }
 
 class StartCoursesPage extends StatelessWidget {
-  const StartCoursesPage({super.key, required this.course});
-final Course course;
+  final CourseModel courseModel;
+  const StartCoursesPage(
+      {super.key, required this.course, required this.courseModel});
+  final Course course;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,29 +59,47 @@ final Course course;
         ),
         centerTitle: false,
       ),
-      body: SingleChildScrollView( // التمرير لعرض الصفحة بالكامل
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0), // تقليل المسافة هنا
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search for ...',
-                  filled: true,
-                  fillColor: Colors.white,
-                  prefixIcon: const Icon(Icons.search, color: Colors.black),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none,
-                  ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0), // تقليل المسافة هنا
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search for ...',
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.search, color: Colors.black),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
                 ),
               ),
             ),
-            // تقليل المسافة بين العناصر
-             CourseSection(sectionTitle: course.title, duration: '25 Mins'),
-             CourseSection(sectionTitle: course.title, duration: '25 Mins'),
-          ],
-        ),
+          ),
+          courseModel.videoUrl!.isEmpty
+              ? const Center(
+                  child: Text(
+                    "No Courses Now ",
+                    style: TextStyle(color: Colors.black, fontSize: 22),
+                  ),
+                )
+              : Expanded(
+                child: ListView.builder(
+                    itemCount: courseModel.videoUrl!.length,
+                    itemBuilder: (context, index) {
+                      return CourseSection(
+                        sectionTitle: course.title,
+                        duration: '25 Mins',
+                        courseModel: courseModel,
+                        courseId: index,
+                      );
+                    },
+                  ),
+              ),
+          // تقليل المسافة بين العناصر
+          //CourseSection(sectionTitle: course.title, duration: '25 Mins'),
+          // CourseSection(sectionTitle: course.title, duration: '25 Mins'),
+        ],
       ),
     );
   }
@@ -82,13 +108,20 @@ final Course course;
 class CourseSection extends StatelessWidget {
   final String sectionTitle;
   final String duration;
-
-  const CourseSection({super.key, required this.sectionTitle, required this.duration});
+  final CourseModel courseModel;
+  final int courseId;
+  const CourseSection(
+      {super.key,
+      required this.sectionTitle,
+      required this.duration,
+      required this.courseModel,
+      required this.courseId});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0), // تقليل المسافة بين الأقسام
+      padding: const EdgeInsets.symmetric(
+          horizontal: 10.0, vertical: 5.0), // تقليل المسافة بين الأقسام
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
@@ -101,15 +134,36 @@ class CourseSection extends StatelessWidget {
                 children: [
                   Text(
                     sectionTitle,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   Text(duration, style: const TextStyle(color: Colors.blue)),
                 ],
               ),
               const SizedBox(height: 8),
-              const CourseItem(index: '01', title: 'name', duration: '15 Mins'),
-              const CourseItem(index: '02', title: 'name', duration: '10 Mins'),
-              const CourseItem(index: '03', title: 'Quiz', duration: ''),
+              CourseItem(
+                index: '01',
+                title: 'name',
+                duration: '15 Mins',
+                courseModel: courseModel,
+                courseId: courseId,
+              ),
+              courseModel.videoUrl2!.isEmpty
+                  ? const SizedBox()
+                  : CourseItem(
+                      index: '02',
+                      title: 'name',
+                      duration: '10 Mins',
+                      courseModel: courseModel,
+                      courseId: courseId,
+                    ),
+              CourseItem(
+                index: '03',
+                title: 'Quiz',
+                duration: '',
+                courseModel: courseModel,
+                courseId: courseId,
+              ),
             ],
           ),
         ),
@@ -122,8 +176,15 @@ class CourseItem extends StatelessWidget {
   final String index;
   final String title;
   final String duration;
-
-  const CourseItem({super.key, required this.index, required this.title, required this.duration});
+  final CourseModel courseModel;
+  final int courseId;
+  const CourseItem(
+      {super.key,
+      required this.index,
+      required this.title,
+      required this.duration,
+      required this.courseModel,
+      required this.courseId});
 
   @override
   Widget build(BuildContext context) {
@@ -144,21 +205,25 @@ class CourseItem extends StatelessWidget {
           padding: const EdgeInsets.all(10),
         ),
         onPressed: () {
-          if(index == '03'){
+          if (index == '03') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const WebViewScreen(url:
-              "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",)),
+              MaterialPageRoute(
+                  builder: (context) => const WebViewScreen(
+                        url:
+                            "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",
+                      )),
             );
             return;
           }
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CourseVideoPlayerScreen(videoUrl:
-            // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'
-            //"https://drive.google.com/file/d/1UAZPaYY5h0maiSQScKDh5Awci1eAxikk/view"
-              "https://youtu.be/CiI5AexYO2E?si=ZyTFJFBwO4pPdqEf"
-            ,)),
+            MaterialPageRoute(
+                builder: (context) => CourseVideoPlayerScreen(
+                      videoUrl: index == '01'
+                          ? courseModel.videoUrl![courseId]
+                          : courseModel.videoUrl2![courseId],
+                    )),
           );
         },
         child: const Icon(Icons.play_arrow, color: Colors.white),
@@ -175,7 +240,9 @@ class WebViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Web View")),
-      body: WebViewScreenBody(url: url,),
+      body: WebViewScreenBody(
+        url: url,
+      ),
     );
   }
 }
@@ -188,7 +255,9 @@ class CourseVideoPlayerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Course Video Player")),
-      body: CourseVideoPlayerScreenBody(videoUrl: videoUrl,),
+      body: CourseVideoPlayerScreenBody(
+        videoUrl: videoUrl,
+      ),
     );
   }
 }
