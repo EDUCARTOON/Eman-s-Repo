@@ -28,20 +28,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/on_boarding/presentation/splash/splash1.dart';
-import '../../popular.dart';
+
 
 abstract class AppRouter {
   static GoRouter router = GoRouter(
       initialLocation: Routes.welcomeScreen,
-      redirect: (context, state) async {
-          //  return Routes.onBoarding;
-     
-          bool isLogin = await CacheHelper.getData("isLogin")??false;
-        // log( "isLogin $isLogin");
+      redirect: (context, state) {
         if (state.matchedLocation != Routes.welcomeScreen) {
           return null;
         }
-
         if (isLogin==false) {
           log("Redirecting to Welcome Screen");
           return Routes.splashScreen;
