@@ -34,12 +34,9 @@ class StartCoursesPage extends StatelessWidget {
   final Course course;
   String getFullTime(CourseModel course,int index){
     if (course.videoUrl2.isEmpty){
-      return course.videoUrl1[index].time;
+      return getTime(course.videoUrl1[index].time);
     }else {
-     final time1 = int.parse(course.videoUrl1[index].time) ;
-    final time2 = int.parse(course.videoUrl2[index].time);
-    final totalTime = time1 + time2 ;
-    return '${totalTime}';
+    return getTime(course.videoUrl1[index].time+course.videoUrl2[index].time);
     }
   }
   @override
@@ -99,7 +96,7 @@ class StartCoursesPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CourseSection(
                         sectionTitle: course.title,
-                        duration: getTime(getFullTime(courseModel, index)),
+                        duration: getFullTime(courseModel, index),
                         courseModel: courseModel,
                         courseId: index,
                       );
@@ -275,10 +272,13 @@ class CourseVideoPlayerScreen extends StatelessWidget {
     );
   }
 }
-String getTime(String time){
-  if(time.length==3){
-    return "${time[0]}:${time[1]}${time[2]}";
-  }
-  else{
-    return '0:${time}';
-  }}
+String getTime(int time){
+  final minutes = time ~/ 60;
+  final seconds = time % 60;
+
+  String result = '';
+  if (minutes > 0) result += '${minutes}m ';
+  if (seconds > 0 || minutes == 0) result += '${seconds}s';
+
+  return result.trim();
+}
