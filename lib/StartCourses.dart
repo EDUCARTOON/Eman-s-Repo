@@ -32,6 +32,16 @@ class StartCoursesPage extends StatelessWidget {
   const StartCoursesPage(
       {super.key, required this.course, required this.courseModel});
   final Course course;
+  String getFullTime(CourseModel course,int index){
+    if (course.videoUrl2.isEmpty){
+      return course.videoUrl1[index].time;
+    }else {
+     final time1 = int.parse(course.videoUrl1[index].time) ;
+    final time2 = int.parse(course.videoUrl2[index].time);
+    final totalTime = time1 + time2 ;
+    return '${totalTime}';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +86,7 @@ class StartCoursesPage extends StatelessWidget {
               ),
             ),
           ),
-          courseModel.videoUrl!.isEmpty
+          courseModel.videoUrl1.isEmpty
               ? const Center(
                   child: Text(
                     "No Courses Now ",
@@ -85,11 +95,11 @@ class StartCoursesPage extends StatelessWidget {
                 )
               : Expanded(
                 child: ListView.builder(
-                    itemCount: courseModel.videoUrl!.length,
+                    itemCount: courseModel.videoUrl1.length,
                     itemBuilder: (context, index) {
                       return CourseSection(
                         sectionTitle: course.title,
-                        duration: '25 Mins',
+                        duration: getTime(getFullTime(courseModel, index)),
                         courseModel: courseModel,
                         courseId: index,
                       );
@@ -110,12 +120,15 @@ class CourseSection extends StatelessWidget {
   final String duration;
   final CourseModel courseModel;
   final int courseId;
+
   const CourseSection(
       {super.key,
       required this.sectionTitle,
       required this.duration,
       required this.courseModel,
       required this.courseId});
+ 
+
 
   @override
   Widget build(BuildContext context) {
@@ -140,20 +153,21 @@ class CourseSection extends StatelessWidget {
                   Text(duration, style: const TextStyle(color: Colors.blue)),
                 ],
               ),
+
               const SizedBox(height: 8),
               CourseItem(
                 index: '01',
-                title: 'name',
-                duration: '15 Mins',
+                title: courseModel.videoUrl1[courseId].name,
+                duration: getTime(courseModel.videoUrl1[courseId].time),
                 courseModel: courseModel,
                 courseId: courseId,
               ),
-              courseModel.videoUrl2!.isEmpty
+              courseModel.videoUrl2.isEmpty
                   ? const SizedBox()
                   : CourseItem(
                       index: '02',
-                      title: 'name',
-                      duration: '10 Mins',
+                title: courseModel.videoUrl2[courseId].name,
+                duration:getTime(courseModel.videoUrl2[courseId].time),
                       courseModel: courseModel,
                       courseId: courseId,
                     ),
@@ -221,8 +235,8 @@ class CourseItem extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => CourseVideoPlayerScreen(
                       videoUrl: index == '01'
-                          ? courseModel.videoUrl![courseId]
-                          : courseModel.videoUrl2![courseId],
+                          ? courseModel.videoUrl1[courseId].url
+                          : courseModel.videoUrl2[courseId].url,
                     )),
           );
         },
@@ -261,3 +275,10 @@ class CourseVideoPlayerScreen extends StatelessWidget {
     );
   }
 }
+String getTime(String time){
+  if(time.length==3){
+    return "${time[0]}:${time[1]}${time[2]}";
+  }
+  else{
+    return '0:${time}';
+  }}

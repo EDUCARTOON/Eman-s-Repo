@@ -26,7 +26,7 @@ class PopularCoursesRepoImpl implements PopularCourseRepo {
       if (courses == null)return right([]);
       return right(courses.entries.map((entry) {
         final itemMap = entry.value as Map<dynamic, dynamic> ;
-        return CourseModel.fromMap(itemMap);
+        return CourseModel.fromJson(itemMap);
       }).toList());
     } catch (e) {
       print(e.toString());
