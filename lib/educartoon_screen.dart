@@ -24,12 +24,12 @@ class EducartoonScreen extends StatelessWidget {
     ];
 
     final List<Map<String, dynamic>> courses = [
-      {'title': 'Education', 'rating': 4.2, 'students': 7830, 'instructor': 'name'},
-      {'title': 'Religion', 'rating': 4.3, 'students': 4560, 'instructor': 'name'},
-      {'title': 'Behavior', 'rating': 4.1, 'students': 3980, 'instructor': 'name'},
-      {'title': 'Technology', 'rating': 4.5, 'students': 6240, 'instructor': 'name'},
-      {'title': 'Civilization', 'rating': 4.0, 'students': 2100, 'instructor': 'name'},
-      {'title': 'Entertainment', 'rating': 4.4, 'students': 5100, 'instructor': 'name'},
+      {'title': 'Education', 'rating': 4.2, 'students': 7830, 'instructor': 'name','img':'assets/img/Education 5-8.jpeg.jpg'},
+      {'title': 'Religion', 'rating': 4.3, 'students': 4560, 'instructor': 'name','img':'assets/img/Religion 5-8.jpeg.jpg'},
+      {'title': 'Behavior', 'rating': 4.1, 'students': 3980, 'instructor': 'name','img':'assets/img/Behavior 3-5.jpeg.jpg'},
+      {'title': 'Technology', 'rating': 4.5, 'students': 6240, 'instructor': 'name','img':'assets/img/Technology 5-8.jpeg.jpg'},
+      {'title': 'Civilization', 'rating': 4.0, 'students': 2100, 'instructor': 'name','img':'assets/img/civilization 8-12 (1).jpeg.jpg'},
+      {'title': 'Entertainment', 'rating': 4.4, 'students': 5100, 'instructor': 'name','img':'assets/img/Entertainment 5-8.jpeg.jpg'},
     ];
 
     final List<String> mentorNames = ['Lina', 'Omar', 'Sara', 'Youssef', 'Mona', 'Ali'];
@@ -155,6 +155,7 @@ class EducartoonScreen extends StatelessWidget {
                         rating: course['rating'],
                         students: course['students'],
                         instructor: course['instructor'],
+                        img: course['img'],
                       ),
                     );
                   },
@@ -229,13 +230,13 @@ class CourseCard extends StatelessWidget {
   final double rating;
   final int students;
   final String instructor;
-
+final String img;
   const CourseCard({
     super.key,
     required this.title,
     required this.rating,
     required this.students,
-    required this.instructor,
+    required this.instructor, required this.img,
   });
 
   @override
@@ -255,17 +256,28 @@ class CourseCard extends StatelessWidget {
           Container(
             height: 100,
             width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-            ),
-            child: Center(
-              child: Text(
-                title,
-                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            decoration:  BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(img), // <-- replace with your image path
+                fit: BoxFit.cover,
               ),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             ),
           ),
+          // Container(
+          //   height: 100,
+          //   width: double.infinity,
+          //   decoration: const BoxDecoration(
+          //     color: Colors.black,
+          //     borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          //   ),
+          //   child: Center(
+          //     child: Text(
+          //       title,
+          //       style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(

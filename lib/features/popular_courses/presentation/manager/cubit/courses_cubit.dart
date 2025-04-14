@@ -24,6 +24,7 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
         (r) {
           emit(PopularCoursesSuccess(courses: r));
           courses = r;
+          print(r[0].videoUrl1.length);
           log(r.toString());
         },);
   }
@@ -37,7 +38,14 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
 
     } catch (e) {
       //emit(NotFounded());
-      return "https://drive.google.com/file/d/1lCjmKi6Cz2qFrBayw9d2QbWISRUkHiNB/view?usp=drive_link";
+      return"";
     }
+  }
+  CourseModel course({required String cat, required String age,}){
+      final matchingCourse =  courses.firstWhere(
+            (element) => element.category == cat && element.age == age,
+      );
+      //emit(Founded());
+      return  matchingCourse;
   }
 }

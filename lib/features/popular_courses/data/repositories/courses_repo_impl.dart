@@ -12,25 +12,27 @@ class PopularCoursesRepoImpl implements PopularCourseRepo {
   PopularCoursesRepoImpl({required this.popularCoursesRemoteDataSource});
 
   @override
-  Future <Either<String, List<CourseModel>>> fetchCourses() async{
+  Future<Either<String, List<CourseModel>>> fetchCourses() async {
     try {
-      print("process started");
+      print("Process started");
       final courses = await popularCoursesRemoteDataSource.fetchCourses();
-      // List<CourseModel> coursesList = [];
-      // if (courses != null) {
-      //   courses.forEach((key, value) {
-      //     coursesList.add(CourseModel.fromMap(value));
-      //   });
-      // }
-      // return right(coursesList);
-      if (courses == null)return right([]);
-      return right(courses.entries.map((entry) {
-        final itemMap = entry.value as Map<dynamic, dynamic> ;
-        return CourseModel.fromJson(itemMap);
-      }).toList());
+
+      if (courses == null) {
+        return right([]);
+      }
+
+      // Properly handle the casting for each course entry
+      return right(
+        courses.entries.map((entry) {
+          // Ensure that the data is properly cast to Map<String, dynamic>
+          final itemMap = Map<String, dynamic>.from(entry.value as Map);
+          return CourseModel.fromJson(itemMap);
+        }).toList(),
+      );
     } catch (e) {
       print(e.toString());
       return left(e.toString());
     }
   }
+
 }

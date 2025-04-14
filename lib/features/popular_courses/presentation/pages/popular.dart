@@ -314,11 +314,9 @@ class _PopularState extends State<Popular> {
                                       strokeWidth: 2)),
                             ),
                             errorWidget: (context, url, error) =>
-                                Container(
-                                  color: Colors.grey,
-                                  child: const Icon(Icons.error,
-                                      color: Colors.red),
-                                ),
+                            const Center(
+                                child: CircularProgressIndicator(
+                                    strokeWidth: 2)),
                           ),
                         ),
                         title: Text("${course.title} (${course.ageGroup})"),
@@ -335,12 +333,15 @@ class _PopularState extends State<Popular> {
                           ),
                           onPressed: () => toggleFavorite(course),
                         ),
-                        onTap: () =>Navigator.push(
+                        onTap: () {
+                          print(course1.courses[index].videoUrl1);
+                          Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => StartCoursesApp(course: courses[index], courseModel: course1.courses[index],)
+                            builder: (context) => StartCoursesApp(course: courses[index], courseModel: course1.course(age: course.ageGroup,cat: course.category),)
                           ),
-                        ) ,//_navigateToCourseDetail(course),
+                        );
+                        } ,//_navigateToCourseDetail(course),
                       ),
                     );
                   },
