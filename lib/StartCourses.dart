@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/features/courses/data/models/course_model.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/course_video_player.dart';
 import 'package:flutter_application_3/features/courses/presentation/pages/web_view.dart';
+import 'package:go_router/go_router.dart';
 
 import 'features/popular_courses/data/models/course_model.dart';
 import 'features/popular_courses/presentation/pages/popular.dart';
@@ -14,7 +16,7 @@ class StartCoursesApp extends StatelessWidget {
   const StartCoursesApp(
       {super.key, required this.course, required this.courseModel});
   final Course course;
-  final CourseModel courseModel;
+  final CourseModel? courseModel;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,7 +30,7 @@ class StartCoursesApp extends StatelessWidget {
 }
 
 class StartCoursesPage extends StatelessWidget {
-  final CourseModel courseModel;
+  final CourseModel? courseModel;
   const StartCoursesPage(
       {super.key, required this.course, required this.courseModel});
   final Course course;
@@ -49,15 +51,15 @@ class StartCoursesPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Popular(
-                  courseTitle: "Default Title", // حط عنوان مناسب هنا
-                  course: null, // أو حط كائن حقيقي لو متوفر
-                ),
-              ),
-            );
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => const Popular(
+            //        // أو حط كائن حقيقي لو متوفر
+            //     ),
+            //   ),
+            // );
+            context.pushReplacement(Routes.popularCoursesScreen);
           },
         ),
         title: const Text(
@@ -66,7 +68,7 @@ class StartCoursesPage extends StatelessWidget {
         ),
         centerTitle: false,
       ),
-      body: Column(
+      body: courseModel==null? const Center(child: CircularProgressIndicator(),): Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0), // تقليل المسافة هنا
@@ -83,7 +85,7 @@ class StartCoursesPage extends StatelessWidget {
               ),
             ),
           ),
-          courseModel.videoUrl1.isEmpty
+          courseModel!.videoUrl1.isEmpty
               ? const Center(
                   child: Text(
                     "No Courses Now ",
@@ -92,12 +94,12 @@ class StartCoursesPage extends StatelessWidget {
                 )
               : Expanded(
                 child: ListView.builder(
-                    itemCount: courseModel.videoUrl1.length,
+                    itemCount: courseModel!.videoUrl1.length,
                     itemBuilder: (context, index) {
                       return CourseSection(
                         sectionTitle: course.title,
-                        duration: getFullTime(courseModel, index),
-                        courseModel: courseModel,
+                        duration: getFullTime(courseModel!, index),
+                        courseModel: courseModel!,
                         courseId: index,
                       );
                     },

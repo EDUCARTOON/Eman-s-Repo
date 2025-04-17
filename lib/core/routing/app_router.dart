@@ -30,7 +30,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/on_boarding/presentation/splash/splash1.dart';
 import '../../features/popular_courses/presentation/pages/popular.dart';
-
+import '../../features/profile/presentation/pages/EditProfile.dart';
 
 abstract class AppRouter {
   static GoRouter router = GoRouter(
@@ -39,7 +39,7 @@ abstract class AppRouter {
         if (state.matchedLocation != Routes.welcomeScreen) {
           return null;
         }
-        if (!isLogin==false) {
+        if (!isLogin == false) {
           log("Redirecting to Welcome Screen");
           return Routes.splashScreen;
         } else {
@@ -47,89 +47,89 @@ abstract class AppRouter {
           return Routes.childrenScreen;
         }
       },
-      routes: <RouteBase>[
-        ShellRoute(
-          builder: (context, state, child) => Layout(child: child),
-          routes: [
-            GoRoute(
-              path: Routes.homeScreen,
-              builder: (context, state) => const EducartoonScreen(course: null, courseTitle: '',),
-            ),
-            GoRoute(
-              path: Routes.coursesScreen,
-              builder: (context, state) => const CoursesScreen(),
-            ),
-            GoRoute(
-              path: Routes.inboxScreen,
-              builder: (context, state) => const ChatBotApp(),
-            ),
-            GoRoute(
-              path: Routes.profileScreen,
-              builder: (context, state) => Profile2Page(onDarkModeToggle: () {  },),
-            ),
-            GoRoute(
-              path: Routes.popularCoursesScreen,
-              builder: (context, state) => const Popular(courseTitle: '', course: null,),
-            ),
-             GoRoute(
-              path: Routes.topScoreScreen,
-              builder: (context, state) => const TopScoreScreen(),
-            ),
-            
+      routes: [
+        GoRoute(
+          path: Routes.homeScreen,
+          builder: (context, state) => const EducartoonScreen(
+            course: null,
+            courseTitle: '',
+          ),
+        ),
+        GoRoute(
+          path: Routes.coursesScreen,
+          builder: (context, state) => const CoursesScreen(),
+        ),
+        GoRoute(
+          path: Routes.inboxScreen,
+          builder: (context, state) => const ChatBotApp(),
+        ),
+        GoRoute(
+          path: Routes.profileScreen,
+          builder: (context, state) => Profile2Page(
+            onDarkModeToggle: () {},
+          ),
+        ),
+        GoRoute(
+          path: Routes.popularCoursesScreen,
+          builder: (context, state) => const Popular(),
+        ),
+        GoRoute(
+          path: Routes.topScoreScreen,
+          builder: (context, state) => const TopScoreScreen(),
+        ),
 
-            // GoRoute(
-            //   path: Routes.searchScreen,
-            //   builder: (context, state) {
-            //     final cubitContext = state.extra as BuildContext;
-            //     return BlocProvider.value(
-            //       value: cubitContext.read<HomeCubit>()
-            //         ..getCategoriesData()
-            //         ..getALLProducts(),
-            //       child: SearchScreen(cubitContext: cubitContext),
-            //     );
-            //   },
-            // ),
-            // GoRoute(
-            //   path: Routes.productDetailsScreen,
-            //   builder: (context, state) {
-            //     final args = state.extra as Map<String, dynamic>?;
-            //     return ProductDetailsScreen(
-            //       product: args?['product'],
-            //       cubit: args?['cubit'],
-            //     );
-            //   },
-            // ),
-            // GoRoute(
-            //   path: Routes.categoryDetailsScreen,
-            //   builder: (context, state) {
-            //     final args = state.extra as Map<String, dynamic>?;
-            //     return CategoryDetails(
-            //       categoryName: args?['categoryName'],
-            //       cubitContext: args?['cubitContext'],
-            //       categoryId: args?['categoryId'],
-            //     );
-            //   },
-            // ),
+        // GoRoute(
+        //   path: Routes.searchScreen,
+        //   builder: (context, state) {
+        //     final cubitContext = state.extra as BuildContext;
+        //     return BlocProvider.value(
+        //       value: cubitContext.read<HomeCubit>()
+        //         ..getCategoriesData()
+        //         ..getALLProducts(),
+        //       child: SearchScreen(cubitContext: cubitContext),
+        //     );
+        //   },
+        // ),
+        // GoRoute(
+        //   path: Routes.productDetailsScreen,
+        //   builder: (context, state) {
+        //     final args = state.extra as Map<String, dynamic>?;
+        //     return ProductDetailsScreen(
+        //       product: args?['product'],
+        //       cubit: args?['cubit'],
+        //     );
+        //   },
+        // ),
+        // GoRoute(
+        //   path: Routes.categoryDetailsScreen,
+        //   builder: (context, state) {
+        //     final args = state.extra as Map<String, dynamic>?;
+        //     return CategoryDetails(
+        //       categoryName: args?['categoryName'],
+        //       cubitContext: args?['cubitContext'],
+        //       categoryId: args?['categoryId'],
+        //     );
+        //   },
+        // ),
 
-
-        
-          ],
+        GoRoute(
+          path: Routes.layoutScreen,
+          builder: (context, state) => const Layout(),
         ),
         GoRoute(
           path: Routes.loginScreen,
           builder: (BuildContext context, GoRouterState state) {
-           
-            return   const LoginScreen();
+            return const LoginScreen();
           },
         ),
-        
+
         GoRoute(
           path: Routes.registerScreen,
           builder: (BuildContext context, GoRouterState state) {
-            return  RegisterScreen();
+            return RegisterScreen();
           },
         ),
-      GoRoute(
+        GoRoute(
           path: Routes.childrenScreen,
           builder: (BuildContext context, GoRouterState state) {
 //             if(state.extra!=null){
@@ -139,65 +139,65 @@ abstract class AppRouter {
 //               const ChildrenScreen());
 //             }
             log("================---");
-          return  BlocProvider(
-create: (context) => ProfileCubit(profileRepository:  getIt.get<ProfileRepoImpl>())..getUserChildren(),
-    child:
-              const ChildrenScreen());
+            return BlocProvider(
+                create: (context) => ProfileCubit(
+                    profileRepository: getIt.get<ProfileRepoImpl>())
+                  ..getUserChildren(),
+                child: const ChildrenScreen());
           },
         ),
-   GoRoute(
+        GoRoute(
           path: Routes.addChildProfile,
           builder: (BuildContext context, GoRouterState state) {
-           
-            return   AddChildProfileScreen(isAdd: state.extra as bool,);
+            return AddChildProfileScreen(
+              isAdd: state.extra as bool,
+            );
           },
         ),
-           GoRoute(
+        GoRoute(
           path: Routes.pinCodeScreen,
           builder: (BuildContext context, GoRouterState state) {
-           
-            return   PinCodeScreen(cubit: state.extra as AuthCubit,);
+            return PinCodeScreen(
+              cubit: state.extra as AuthCubit,
+            );
           },
         ),
-   GoRoute(
+        GoRoute(
           path: Routes.favTopicsScreen,
           builder: (BuildContext context, GoRouterState state) {
-           final args = state.extra as Map<String, dynamic>?;
-   
-            return   FavoriteTopicsScreen(
-                      childModel: args?['childModel'],
-                  profileCubit: args?['profileCubit'],
-                  isAdd: args?['isAdd'],
+            final args = state.extra as Map<String, dynamic>?;
+
+            return FavoriteTopicsScreen(
+              childModel: args?['childModel'],
+              profileCubit: args?['profileCubit'],
+              isAdd: args?['isAdd'],
             );
           },
         ),
-           GoRoute(
+        GoRoute(
           path: Routes.splash1sScreen,
           builder: (BuildContext context, GoRouterState state) {
-   
-            return   const Splash1(
-              
-            );
+            return const Splash1();
           },
         ),
-     GoRoute(
+        GoRoute(
           path: Routes.splashScreen,
           builder: (BuildContext context, GoRouterState state) {
-            return   const Splashscreen(
-            );
+            return const Splashscreen();
           },
         ),
-           GoRoute(
+        GoRoute(
           path: Routes.onBoarding,
           builder: (BuildContext context, GoRouterState state) {
-            return   const Home(
-            );
+            return const Home();
           },
         ),
 
-        
-        
-        
-      
+        GoRoute(
+          path: Routes.editProfileScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            return const EditProfileApp();
+          },
+        ),
       ]);
 }

@@ -36,16 +36,22 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
       //emit(Founded());
       return  matchingCourse.url;
 
+
     } catch (e) {
       //emit(NotFounded());
       return"";
     }
   }
-  CourseModel course({required String cat, required String age,}){
-      final matchingCourse =  courses.firstWhere(
-            (element) => element.category == cat && element.age == age,
-      );
-      //emit(Founded());
-      return  matchingCourse;
+  CourseModel? course({required String cat, required String age,}){
+      try {
+        final matchingCourse =  courses.firstWhere(
+                    (element) => element.category == cat && element.age == age,
+              );
+        //emit(Founded());
+        return  matchingCourse;
+      } catch (e) {
+        print(e);
+        return null ;
+      }
   }
 }

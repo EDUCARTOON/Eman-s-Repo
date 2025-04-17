@@ -2,10 +2,11 @@ part of 'layout_cubit.dart';
 
 abstract class LayoutState {}
 
-class NavBarState extends LayoutState {}
-
 class HomeInitialState extends LayoutState {}
 
-// class NavigateToWelcomeScreen extends LayoutState {}
+class LayoutChangedState extends LayoutState {
+  final int currentIndex;
+  final Widget currentScreen;
 
-// class NavigateFromLoginScreen extends LayoutState {}
+  LayoutChangedState({required this.currentIndex, required this.currentScreen});
+}

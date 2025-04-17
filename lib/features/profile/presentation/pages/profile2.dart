@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/add_child_profile.dart';
+import 'package:flutter_application_3/core/app_constant.dart';
 import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/EditProfile.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/TermsConditions.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/invite%20friends.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/routing/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,19 +79,20 @@ class _Profile2PageState extends State<Profile2Page> {
     return Scaffold(
       backgroundColor: const Color(0xFF93AACF),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF93AACF),
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const EducartoonScreen(courseTitle: '', course: null),
-              ),
-            );
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) => const EducartoonScreen(courseTitle: '', course: null),
+        //       ),
+        //     );
+        //   },
+        // ),
         title: const Text("Profile", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
       ),
       body: SingleChildScrollView(
@@ -131,6 +136,7 @@ class _Profile2PageState extends State<Profile2Page> {
                 _buildProfileOption(context, Icons.help, "Help Center"),
                 _buildProfileOption(context, Icons.mail, "Invite Friends"),
                 _buildProfileOption(context, Icons.child_care, "Add new child"),
+                _buildProfileOption(context, Icons.logout, "Logout"),
               ],
             ),
           ),
@@ -157,10 +163,14 @@ class _Profile2PageState extends State<Profile2Page> {
 
   void _navigateTo(BuildContext context, String title) {
     if (title == "Edit Profile") {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileApp()));
+      context.push(Routes.editProfileScreen);
+     // Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileApp()));
     } else if (title == "Terms & Conditions") {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const TermsConditionsApp()));
-    } else if (title == "Invite Friends") {
+    } else if (title == "Logout") {
+     context.go(Routes.loginScreen);
+    }
+    else if (title == "Invite Friends") {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const InviteFriendsApp()));
     } else if (title == "Add new child") {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const AddChildProfileScreen()));
