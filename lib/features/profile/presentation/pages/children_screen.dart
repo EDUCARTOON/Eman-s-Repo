@@ -174,7 +174,7 @@ class ChildrenList extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             childModel = children[index];
-            context.go(Routes.homeScreen);
+            context.go(Routes.layoutScreen);
           },
           child: ProfileAvatar(
             child: children[index],

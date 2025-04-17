@@ -162,11 +162,11 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(
+            padding: const EdgeInsets.fromLTRB(
               8,
               0,
               8,
-              MediaQuery.of(context).viewPadding.bottom + 70,
+              0,//MediaQuery.of(context).viewPadding.bottom + 70,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,

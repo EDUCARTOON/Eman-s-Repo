@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/core/app_constant.dart';
+import 'package:flutter_application_3/features/layout/layout_body.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile2.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const EditProfileApp());
@@ -31,30 +34,31 @@ class EditProfilePage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>  Profile2Page(onDarkModeToggle: () {  },),
-              ),
-            );
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) =>   const Layout(),
+            //   ),
+            // );
+           context.pop();
           },
         ),
         title: const Text(
           "Edit Profile",
           style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout, color: Colors.black),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false,
-              );
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.logout, color: Colors.black),
+        //     onPressed: () {
+        //       Navigator.pushAndRemoveUntil(
+        //         context,
+        //         MaterialPageRoute(builder: (context) => const LoginScreen()),
+        //         (route) => false,
+        //       );
+        //     },
+        //   ),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

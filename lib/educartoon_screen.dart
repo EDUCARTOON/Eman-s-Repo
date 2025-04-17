@@ -2,9 +2,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Categories.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
+import 'package:flutter_application_3/core/routing/app_router.dart';
 
 import 'package:flutter_application_3/top.dart';
+import 'package:go_router/go_router.dart';
 
+import 'core/routing/routes.dart';
 import 'features/popular_courses/presentation/pages/popular.dart';
 
 class EducartoonScreen extends StatelessWidget {
@@ -37,6 +40,7 @@ class EducartoonScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF93AACF),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
@@ -130,9 +134,11 @@ class EducartoonScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Popular(courseTitle: '', course: null),
+                          builder: (context) => const Popular(),
                         ),
                       );
+                      //GoRouter.of(context).push( Routes.popularCoursesScreen);
+                      context.push(Routes.popularCoursesScreen,);
                     },
                     child: const Text(
                       'SEE ALL',

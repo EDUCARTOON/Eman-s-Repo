@@ -3,18 +3,15 @@ import 'package:flutter_application_3/features/layout/manager/layout_cubit.dart'
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LayoutNavigationBar extends StatelessWidget {
-  const LayoutNavigationBar({super.key});
-
+  const LayoutNavigationBar({super.key, required this.currentIndex});
+final int currentIndex;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LayoutCubit, LayoutState>(
-      builder: (context, state) {
-        int currentIndex = LayoutCubit.get(context).navBarIndex;
-
-        return BottomNavigationBar(
+    return
+         BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) {
-            LayoutCubit.get(context).changeNavBar(index: index, context: context);
+            LayoutCubit.get(context).changeNavBar(index: index);
           },
           items: const [
             BottomNavigationBarItem(
@@ -40,7 +37,7 @@ class LayoutNavigationBar extends StatelessWidget {
           showUnselectedLabels: true,
           type: BottomNavigationBarType.fixed,
         );
-      },
-    );
+
+
   }
 }

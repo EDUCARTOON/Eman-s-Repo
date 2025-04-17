@@ -35,20 +35,21 @@ class _CoursesScreenState extends State<CoursesScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFB0C4DE),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 3,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            // هنا يمكن أن تحدد الصفحة التي تريد الانتقال إليها بدلاً من الرجوع للخلف
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const EducartoonScreen(courseTitle: '', course: null,), // استبدل بـاسم الصفحة التي تريد الانتقال إليها
-              ),
-            );
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+        //   onPressed: () {
+        //     // هنا يمكن أن تحدد الصفحة التي تريد الانتقال إليها بدلاً من الرجوع للخلف
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) => const EducartoonScreen(courseTitle: '', course: null,), // استبدل بـاسم الصفحة التي تريد الانتقال إليها
+        //       ),
+        //     );
+        //   },
+        // ),
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
