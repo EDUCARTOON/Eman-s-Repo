@@ -34,13 +34,15 @@ class StartCoursesPage extends StatelessWidget {
   const StartCoursesPage(
       {super.key, required this.course, required this.courseModel});
   final Course course;
-  String getFullTime(CourseModel course,int index){
-    if (course.videoUrl2.isEmpty){
+  String getFullTime(CourseModel course, int index) {
+    if (course.videoUrl2.isEmpty) {
       return getTime(course.videoUrl1[index].time);
-    }else {
-    return getTime(course.videoUrl1[index].time+course.videoUrl2[index].time);
+    } else {
+      return getTime(
+          course.videoUrl1[index].time + course.videoUrl2[index].time);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,48 +70,52 @@ class StartCoursesPage extends StatelessWidget {
         ),
         centerTitle: false,
       ),
-      body: courseModel==null? const Center(child: CircularProgressIndicator(),): Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0), // تقليل المسافة هنا
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for ...',
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: const Icon(Icons.search, color: Colors.black),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none,
+      body: courseModel == null
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0), // تقليل المسافة هنا
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Search for ...',
+                      filled: true,
+                      fillColor: Colors.white,
+                      prefixIcon: const Icon(Icons.search, color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                courseModel!.videoUrl1.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "No Courses Now ",
+                          style: TextStyle(color: Colors.black, fontSize: 22),
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          itemCount: courseModel!.videoUrl1.length,
+                          itemBuilder: (context, index) {
+                            return CourseSection(
+                              sectionTitle: course.title,
+                              duration: getFullTime(courseModel!, index),
+                              courseModel: courseModel!,
+                              courseId: index,
+                            );
+                          },
+                        ),
+                      ),
+                // تقليل المسافة بين العناصر
+                //CourseSection(sectionTitle: course.title, duration: '25 Mins'),
+                // CourseSection(sectionTitle: course.title, duration: '25 Mins'),
+              ],
             ),
-          ),
-          courseModel!.videoUrl1.isEmpty
-              ? const Center(
-                  child: Text(
-                    "No Courses Now ",
-                    style: TextStyle(color: Colors.black, fontSize: 22),
-                  ),
-                )
-              : Expanded(
-                child: ListView.builder(
-                    itemCount: courseModel!.videoUrl1.length,
-                    itemBuilder: (context, index) {
-                      return CourseSection(
-                        sectionTitle: course.title,
-                        duration: getFullTime(courseModel!, index),
-                        courseModel: courseModel!,
-                        courseId: index,
-                      );
-                    },
-                  ),
-              ),
-          // تقليل المسافة بين العناصر
-          //CourseSection(sectionTitle: course.title, duration: '25 Mins'),
-          // CourseSection(sectionTitle: course.title, duration: '25 Mins'),
-        ],
-      ),
     );
   }
 }
@@ -126,8 +132,6 @@ class CourseSection extends StatelessWidget {
       required this.duration,
       required this.courseModel,
       required this.courseId});
- 
-
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +156,6 @@ class CourseSection extends StatelessWidget {
                   Text(duration, style: const TextStyle(color: Colors.blue)),
                 ],
               ),
-
               const SizedBox(height: 8),
               CourseItem(
                 index: '01',
@@ -165,8 +168,8 @@ class CourseSection extends StatelessWidget {
                   ? const SizedBox()
                   : CourseItem(
                       index: '02',
-                title: courseModel.videoUrl2[courseId].name,
-                duration:getTime(courseModel.videoUrl2[courseId].time),
+                      title: courseModel.videoUrl2[courseId].name,
+                      duration: getTime(courseModel.videoUrl2[courseId].time),
                       courseModel: courseModel,
                       courseId: courseId,
                     ),
@@ -198,7 +201,6 @@ class CourseItem extends StatelessWidget {
       required this.duration,
       required this.courseModel,
       required this.courseId});
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -274,13 +276,12 @@ class CourseVideoPlayerScreen extends StatelessWidget {
     );
   }
 }
-String getTime(int time){
+
+String getTime(int time) {
   final minutes = time ~/ 60;
   final seconds = time % 60;
-
   String result = '';
   if (minutes > 0) result += '${minutes}m ';
   if (seconds > 0 || minutes == 0) result += '${seconds}s';
-
   return result.trim();
 }
