@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/features/courses/data/models/course_model.dart';
@@ -156,7 +157,7 @@ class CourseSection extends StatelessWidget {
                   Text(duration, style: const TextStyle(color: Colors.blue)),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               CourseItem(
                 index: '01',
                 title: courseModel.videoUrl1[courseId].name,
@@ -164,6 +165,7 @@ class CourseSection extends StatelessWidget {
                 courseModel: courseModel,
                 courseId: courseId,
               ),
+              const SizedBox(height: 10),
               courseModel.videoUrl2.isEmpty
                   ? const SizedBox()
                   : CourseItem(
@@ -173,6 +175,7 @@ class CourseSection extends StatelessWidget {
                       courseModel: courseModel,
                       courseId: courseId,
                     ),
+              const SizedBox(height: 10),
               CourseItem(
                 index: '03',
                 title: 'Quiz',
@@ -213,36 +216,95 @@ class CourseItem extends StatelessWidget {
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: duration.isNotEmpty ? Text(duration) : null,
-      trailing: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          shape: const CircleBorder(),
-          padding: const EdgeInsets.all(10),
+      trailing:
+    Stack(
+    alignment: Alignment.center,
+      children: [
+        // Thumbnail image with caching
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: CachedNetworkImage(
+            imageUrl: 'https://img.freepik.com/premium-vector/cute-little-girl-student-study-from-home-via-internet-video-conference-with-teacher-using-computer_535862-1189.jpg?w=740', // Replace with actual thumbnail URL
+            width: 50,
+            height: 70,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => const Center(
+              child: Icon(Icons.error),
+            ),
+          ),
         ),
-        onPressed: () {
-          if (index == '03') {
+
+        // Circular play button
+        IconButton(
+          // style: ElevatedButton.styleFrom(
+          //   backgroundColor: Colors.transparent,
+          //   shape: const CircleBorder(),
+          //   padding: const EdgeInsets.all(16),
+          //   elevation: 6,
+          // ),
+          onPressed: () {
+            if (index == '03') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const WebViewScreen(
+                    url: "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",
+                  ),
+                ),
+              );
+              return;
+            }
+
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const WebViewScreen(
-                        url:
-                            "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",
-                      )),
-            );
-            return;
-          }
-          Navigator.push(
-            context,
-            MaterialPageRoute(
                 builder: (context) => CourseVideoPlayerScreen(
-                      videoUrl: index == '01'
-                          ? courseModel.videoUrl1[courseId].url
-                          : courseModel.videoUrl2[courseId].url,
-                    )),
-          );
-        },
-        child: const Icon(Icons.play_arrow, color: Colors.white),
-      ),
+                  videoUrl: index == '01'
+                      ? courseModel.videoUrl1[courseId].url
+                      : courseModel.videoUrl2[courseId].url,
+                ),
+              ),
+            );
+          },
+          icon: const Icon(Icons.play_arrow, color: Colors.black, size: 32),
+         // child: const Icon(Icons.play_arrow, color: Colors.white, size: 32),
+        ),
+      ],
+    ),
+
+    // trailing: ElevatedButton(
+      //   style: ElevatedButton.styleFrom(
+      //     backgroundColor: Colors.blue,
+      //     shape: const CircleBorder(),
+      //     padding: const EdgeInsets.all(10),
+      //   ),
+      //   onPressed: () {
+      //     if (index == '03') {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //             builder: (context) => const WebViewScreen(
+      //                   url:
+      //                       "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",
+      //                 )),
+      //       );
+      //       return;
+      //     }
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => CourseVideoPlayerScreen(
+      //                 videoUrl: index == '01'
+      //                     ? courseModel.videoUrl1[courseId].url
+      //                     : courseModel.videoUrl2[courseId].url,
+      //               )),
+      //     );
+      //   },
+      //   child: const Icon(Icons.play_arrow, color: Colors.white),
+      // ),
     );
   }
 }
