@@ -27,7 +27,7 @@ import 'package:flutter_application_3/pin_code_screen.dart';
 import 'package:flutter_application_3/top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/on_boarding/presentation/splash/splash1.dart';
 import '../../features/popular_courses/presentation/pages/popular.dart';
 import '../../features/profile/presentation/pages/EditProfile.dart';
@@ -35,11 +35,13 @@ import '../../features/profile/presentation/pages/EditProfile.dart';
 abstract class AppRouter {
   static GoRouter router = GoRouter(
       initialLocation: Routes.welcomeScreen,
-      redirect: (context, state) {
+      redirect: (context, state) async{
+        final prefs = await SharedPreferences.getInstance();
+        final isLogin = prefs.getBool('isLogin') ?? false;
         if (state.matchedLocation != Routes.welcomeScreen) {
           return null;
         }
-        if (!isLogin == false) {
+        if (!isLogin) {
           log("Redirecting to Welcome Screen");
           return Routes.splashScreen;
         } else {
