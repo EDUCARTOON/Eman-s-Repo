@@ -94,18 +94,6 @@ class _CoursesScreenState extends State<CoursesScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 3,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
-        //   onPressed: () {
-        //     // هنا يمكن أن تحدد الصفحة التي تريد الانتقال إليها بدلاً من الرجوع للخلف
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (context) => const EducartoonScreen(courseTitle: '', course: null,), // استبدل بـاسم الصفحة التي تريد الانتقال إليها
-        //       ),
-        //     );
-        //   },
-        // ),
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -210,7 +198,7 @@ class CourseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 6,
@@ -225,7 +213,7 @@ class CourseCard extends StatelessWidget {
             child: Image.asset(
               myCourse.img,
               width: 90,
-              height: 90,
+              height: 100,
               fit: BoxFit.cover,
             ),
           ),
