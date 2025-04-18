@@ -20,11 +20,9 @@ import 'package:flutter_application_3/features/auth/presentation/manager/cubit/a
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flutter_application_3/features/profile/data/repositories/profile_repo_impl.dart';
 import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
-bool isLogin = false;
 
-Future<void> initRouterPrefs() async {
-  isLogin = await CacheHelper.getData("isLogin") ?? false;
-}
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

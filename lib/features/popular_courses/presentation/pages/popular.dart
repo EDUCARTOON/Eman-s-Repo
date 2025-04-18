@@ -399,53 +399,129 @@ class _PopularState extends State<Popular> {
                       var course1 = PopularCoursesCubit.get(context);
                       return Card(
                         color: Colors.white,
-                        child: ListTile(
-                          leading: SizedBox(
-                            width: 80,
-                            height: 100,
-                            child: CachedNetworkImage(
-                              imageUrl: convertGoogleDriveUrl(course1.urlImg(
-                                  age: course.ageGroup, cat: course.category)),
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Container(
-                                color: Colors.grey[300],
-                                child: const Center(
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: 2)),
+                        child:Container(
+                          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                          padding: const EdgeInsets.all(10),
+                         decoration: BoxDecoration(
+                           color: Colors.white,
+                           borderRadius: BorderRadius.circular(12),
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.black12,
+                               blurRadius: 6,
+                               offset: Offset(0, 2),
+                             ),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                  imageUrl: convertGoogleDriveUrl(course1.urlImg(
+                                      age: course.ageGroup, cat: course.category)),
+                                  width: 100,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Container(
+                                    width: 100,
+                                    height: 120,
+                                    color: Colors.grey[300],
+                                    child: const Center(
+                                      child: CircularProgressIndicator(strokeWidth: 2),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                        width: 100,
+                                        height: 120,
+                                        color: Colors.grey[300],
+                                        child: const Center(
+                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                        ),
+                                      ),
+                                ),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Center(
-                                      child: CircularProgressIndicator(
-                                          strokeWidth: 2)),
-                            ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    Text("${course.title} (${course.ageGroup})",
+                                        style: const TextStyle(
+                                            fontSize: 16, fontWeight: FontWeight.bold)),
+                                    const SizedBox(height: 20),
+                                    Text("⭐ ${course.rating} | ${course.students} Students",
+                                        style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                                    const SizedBox(height: 10),
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          course.isFavorite
+                                              ? Icons.bookmark
+                                              : Icons.bookmark_border,
+                                          color: course.isFavorite ? Colors.green : Colors.grey,
+                                        ),
+                                        onPressed: () => toggleFavorite(course),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          title: Text("${course.title} (${course.ageGroup})"),
-                          subtitle: Text(
-                              "⭐ ${course.rating} | ${course.students} Students"),
-                          trailing: IconButton(
-                            icon: Icon(
-                              course.isFavorite
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_border,
-                              color: course.isFavorite
-                                  ? Colors.green
-                                  : Colors.grey,
-                            ),
-                            onPressed: () => toggleFavorite(course),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => StartCoursesApp(
-                                        course: courses[index],
-                                        courseModel: course1.course(
-                                            age: course.ageGroup,
-                                            cat: course.category),
-                                      )),
-                            );
-                          }, //_navigateToCourseDetail(course),
-                        ),
+                        )
+
+                        // child: Container(
+                        //   padding: const EdgeInsets.symmetric(vertical: 10),
+                        //   child: ListTile(
+                        //     contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                        //     leading: ClipRRect(
+                        //       borderRadius: BorderRadius.circular(5), // Rounded image corners
+                        //       child: Container(
+                        //         width: 100, // Increased width
+                        //         height: 250, // Increased height
+                        //         color: Colors.grey[300],
+                        //         child: CachedNetworkImage(
+                        //           imageUrl: convertGoogleDriveUrl(course1.urlImg(
+                        //               age: course.ageGroup, cat: course.category)),
+                        //           fit: BoxFit.cover,
+                        //           placeholder: (context, url) => const Center(
+                        //               child: CircularProgressIndicator(strokeWidth: 2)),
+                        //           errorWidget: (context, url, error) => const Center(
+                        //               child: CircularProgressIndicator(strokeWidth: 2)),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     title: Text("${course.title} (${course.ageGroup})"),
+                        //     subtitle: Text("⭐ ${course.rating} | ${course.students} Students"),
+                        //     trailing: IconButton(
+                        //       icon: Icon(
+                        //         course.isFavorite ? Icons.bookmark : Icons.bookmark_border,
+                        //         color: course.isFavorite ? Colors.green : Colors.grey,
+                        //       ),
+                        //       onPressed: () => toggleFavorite(course),
+                        //     ),
+                        //     onTap: () {
+                        //       Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => StartCoursesApp(
+                        //             course: courses[index],
+                        //             courseModel: course1.course(
+                        //               age: course.ageGroup,
+                        //               cat: course.category,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
+
                       );
                     },
                   );
