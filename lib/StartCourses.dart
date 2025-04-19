@@ -165,7 +165,7 @@ class CourseSection extends StatelessWidget {
                 courseModel: courseModel,
                 courseId: courseId,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               courseModel.videoUrl2.isEmpty
                   ? const SizedBox()
                   : CourseItem(
@@ -175,7 +175,7 @@ class CourseSection extends StatelessWidget {
                       courseModel: courseModel,
                       courseId: courseId,
                     ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               CourseItem(
                 index: '03',
                 title: 'Quiz',
@@ -204,6 +204,16 @@ class CourseItem extends StatelessWidget {
       required this.duration,
       required this.courseModel,
       required this.courseId});
+  String convertGoogleDriveUrl(String url) {
+    final regex = RegExp(r'd/([a-zA-Z0-9_-]+)');
+    final match = regex.firstMatch(url);
+    if (match != null && match.groupCount >= 1) {
+      final fileId = match.group(1);
+      return 'https://drive.google.com/uc?export=view&id=$fileId';
+    } else {
+      return "";
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -221,30 +231,28 @@ class CourseItem extends StatelessWidget {
     alignment: Alignment.center,
       children: [
         // Thumbnail image with caching
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+       index=='03'?CircleAvatar(
+         backgroundColor: Colors.blue[100],
+       ): ClipRRect(
+          borderRadius: BorderRadius.circular(8),
           child: CachedNetworkImage(
-            imageUrl: 'https://img.freepik.com/premium-vector/cute-little-girl-student-study-from-home-via-internet-video-conference-with-teacher-using-computer_535862-1189.jpg?w=740', // Replace with actual thumbnail URL
-            width: 50,
-            height: 70,
+            imageUrl:  convertGoogleDriveUrl(index == '01'
+                ? courseModel.videoUrl1[courseId].thumbnail
+                : courseModel.videoUrl2[courseId].thumbnail,), // Replace with actual thumbnail URL
+            width: 65,
+            height: 60,
             fit: BoxFit.cover,
             placeholder: (context, url) => const Center(
               child: CircularProgressIndicator(),
             ),
             errorWidget: (context, url, error) => const Center(
-              child: Icon(Icons.error),
+              child: CircularProgressIndicator(),
             ),
           ),
         ),
 
         // Circular play button
         IconButton(
-          // style: ElevatedButton.styleFrom(
-          //   backgroundColor: Colors.transparent,
-          //   shape: const CircleBorder(),
-          //   padding: const EdgeInsets.all(16),
-          //   elevation: 6,
-          // ),
           onPressed: () {
             if (index == '03') {
               Navigator.push(
@@ -275,36 +283,6 @@ class CourseItem extends StatelessWidget {
       ],
     ),
 
-    // trailing: ElevatedButton(
-      //   style: ElevatedButton.styleFrom(
-      //     backgroundColor: Colors.blue,
-      //     shape: const CircleBorder(),
-      //     padding: const EdgeInsets.all(10),
-      //   ),
-      //   onPressed: () {
-      //     if (index == '03') {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //             builder: (context) => const WebViewScreen(
-      //                   url:
-      //                       "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",
-      //                 )),
-      //       );
-      //       return;
-      //     }
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => CourseVideoPlayerScreen(
-      //                 videoUrl: index == '01'
-      //                     ? courseModel.videoUrl1[courseId].url
-      //                     : courseModel.videoUrl2[courseId].url,
-      //               )),
-      //     );
-      //   },
-      //   child: const Icon(Icons.play_arrow, color: Colors.white),
-      // ),
     );
   }
 }
