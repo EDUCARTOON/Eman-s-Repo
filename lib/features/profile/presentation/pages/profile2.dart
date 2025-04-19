@@ -131,7 +131,6 @@ class _Profile2PageState extends State<Profile2Page> {
                 const SizedBox(height: 8),
                 _buildProfileOption(context, Icons.person, "Edit Profile"),
                 _buildProfileOption(context, Icons.language, "Language", trailing: const Text("English (US)", style: TextStyle(color: Colors.blue))),
-                _buildProfileOption(context, Icons.dark_mode, "Dark Mode"),
                 _buildProfileOption(context, Icons.security, "Terms & Conditions"),
                 _buildProfileOption(context, Icons.help, "Help Center"),
                 _buildProfileOption(context, Icons.mail, "Invite Friends"),

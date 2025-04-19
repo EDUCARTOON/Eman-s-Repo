@@ -86,6 +86,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
         img: "assets/img/Technology 3-5.jpeg.jpg",
         time: 15),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,7 +170,10 @@ class _CoursesScreenState extends State<CoursesScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return CourseCard(isCompleted: isCompleted, myCourse: myCourses[index],);
+                  return CourseCard(
+                    isCompleted: isCompleted,
+                    myCourse: myCourses[index],
+                  );
                 },
               ),
             ],
@@ -198,6 +202,7 @@ class CourseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.black, width: 3), // Border for white box
         boxShadow: const [
           BoxShadow(
             color: Colors.black12,
@@ -208,13 +213,19 @@ class CourseCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10), // Rounded corners
-            child: Image.asset(
-              myCourse.img,
-              width: 90,
-              height: 100,
-              fit: BoxFit.cover,
+          Container(
+            width: 90,
+            height: 100,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 3), // Border for image
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                myCourse.img,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(width: 12),
