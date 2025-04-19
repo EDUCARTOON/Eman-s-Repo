@@ -1,13 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
 
-abstract class FirebaseServices{
+ abstract class FirebaseFile{
 
-  final dbRef = FirebaseDatabase.instance.ref();
+ static final dbRef = FirebaseDatabase.instance.ref();
   static const String parentId = "uploads";
   //............................................................
   //to add a value into child of uploads
 
-  void add1 ({required String childId}){
+  static void add1 ({required String childId}){
     final path = dbRef.child("$parentId/$childId");
     path.update({
       "thumbnail": "https://your-thumbnail-url.com/image.jpg"//put value and key like this
@@ -26,11 +26,12 @@ abstract class FirebaseServices{
   }
 //............................................................
 //to add a value in video
-  void add3 ({required String childId,required String videoId,required int index}){
+ static void add3 ({required String childId,required String videoId,required int index}){
     final path = dbRef.child("$parentId/$childId/$videoId/$index");
     path.update({
-      "thumbnail": "https://your-thumbnail-url.com/image.jpg"// put key and value
+      "thumbnail": ""// put key and value
     });
   }
 
 }
+
