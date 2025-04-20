@@ -10,60 +10,32 @@ import 'package:go_router/go_router.dart';
 import 'core/routing/routes.dart';
 import 'features/popular_courses/presentation/pages/popular.dart';
 
-class EducartoonScreen extends StatefulWidget {
-  const EducartoonScreen({super.key, required course, required String courseTitle});
-
-  @override
-  State<EducartoonScreen> createState() => _EducartoonScreenState();
-}
-
-class _EducartoonScreenState extends State<EducartoonScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  List<Map<String, dynamic>> filteredCourses = [];
-
-  final List<Map<String, dynamic>> allCourses = [
-    {'title': 'Education', 'rating': 4.2, 'students': 7830, 'instructor': 'Lina', 'img': 'assets/img/Education 5-8.jpeg.jpg'},
-    {'title': 'Religion', 'rating': 4.3, 'students': 4560, 'instructor': 'Omar', 'img': 'assets/img/Religion 5-8.jpeg.jpg'},
-    {'title': 'Behavior', 'rating': 4.1, 'students': 3980, 'instructor': 'Sara', 'img': 'assets/img/Behavior 3-5.jpeg.jpg'},
-    {'title': 'Technology', 'rating': 4.5, 'students': 6240, 'instructor': 'Youssef', 'img': 'assets/img/Technology 5-8.jpeg.jpg'},
-    {'title': 'Civilization', 'rating': 4.0, 'students': 2100, 'instructor': 'Mona', 'img': 'assets/img/civilization 8-12 (1).jpeg.jpg'},
-    {'title': 'Entertainment', 'rating': 4.4, 'students': 5100, 'instructor': 'Ali', 'img': 'assets/img/Entertainment 5-8.jpeg.jpg'},
-  ];
-
-  final List<String> categories = [
-    'Education',
-    'Religion',
-    'Behavior',
-    'Technology',
-    'Civilization',
-    'Entertainment',
-  ];
-
-  final List<String> mentorNames = ['Lina', 'Omar', 'Sara', 'Youssef', 'Mona', 'Ali'];
-
-  @override
-  void initState() {
-    super.initState();
-    filteredCourses = List.from(allCourses);
-  }
-
-  void _onSearchChanged(String query) {
-    setState(() {
-      if (query.isEmpty) {
-        filteredCourses = List.from(allCourses);
-      } else {
-        filteredCourses = allCourses
-            .where((course) =>
-                course['title'].toString().toLowerCase().contains(query.toLowerCase()) ||
-                course['instructor'].toString().toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      }
-    });
-  }
+class EducartoonScreen extends StatelessWidget {
+  const EducartoonScreen({super.key, required String courseTitle, required course});
 
   @override
   Widget build(BuildContext context) {
     log("${childModel?.fullName}");
+
+    final List<String> categories = [
+      'Education',
+      'Religion',
+      'Behavior',
+      'Technology',
+      'Civilization',
+      'Entertainment',
+    ];
+
+    final List<Map<String, dynamic>> courses = [
+      {'title': 'Education', 'rating': 4.2, 'students': 7830, 'instructor': 'name','img':'assets/img/Education 5-8.jpeg.jpg'},
+      {'title': 'Religion', 'rating': 4.3, 'students': 4560, 'instructor': 'name','img':'assets/img/Religion 5-8.jpeg.jpg'},
+      {'title': 'Behavior', 'rating': 4.1, 'students': 3980, 'instructor': 'name','img':'assets/img/Behavior 3-5.jpeg.jpg'},
+      {'title': 'Technology', 'rating': 4.5, 'students': 6240, 'instructor': 'name','img':'assets/img/Technology 5-8.jpeg.jpg'},
+      {'title': 'Civilization', 'rating': 4.0, 'students': 2100, 'instructor': 'name','img':'assets/img/civilization 8-12 (1).jpeg.jpg'},
+      {'title': 'Entertainment', 'rating': 4.4, 'students': 5100, 'instructor': 'name','img':'assets/img/Entertainment 5-8.jpeg.jpg'},
+    ];
+
+    final List<String> mentorNames = ['Lina', 'Omar', 'Sara', 'Youssef', 'Mona', 'Ali'];
 
     return Scaffold(
       backgroundColor: const Color(0xFF93AACF),
@@ -104,12 +76,10 @@ class _EducartoonScreenState extends State<EducartoonScreen> {
             children: [
               const Text(
                 'What Would you like to learn Today?\nSearch Below.',
-                style: TextStyle(fontSize: 16, color: Colors.black),
+                style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
               ),
               const SizedBox(height: 16),
               TextField(
-                controller: _searchController,
-                onChanged: _onSearchChanged,
                 decoration: InputDecoration(
                   hintText: 'Search for..',
                   prefixIcon: const Icon(Icons.search),
@@ -145,7 +115,7 @@ class _EducartoonScreenState extends State<EducartoonScreen> {
                     },
                     child: const Text(
                       'SEE ALL',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                   ),
                 ],
@@ -162,34 +132,45 @@ class _EducartoonScreenState extends State<EducartoonScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Popular Courses',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Popular Courses',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.push(Routes.popularCoursesScreen);
+                    },
+                    child: const Text(
+                      'SEE ALL',
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
               SizedBox(
                 height: 210,
-                child: filteredCourses.isEmpty
-                    ? const Center(child: Text('No results found'))
-                    : ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: filteredCourses.length,
-                        itemBuilder: (context, index) {
-                          final course = filteredCourses[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: CourseCard(
-                              title: course['title'],
-                              rating: course['rating'],
-                              students: course['students'],
-                              instructor: course['instructor'],
-                              img: course['img'],
-                            ),
-                          );
-                        },
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: courses.length,
+                  itemBuilder: (context, index) {
+                    final course = courses[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: CourseCard(
+                        title: course['title'],
+                        rating: course['rating'],
+                        students: course['students'],
+                        instructor: course['instructor'],
+                        img: course['img'],
                       ),
+                    );
+                  },
+                ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -206,7 +187,7 @@ class _EducartoonScreenState extends State<EducartoonScreen> {
                     },
                     child: const Text(
                       'SEE ALL',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                   ),
                 ],
