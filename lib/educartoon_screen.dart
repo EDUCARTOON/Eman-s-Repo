@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Categories.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/core/routing/app_router.dart';
-
+import 'package:flutter_application_3/main.dart'; // مهم: لاستيراد themeNotifier
 import 'package:flutter_application_3/top.dart';
 import 'package:go_router/go_router.dart';
 
@@ -52,6 +52,16 @@ class EducartoonScreen extends StatelessWidget {
           ),
         ),
         actions: [
+          IconButton(
+            icon: Icon(
+              themeNotifier.value == ThemeMode.dark ? Icons.light_mode : Icons.dark_mode,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              themeNotifier.value =
+                  themeNotifier.value == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.notifications, color: Colors.black),
             onPressed: () {},
@@ -131,14 +141,7 @@ class EducartoonScreen extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Popular(),
-                        ),
-                      );
-                      //GoRouter.of(context).push( Routes.popularCoursesScreen);
-                      context.push(Routes.popularCoursesScreen,);
+                      context.push(Routes.popularCoursesScreen);
                     },
                     child: const Text(
                       'SEE ALL',
@@ -182,7 +185,7 @@ class EducartoonScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const TopScoreScreen()),
                       );
                     },
-                  child: const Text(
+                    child: const Text(
                       'SEE ALL',
                       style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                     ),
@@ -236,13 +239,15 @@ class CourseCard extends StatelessWidget {
   final double rating;
   final int students;
   final String instructor;
-final String img;
+  final String img;
+
   const CourseCard({
     super.key,
     required this.title,
     required this.rating,
     required this.students,
-    required this.instructor, required this.img,
+    required this.instructor,
+    required this.img,
   });
 
   @override
@@ -262,28 +267,14 @@ final String img;
           Container(
             height: 100,
             width: double.infinity,
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(img), // <-- replace with your image path
+                image: AssetImage(img),
                 fit: BoxFit.cover,
               ),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             ),
           ),
-          // Container(
-          //   height: 100,
-          //   width: double.infinity,
-          //   decoration: const BoxDecoration(
-          //     color: Colors.black,
-          //     borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-          //   ),
-          //   child: Center(
-          //     child: Text(
-          //       title,
-          //       style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-          //     ),
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
@@ -337,4 +328,3 @@ class MentorCircle extends StatelessWidget {
     );
   }
 }
-

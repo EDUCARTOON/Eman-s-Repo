@@ -1,4 +1,8 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
   runApp(const ChatBotApp());
@@ -27,16 +31,46 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+  final FlutterTts _flutterTts = FlutterTts();
+
+  final List<String> allQuestions = [
+    "ما هو الإسلام؟", "ما هي التكنولوجيا؟", "أين تقع الأهرامات؟",
+    "ما هو السلوك؟", "ما هي القراءة؟", "ما هو الترفيه؟",
+    "ما هو الفن؟", "ما هي الأسرة؟", "ما هو الحيوان؟",
+    "ما هو الطعام الصحي؟", "ما هي الموسيقى؟", "ما هو الكتاب؟",
+  ];
+
+  late List<String> suggestedQuestions;
+
+  @override
+  void initState() {
+    super.initState();
+    _speech = stt.SpeechToText();
+    suggestedQuestions = getRandomQuestions();
+  }
+
+  List<String> getRandomQuestions() {
+    allQuestions.shuffle(Random());
+    return allQuestions.take(6).toList();
+  }
+
+  Future<void> speak(String text) async {
+    await _flutterTts.setLanguage("ar-EG");
+    await _flutterTts.setPitch(1.0);
+    await _flutterTts.setSpeechRate(0.6);
+    await _flutterTts.speak(text);
+  }
 
   String getBotResponse(String message) {
     message = message.toLowerCase().trim();
 
-    // Arabic responses
     if (message.contains("السلام") || message.contains("مرحبا")) {
       return "وعليكم السلام! كيف أقدر أساعدك؟";
     } else if (message.contains("اسمك") || message.contains("مين انت")) {
       return "أنا شات بوت تعليمي للأطفال من سن 3 إلى 12 سنة.";
-    } else if (message.contains("الاهرام") || message.contains("الاهرامات") || message.contains("تقع الاهرامات")) {
+    } else if (message.contains("الاهرام") || message.contains("الاهرامات") || message.contains("تقع الأهرامات") || message.contains("أين تقع الأهرامات")) {
       return "تقع الأهرامات الثلاثة في منطقة الجيزة في مصر.";
     } else if (message.contains("عاصمة") && message.contains("مصر")) {
       return "عاصمة مصر هي القاهرة.";
@@ -70,10 +104,7 @@ class _ChatScreenState extends State<ChatScreen> {
       return "الطعام الصحي هو ما يساعد الجسم على النمو والبقاء بصحة جيدة.";
     } else if (message.contains("ما هي الأسرة")) {
       return "الأسرة هي مجموعة من الأشخاص المرتبطين ببعضهم البعض.";
-    }
-
-    // English responses
-    else if (message.contains("your name") || message.contains("who are you")) {
+    } else if (message.contains("your name") || message.contains("who are you")) {
       return "I'm an educational chatbot for kids!";
     } else if (message.contains("pyramids") || message.contains("where are the pyramids")) {
       return "The pyramids are located in Giza, Egypt.";
@@ -111,17 +142,16 @@ class _ChatScreenState extends State<ChatScreen> {
       return "Family is a group of people related to each other.";
     }
 
-    // Default response
-    else {
-      return "آسف، لا أفهم هذا السؤال حتى الآن.\nSorry, I don't understand that question yet.";
-    }
+    return "آسف، لا أفهم هذا السؤال حتى الآن.\nSorry, I don't understand that question yet.";
   }
 
   void sendMessage(String message) {
+    final response = getBotResponse(message);
     setState(() {
       _messages.add({"sender": "user", "message": message});
-      _messages.add({"sender": "bot", "message": getBotResponse(message)});
+      _messages.add({"sender": "bot", "message": response});
     });
+    speak(response);
     _controller.clear();
   }
 
@@ -144,10 +174,51 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  Widget _buildSuggestions() {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 6,
+      children: suggestedQuestions.map((question) {
+        return ActionChip(
+          label: Text(question, style: const TextStyle(fontSize: 13)),
+          backgroundColor: Colors.grey[200],
+          onPressed: () => sendMessage(question),
+        );
+      }).toList(),
+    );
+  }
+
+  Future<void> _simulateVoiceToText() async {
+    var status = await Permission.microphone.request();
+    if (!status.isGranted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("يجب السماح باستخدام المايكروفون")),
+      );
+      return;
+    }
+
+    if (!_isListening) {
+      bool available = await _speech.initialize();
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          localeId: 'ar_EG',
+          onResult: (result) {
+            setState(() {
+              _controller.text = result.recognizedWords;
+            });
+          },
+        );
+      }
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         title: const Text("🤖 EduCartoon Bot"),
         backgroundColor: const Color(0xFF89A1C0),
@@ -162,23 +233,21 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(
-              8,
-              0,
-              8,
-              0,//MediaQuery.of(context).viewPadding.bottom + 70,
-            ),
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                IconButton(
+                  icon: Icon(_isListening ? Icons.mic_off : Icons.mic, color: Colors.redAccent),
+                  onPressed: _simulateVoiceToText,
+                ),
                 Expanded(
                   child: TextField(
                     controller: _controller,
                     maxLines: 2,
                     decoration: InputDecoration(
                       hintText: "✏️ اكتب سؤالك هنا...",
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -207,8 +276,13 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            child: _buildSuggestions(),
+          ),
         ],
       ),
     );
   }
 }
+
