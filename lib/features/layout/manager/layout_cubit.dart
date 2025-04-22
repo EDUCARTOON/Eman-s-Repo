@@ -3,13 +3,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
-import 'package:flutter_application_3/features/courses/presentation/pages/courses_screen.dart';
+import 'package:flutter_application_3/courses_screen.dart';
 import 'package:flutter_application_3/features/home/presentation/screen/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../educartoon_screen.dart';
 import '../../inbox/presentation/pages/ChatBotApp.dart';
+import '../../mentors/presentation/pages/educartoon_screen.dart';
 import '../../profile/presentation/pages/profile2.dart';
 
 part 'layout_state.dart';

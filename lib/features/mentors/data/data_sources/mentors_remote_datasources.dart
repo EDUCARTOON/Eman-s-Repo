@@ -2,15 +2,15 @@ import 'dart:developer';
 
 import 'package:firebase_database/firebase_database.dart';
 
-abstract class CoursesDataSource{
+abstract class MentorsDataSource{
 
-  Future<Map<dynamic, dynamic>?>fetchCourses();
+  Future<Map<dynamic, dynamic>?>fetchMentors();
 
 }
-class CoursesRemoteDataSource implements CoursesDataSource{
-final DatabaseReference ref = FirebaseDatabase.instance.ref().child('uploads');
+class MentorsRemoteDataSource implements MentorsDataSource{
+final DatabaseReference ref = FirebaseDatabase.instance.ref().child('mentors');
 @override
-Future<Map<dynamic, dynamic>?> fetchCourses() async{
+Future<Map<dynamic, dynamic>?> fetchMentors() async{
       //Map<dynamic,dynamic>? data;
       final DatabaseEvent event = await ref.once();
       final data = event.snapshot.value as Map<dynamic, dynamic>?;

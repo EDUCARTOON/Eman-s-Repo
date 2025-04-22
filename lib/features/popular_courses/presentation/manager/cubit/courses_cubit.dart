@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter_application_3/features/courses/data/models/course_model.dart';
-import 'package:flutter_application_3/features/courses/data/repositories/courses_repo_impl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/models/course_model.dart';
@@ -24,8 +22,6 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
         (r) {
           emit(PopularCoursesSuccess(courses: r));
           courses = r;
-          print(r[0].videoUrl1.length);
-          log(r.toString());
         },);
   }
   String urlImg({required String cat, required String age,}){
@@ -50,7 +46,6 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
         //emit(Founded());
         return  matchingCourse;
       } catch (e) {
-        print(e);
         return null ;
       }
   }

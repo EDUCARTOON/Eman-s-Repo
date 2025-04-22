@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/features/profile/data/models/child_model.dart';
 import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';

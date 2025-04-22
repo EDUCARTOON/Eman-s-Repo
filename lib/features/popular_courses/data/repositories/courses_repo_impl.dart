@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 
-import 'package:flutter_application_3/features/courses/data/models/course_model.dart';
 
 import '../../domain/repositories/courses_repo.dart';
 import '../data_sources/courses_remote_datasources.dart';
@@ -14,7 +13,6 @@ class PopularCoursesRepoImpl implements PopularCourseRepo {
   @override
   Future<Either<String, List<CourseModel>>> fetchCourses() async {
     try {
-      print("Process started");
       final courses = await popularCoursesRemoteDataSource.fetchCourses();
 
       if (courses == null) {

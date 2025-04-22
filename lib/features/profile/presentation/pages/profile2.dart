@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/add_child_profile.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
-import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/EditProfile.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/TermsConditions.dart';
