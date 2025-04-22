@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/educartoon_screen.dart';
 import 'package:flutter_application_3/FavoriteTopics.dart';
 import 'package:flutter_application_3/add_child_profile.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
@@ -16,7 +15,7 @@ import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/resgister_screen.dart';
-import 'package:flutter_application_3/features/courses/presentation/pages/courses_screen.dart';
+import 'package:flutter_application_3/courses_screen.dart';
 import 'package:flutter_application_3/features/home/presentation/screen/home_screen.dart';
 import 'package:flutter_application_3/features/inbox/presentation/cubit/inbox_cubit.dart';
 import 'package:flutter_application_3/features/inbox/presentation/pages/ChatBotApp.dart';
@@ -24,10 +23,11 @@ import 'package:flutter_application_3/features/layout/layout_body.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile2.dart';
 import 'package:flutter_application_3/main.dart';
 import 'package:flutter_application_3/pin_code_screen.dart';
-import 'package:flutter_application_3/top.dart';
+import 'package:flutter_application_3/features/mentors/presentation/pages/top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../features/mentors/presentation/pages/educartoon_screen.dart';
 import '../../features/on_boarding/presentation/splash/splash1.dart';
 import '../../features/popular_courses/presentation/pages/popular.dart';
 import '../../features/profile/presentation/pages/EditProfile.dart';
@@ -75,10 +75,10 @@ abstract class AppRouter {
           path: Routes.popularCoursesScreen,
           builder: (context, state) => const Popular(),
         ),
-        GoRoute(
-          path: Routes.topScoreScreen,
-          builder: (context, state) => const TopScoreScreen(),
-        ),
+        // GoRoute(
+        //   path: Routes.topScoreScreen,
+        //   builder: (context, state) => const TopScoreScreen(),
+        // ),
 
         // GoRoute(
         //   path: Routes.searchScreen,

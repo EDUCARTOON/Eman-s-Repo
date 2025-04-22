@@ -7,7 +7,7 @@ import 'package:flutter_application_3/ReligionCourses.dart';
 import 'package:flutter_application_3/StartCourses.dart';
 import 'package:flutter_application_3/TechnologyCourses.dart';
 import 'package:flutter_application_3/BehaviorCourses.dart';
-import 'package:flutter_application_3/educartoon_screen.dart';
+import 'package:flutter_application_3/core/app_constant.dart';
 import 'package:flutter_application_3/features/popular_courses/data/repositories/courses_repo_impl.dart';
 import 'package:flutter_application_3/features/popular_courses/presentation/manager/cubit/courses_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -187,16 +187,7 @@ class _PopularState extends State<Popular> {
     );
   }
 
-  String convertGoogleDriveUrl(String url) {
-    final regex = RegExp(r'd/([a-zA-Z0-9_-]+)');
-    final match = regex.firstMatch(url);
-    if (match != null && match.groupCount >= 1) {
-      final fileId = match.group(1);
-      return 'https://drive.google.com/uc?export=view&id=$fileId';
-    } else {
-      return "";
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -311,7 +302,7 @@ class _PopularState extends State<Popular> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(6),
                                       child: CachedNetworkImage(
-                                        imageUrl: convertGoogleDriveUrl(
+                                        imageUrl:AppConstant.convertGoogleDriveUrl(
                                           course1.urlImg(age: course.ageGroup, cat: course.category),
                                         ),
                                         width: 90,
@@ -323,7 +314,7 @@ class _PopularState extends State<Popular> {
                                         ),
                                         errorWidget: (context, url, error) => Container(
                                           color: Colors.grey[300],
-                                          child: const Center(child: Icon(Icons.error)),
+                                          child:const Center(child: CircularProgressIndicator(strokeWidth: 2)),
                                         ),
                                       ),
                                     ),

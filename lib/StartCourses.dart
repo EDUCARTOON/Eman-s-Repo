@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
-import 'package:flutter_application_3/features/courses/data/models/course_model.dart';
-import 'package:flutter_application_3/features/courses/presentation/pages/course_video_player.dart';
-import 'package:flutter_application_3/features/courses/presentation/pages/web_view.dart';
+import 'package:flutter_application_3/course_video_player.dart';
+import 'package:flutter_application_3/web_view.dart';
 import 'package:go_router/go_router.dart';
 
 import 'features/popular_courses/data/models/course_model.dart';
