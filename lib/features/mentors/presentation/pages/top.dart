@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/app_constant.dart';
 import '../../data/data_sources/mentors_remote_datasources.dart';
+import '../../data/models/mentors_model.dart';
 import '../../data/repositories/mentors_repo_impl.dart';
 import 'educartoon_screen.dart';
 
@@ -27,22 +28,33 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
     'Entertainment',
   ];
   
-  List<String> filteredCategories = [];
+  String filteredCategories = '';
   bool isSearching = false;
 
   @override
   void initState() {
     super.initState();
 
-    filteredCategories = categories;
+    //filteredCategories = categories;
   }
 
   void _filterCategories(String query) {
     setState(() {
-      filteredCategories = categories
-          .where((category) => category.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+      // filteredCategories = categories
+      //     .where((category) => category.toLowerCase().contains(query.toLowerCase()))
+      //     .toList();
+      filteredCategories = query;
     });
+  }
+  List<MentorsModel> mentors(List<MentorsModel>mentors) {
+    if(filteredCategories == ''){
+      return [];
+    }
+    var  result = mentors
+          .where((element) => element.cat.toLowerCase().contains(filteredCategories.toLowerCase()))
+          .toList();
+    return result;
+
   }
 
   @override
@@ -58,10 +70,7 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black, size: 24),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const EducartoonScreen(courseTitle: '', course: null,)),
-              );
+              Navigator.pop(context);
             },
           ),
           title: isSearching
@@ -98,7 +107,7 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
                   isSearching = !isSearching;
                   if (!isSearching) {
                     _searchController.clear();
-                    filteredCategories = categories;
+                    filteredCategories = '';
                   }
                 });
               },
@@ -108,8 +117,9 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
         body: BlocBuilder<MentorsCubit, MentorsState>(
         builder: (context, state) {
       if (state is MentorsSuccess){
+        var finalMentor = isSearching?mentors(state.mentors):state.mentors;
         return ListView.builder(
-          itemCount:isSearching?filteredCategories.length: state.mentors.length,
+          itemCount:finalMentor.length,
           itemBuilder: (context, index) {
             return Column(
               children: [
@@ -120,7 +130,7 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
                     backgroundColor: Colors.white,
                     child: ClipOval(
                       child: CachedNetworkImage(
-                        imageUrl: AppConstant.convertGoogleDriveUrl(state.mentors[index].img),
+                        imageUrl: AppConstant.convertGoogleDriveUrl(finalMentor[index].img),
                         width: 60,
                         height: 60,
                         fit: BoxFit.cover,
@@ -130,7 +140,7 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
                     ),
                   ),
                   title: Text(
-                    state.mentors[index].name,
+                    finalMentor[index].name,
                     style: TextStyle(
                       fontSize: 14,
                       // ignore: deprecated_member_use
@@ -138,7 +148,7 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
                     ),
                   ),
                   subtitle: Text(
-                    filteredCategories[index],
+                    finalMentor[index].cat,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
