@@ -11,6 +11,7 @@ class MentorsCubit extends Cubit<MentorsState> {
   MentorsCubit(this.mentorsRepoImpl) : super(MentorsInitial());
   static MentorsCubit get(context) => BlocProvider.of(context);
   final MentorsRepoImpl mentorsRepoImpl;
+  List<MentorsModel>mentors = [];
   Future<void> fetchMentors()async{
 
     final response = await mentorsRepoImpl.fetchMentors();
@@ -20,7 +21,7 @@ class MentorsCubit extends Cubit<MentorsState> {
 
         },
         (r) {
-
+           mentors = r;
           emit(MentorsSuccess(mentors: r));
           log(r.toString());
         },);

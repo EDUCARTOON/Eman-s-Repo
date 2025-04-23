@@ -109,7 +109,7 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
         builder: (context, state) {
       if (state is MentorsSuccess){
         return ListView.builder(
-          itemCount: state.mentors.length,
+          itemCount:isSearching?filteredCategories.length: state.mentors.length,
           itemBuilder: (context, index) {
             return Column(
               children: [
@@ -165,18 +165,7 @@ class _TopScoreScreenState extends State<TopScoreScreen> {
       
         },
       ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   type: BottomNavigationBarType.fixed,
-        //   selectedItemColor: Colors.black,
-        //   unselectedItemColor: Colors.black54,
-        //   backgroundColor: Colors.white,
-        //   items: const [
-        //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'MY COURSES'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'INBOX'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'PROFILE'),
-        //   ],
-        // ),
+
       ),
     );
   }
