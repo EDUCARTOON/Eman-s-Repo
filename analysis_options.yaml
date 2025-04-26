@@ -17,6 +17,8 @@ analyzer:
     avoid_print: ignore
     avoid_unnecessary_containers: ignore
     use_super_parameters: ignore
+    non_constant_identifier_names: ignore
+    prefer_const_constructors: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:
