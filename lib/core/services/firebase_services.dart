@@ -26,10 +26,10 @@ import 'package:firebase_database/firebase_database.dart';
   }
 //............................................................
 //to add a value in video
- static void add3 ({required String childId,required String videoId,required int index}){
-    final path = dbRef.child("$parentId/$childId/$videoId/$index");
-    path.update({
-      "thumbnail": ""// put key and value
+ static void addFeedback ({required String note}){
+    final path = dbRef.child("feedback");
+    path.push().set({
+      "feedbackNote":note,
     });
   }
 

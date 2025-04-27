@@ -73,4 +73,9 @@ class ProfileRepoImpl implements ProfileBaseRepo {
       return left(e.toString());
     }
   }
+
+  @override
+  Future<void> setFeedback({required String note}) async {
+    profileRemoteDataSource.setFeedback(note: note);
+  }
 }

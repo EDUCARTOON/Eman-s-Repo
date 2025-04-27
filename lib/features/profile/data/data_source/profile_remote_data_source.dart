@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
+import 'package:flutter_application_3/core/services/firebase_services.dart';
 import 'package:flutter_application_3/features/profile/data/models/child_model.dart';
 
 import '../models/user_model.dart';
@@ -11,6 +12,7 @@ abstract class ProfileDataSource {
   Future<void> fillUserProfile({required UserModel profileModel});
   Future<void> addChildData({required ChildModel childModel,required bool isAdd});
   Future<List<dynamic>> getUserChildren() ;
+  Future<void> setFeedback({required String note});
  }
 
  class ProfileRemoteDataSource implements ProfileDataSource {
@@ -75,6 +77,11 @@ Future<List<dynamic>> getUserChildren() async {
       .collection("children");
     return await profileCollection.get().then((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 }
+
+  @override
+  Future<void> setFeedback({required String note}) async {
+   FirebaseFile.addFeedback(note: note);
+  }
 
 
  }

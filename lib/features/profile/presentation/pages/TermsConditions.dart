@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile2.dart';
 
-void main() {
-  runApp(const TermsConditionsApp());
-}
+// void main() {
+//   runApp(const TermsConditionsApp());
+// }
+//
+// class TermsConditionsApp extends StatelessWidget {
+//   const TermsConditionsApp({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: TermsConditionsPage(),
+//     );
+//   }
+// }
 
 class TermsConditionsApp extends StatelessWidget {
   const TermsConditionsApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: TermsConditionsPage(),
-    );
-  }
-}
-
-class TermsConditionsPage extends StatelessWidget {
-  const TermsConditionsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,7 @@ class TermsConditionsPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black, size: 28),
           onPressed: () {
             // هنا يمكنك تحديد الصفحة التي تريد العودة إليها
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Profile2Page(onDarkModeToggle: () {  },)), // استبدال Profile2Page بالصفحة التي تريد الرجوع إليها
-            );
+            Navigator.pop(context);
           },
         ),
         title: const Text(

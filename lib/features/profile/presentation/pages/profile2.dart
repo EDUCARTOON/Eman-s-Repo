@@ -168,7 +168,7 @@ class _Profile2PageState extends State<Profile2Page> {
      context.go(Routes.loginScreen);
     }
     else if (title == "Invite Friends") {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const InviteFriendsApp()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>  InviteFriendsApp()));
     } else if (title == "Add new child") {
       //context.go(Routes.addChildProfile);
       Navigator.push(context, MaterialPageRoute(builder: (context) => const AddChildProfileScreen()));

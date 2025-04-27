@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile1.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-void main() {
-  runApp(const InviteFriendsApp());
-}
+//
+// void main() {
+//   runApp(const InviteFriendsApp());
+// }
+//
+// class InviteFriendsApp extends StatelessWidget {
+//   const InviteFriendsApp({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: InviteFriendsScreen(),
+//     );
+//   }
+// }
 
 class InviteFriendsApp extends StatelessWidget {
-  const InviteFriendsApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: InviteFriendsScreen(),
-    );
-  }
-}
-
-class InviteFriendsScreen extends StatelessWidget {
   final List<Map<String, String>> friends = [
     {"name": "Rani Thomas", "phone": "(+91) 702-897-7965", "invited": "false"},
     {"name": "Anastasia", "phone": "(+91) 702-897-7965", "invited": "false"},
@@ -28,7 +28,7 @@ class InviteFriendsScreen extends StatelessWidget {
     {"name": "Abby", "phone": "(+91) 802-312-3200", "invited": "true"},
   ];
 
-  InviteFriendsScreen({super.key});
+  InviteFriendsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +41,7 @@ class InviteFriendsScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // هنا يمكنك تحديد الصفحة التي تريد العودة إليها
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Profile2Page(onDarkModeToggle: () {  },)), // استبدال Profile2Page بالصفحة التي تريد الرجوع إليها
-            );
+            Navigator.pop(context);
           },
         ),
         title: const Text("Invite Friends", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),

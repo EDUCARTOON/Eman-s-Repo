@@ -11,9 +11,9 @@ class PopularCoursesRepoImpl implements PopularCourseRepo {
   PopularCoursesRepoImpl({required this.popularCoursesRemoteDataSource});
 
   @override
-  Future<Either<String, List<CourseModel>>> fetchCourses() async {
+  Future<Either<String, List<CourseModel>>> fetchCourses({required String path}) async {
     try {
-      final courses = await popularCoursesRemoteDataSource.fetchCourses();
+      final courses = await popularCoursesRemoteDataSource.fetchCourses(path: path);
 
       if (courses == null) {
         return right([]);
