@@ -35,8 +35,15 @@ class ProfileCubit extends Cubit<ProfileState> {
            }});
 
   }
-  
 
+  Future<void> setFeedback({required String note})async{
+    try {
+      profileRepository.setFeedback(note: note);
+      emit(FeedbackSuccess());
+    } catch (e) {
+      emit(FeedbackFailure());
+    }
+  }
 
   Future<void>addChid({required ChildModel childModel,required bool isAdd})async {
     emit(FillChildDataLoadingState());

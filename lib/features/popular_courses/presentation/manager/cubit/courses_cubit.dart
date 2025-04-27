@@ -12,8 +12,8 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
   static PopularCoursesCubit get(context) => BlocProvider.of(context);
   final PopularCoursesRepoImpl popularCoursesRepoImpl;
   List<CourseModel>courses = [];
-  Future<void> fetchCourses()async{
-    final response = await popularCoursesRepoImpl.fetchCourses();
+  Future<void> fetchCourses({required String path})async{
+    final response = await popularCoursesRepoImpl.fetchCourses(path: path);
     response.fold(
         (l) {
           emit(PopularCoursesFailure(message: l));

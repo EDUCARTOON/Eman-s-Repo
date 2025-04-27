@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/BehaviorSpe.dart';
 import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/CivilizationSpe.dart';
@@ -6,7 +7,13 @@ import 'package:flutter_application_3/features/popular_courses/Special%20Stars%2
 import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/ReligionSpe.dart';
 import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/TechnologySpe.dart';
 import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/app_constant.dart';
+import '../../data/data_sources/courses_remote_datasources.dart';
+import '../../data/repositories/courses_repo_impl.dart';
+import '../manager/cubit/courses_cubit.dart';
 
 class Specialcourses extends StatefulWidget {
   final Course? course;
@@ -132,7 +139,13 @@ class _SpecialCoursesScreenState extends State<Specialcourses> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+      create: (context) => PopularCoursesCubit(
+        PopularCoursesRepoImpl(
+          popularCoursesRemoteDataSource: PopularCoursesRemoteDataSource(),
+        ),
+      )..fetchCourses(path: "esheDeaf"),
+  child: Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF93AACF),
         elevation: 0,
@@ -183,106 +196,151 @@ class _SpecialCoursesScreenState extends State<Specialcourses> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: filteredCourses.length,
-              itemBuilder: (context, index) {
-                final course = filteredCourses[index];
-                return GestureDetector(
-                  onTap: () {
-                    if (course.title == 'Education') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Educationspe()),
-                      );
-                    } else if (course.title == 'Religion') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Religionspe()),
-                      );
-                    } else if (course.title == 'Civilization') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CivilizationSpe()),
-                      );
-                    } else if (course.title == 'Technology') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Technologyspe()),
-                      );
-                    } else if (course.title == 'Entertainment') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => EntertainmentSpe()),
-                      );
-                    } else if (course.title == 'Behavior') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BehaviorSpe()),
-                      );
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.black, width: 3),
-                      ),
+            child: BlocBuilder<PopularCoursesCubit, PopularCoursesState>(
+              builder: (context, state) {
+                if (state is NotFounded) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return ListView.builder(
+                  itemCount: filteredCourses.length,
+                  itemBuilder: (context, index) {
+                    // var course = filteredCourses[index];
+                    var course1 = PopularCoursesCubit.get(context);
+                    final course = filteredCourses[index];
+                    return GestureDetector(
+                      onTap: () {
+                        if (course.title == 'Education') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Educationspe()),
+                          );
+                        } else if (course.title == 'Religion') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Religionspe()),
+                          );
+                        } else if (course.title == 'Civilization') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const CivilizationSpe()),
+                          );
+                        } else if (course.title == 'Technology') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Technologyspe()),
+                          );
+                        } else if (course.title == 'Entertainment') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EntertainmentSpe()),
+                          );
+                        } else if (course.title == 'Behavior') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => BehaviorSpe()),
+                          );
+                        }
+                      },
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 90,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.black,
-                                border: Border.all(color: Colors.black, width: 3),
-                              ),
-                              child: const Center(
-                                child: Icon(Icons.book_outlined, size: 40, color: Colors.white),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${course.title} (${course.ageGroup})",
-                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                  const SizedBox(height: 8),
-                                  Text("⭐ ${course.rating} | ${course.students} Students",
-                                      style: const TextStyle(fontSize: 12, color: Colors.grey)),
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        course.isFavorite
-                                            ? Icons.bookmark
-                                            : Icons.bookmark_border,
-                                        color: course.isFavorite ? Colors.green : Colors.grey,
-                                      ),
-                                      onPressed: () => toggleFavorite(course),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 6.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.black, width: 3),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.black,
+                                        width: 3), // ✅ بوردر أسود للصورة
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                      AppConstant.convertGoogleDriveUrl(
+                                        course1.urlImg(
+                                            age: course.ageGroup,
+                                            cat: course.title),
+                                      ), // التأكد من وجود قيمة URL للصورة
+                                      width: 90,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          Container(
+                                            color: Colors.grey[300],
+                                            child: const Center(
+                                                child: CircularProgressIndicator(
+                                                    strokeWidth: 2)),
+                                          ),
+                                      errorWidget: (context, url, error) =>
+                                          Container(
+                                            color: Colors.grey[300],
+                                            child: const Center(
+                                                child: CircularProgressIndicator(
+                                                    strokeWidth: 2)),
+                                          ),
                                     ),
-                                  )
-                                ],
-                              ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          "${course.title} (${course.ageGroup})",
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold)),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                          "⭐ ${course.rating} | ${course.students} Students",
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey)),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: IconButton(
+                                          icon: Icon(
+                                            course.isFavorite
+                                                ? Icons.bookmark
+                                                : Icons.bookmark_border,
+                                            color: course.isFavorite
+                                                ? Colors.green
+                                                : Colors.grey,
+                                          ),
+                                          onPressed: () =>
+                                              toggleFavorite(course),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 );
               },
             ),
           ),
         ],
       ),
-    );
+    ),
+);
   }
 }
 

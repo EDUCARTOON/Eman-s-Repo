@@ -194,7 +194,7 @@ class _PopularState extends State<Popular> {
         PopularCoursesRepoImpl(
           popularCoursesRemoteDataSource: PopularCoursesRemoteDataSource(),
         ),
-      )..fetchCourses(),
+      )..fetchCourses(path:"uploads"),
       child: Scaffold(
         backgroundColor: const Color(0xFF93AACF),
         appBar: AppBar(

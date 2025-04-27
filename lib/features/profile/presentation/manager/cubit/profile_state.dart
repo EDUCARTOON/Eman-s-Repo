@@ -46,3 +46,5 @@ class GetUserChildrenErrorState extends ProfileState {
    final String errMessage;
   GetUserChildrenErrorState({required this.errMessage});
 }
+class FeedbackSuccess extends ProfileState{}
+class FeedbackFailure extends ProfileState{}

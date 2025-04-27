@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/services/service_locator.dart';
+import '../../data/repositories/profile_repo_impl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +30,7 @@ class ReviewPage extends StatefulWidget {
 
 class _ReviewPageState extends State<ReviewPage> {
   int _selectedStars = 0;
-
+late TextEditingController controller;
   Widget buildStar(int index) {
     return IconButton(
       icon: Icon(
@@ -39,10 +44,23 @@ class _ReviewPageState extends State<ReviewPage> {
       },
     );
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = TextEditingController();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => ProfileCubit(profileRepository: getIt.get<ProfileRepoImpl>()),
+  child: Scaffold(
       backgroundColor: const Color(0xFF9BB1E3),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -57,7 +75,28 @@ class _ReviewPageState extends State<ReviewPage> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
+      body: BlocListener<ProfileCubit, ProfileState>(
+  listener: (context, state) {
+    if (state is FeedbackSuccess){
+      ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+          backgroundColor: Colors.green,
+          content: Text("feedback added"),
+
+        ),
+      );
+      controller.clear();
+    }else if(state is FeedbackFailure){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("feedback failed,try again"),
+
+        ),
+      );
+    }
+  },
+  child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,7 +143,8 @@ class _ReviewPageState extends State<ReviewPage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const TextField(
+              child:  TextField(
+                controller: controller,
                 maxLines: 4,
                 textAlignVertical: TextAlignVertical.top,
                 decoration: InputDecoration(
@@ -117,7 +157,9 @@ class _ReviewPageState extends State<ReviewPage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  ProfileCubit.get(context).setFeedback(note: controller.text);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 239, 250, 255),
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
@@ -134,6 +176,8 @@ class _ReviewPageState extends State<ReviewPage> {
           ],
         ),
       ),
-    );
+),
+    ),
+);
   }
 }
