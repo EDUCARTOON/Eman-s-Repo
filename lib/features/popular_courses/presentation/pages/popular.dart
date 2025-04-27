@@ -63,10 +63,10 @@ class Course {
 
   factory Course.fromMap(Map<String, dynamic> map) {
     return Course(
-      title: map['title'],
-      category: map['category'],
-      rating: map['rating'],
-      students: map['students'],
+      title: map['title'] ?? '', // التأكد من عدم وجود null هنا
+      category: map['category'] ?? '',
+      rating: map['rating'] ?? 0.0,
+      students: map['students'] ?? 0,
       ageGroup: map['ageGroup'] ?? '',
       isFavorite: map['isFavorite'] ?? false,
     );
@@ -187,8 +187,6 @@ class _PopularState extends State<Popular> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -302,9 +300,9 @@ class _PopularState extends State<Popular> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(6),
                                       child: CachedNetworkImage(
-                                        imageUrl:AppConstant.convertGoogleDriveUrl(
+                                        imageUrl: AppConstant.convertGoogleDriveUrl(
                                           course1.urlImg(age: course.ageGroup, cat: course.category),
-                                        ),
+                                        ), // التأكد من وجود قيمة URL للصورة
                                         width: 90,
                                         height: 100,
                                         fit: BoxFit.cover,
@@ -314,7 +312,7 @@ class _PopularState extends State<Popular> {
                                         ),
                                         errorWidget: (context, url, error) => Container(
                                           color: Colors.grey[300],
-                                          child:const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                                          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
                                         ),
                                       ),
                                     ),
@@ -361,3 +359,4 @@ class _PopularState extends State<Popular> {
     );
   }
 }
+
