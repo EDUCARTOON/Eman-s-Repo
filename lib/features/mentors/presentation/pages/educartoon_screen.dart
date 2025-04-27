@@ -4,88 +4,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Categories.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
-import 'package:flutter_application_3/core/routing/app_router.dart';
 import 'package:flutter_application_3/features/mentors/data/data_sources/mentors_remote_datasources.dart';
 import 'package:flutter_application_3/features/mentors/data/models/mentors_model.dart';
 import 'package:flutter_application_3/features/mentors/data/repositories/mentors_repo_impl.dart';
 import 'package:flutter_application_3/features/mentors/presentation/manager/cubit/mentors_cubit.dart';
-import 'package:flutter_application_3/main.dart'; // مهم: لاستيراد themeNotifier
+import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/EducationSpe.dart';
+import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/ReligionSpe.dart';
+import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/SpecialStarsZone.dart';
+import 'package:flutter_application_3/features/popular_courses/presentation/pages/SpecialCourses.dart';
+import 'package:flutter_application_3/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter_application_3/features/mentors/presentation/pages/top.dart';
+import 'package:flutter_application_3/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../core/routing/routes.dart';
 import '../../../popular_courses/presentation/pages/popular.dart';
 
 class EducartoonScreen extends StatelessWidget {
-  const EducartoonScreen(
-      {super.key, required String courseTitle, required course});
+  const EducartoonScreen({super.key, required course, required String courseTitle});
 
   @override
   Widget build(BuildContext context) {
     log("${childModel?.fullName}");
 
     final List<String> categories = [
-      'Education',
-      'Religion',
-      'Behavior',
-      'Technology',
-      'Civilization',
-      'Entertainment',
+      'Education', 'Religion', 'Behavior', 'Technology', 'Civilization', 'Entertainment',
     ];
 
     final List<Map<String, dynamic>> courses = [
       {
-        'title': 'Education',
+        'title': 'Bright Stars Zone',
         'rating': 4.2,
         'students': 7830,
-        'instructor': 'name',
+        'instructor': 'Instructor Name',
         'img': 'assets/img/Education 5-8.jpeg.jpg'
       },
       {
-        'title': 'Religion',
-        'rating': 4.3,
-        'students': 4560,
-        'instructor': 'name',
-        'img': 'assets/img/Religion 5-8.jpeg.jpg'
-      },
-      {
-        'title': 'Behavior',
+        'title': 'Special Stars Zone',
         'rating': 4.1,
         'students': 3980,
-        'instructor': 'name',
+        'instructor': 'Instructor Name',
         'img': 'assets/img/Behavior 3-5.jpeg.jpg'
       },
-      {
-        'title': 'Technology',
-        'rating': 4.5,
-        'students': 6240,
-        'instructor': 'name',
-        'img': 'assets/img/Technology 5-8.jpeg.jpg'
-      },
-      {
-        'title': 'Civilization',
-        'rating': 4.0,
-        'students': 2100,
-        'instructor': 'name',
-        'img': 'assets/img/civilization 8-12 (1).jpeg.jpg'
-      },
-      {
-        'title': 'Entertainment',
-        'rating': 4.4,
-        'students': 5100,
-        'instructor': 'name',
-        'img': 'assets/img/Entertainment 5-8.jpeg.jpg'
-      },
-    ];
-
-    final List<String> mentorNames = [
-      'Lina',
-      'Omar',
-      'Sara',
-      'Youssef',
-      'Mona',
-      'Ali'
     ];
 
     return BlocProvider(
@@ -99,24 +59,16 @@ class EducartoonScreen extends StatelessWidget {
           elevation: 0,
           title: Text(
             'Hi, ${childModel?.fullName ?? "Educartoon"}',
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
           ),
           actions: [
             IconButton(
               icon: Icon(
-                themeNotifier.value == ThemeMode.dark
-                    ? Icons.light_mode
-                    : Icons.dark_mode,
+                themeNotifier.value == ThemeMode.dark ? Icons.light_mode : Icons.dark_mode,
                 color: Colors.black,
               ),
               onPressed: () {
-                themeNotifier.value = themeNotifier.value == ThemeMode.dark
-                    ? ThemeMode.light
-                    : ThemeMode.dark;
+                themeNotifier.value = themeNotifier.value == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
               },
             ),
             IconButton(
@@ -133,8 +85,7 @@ class EducartoonScreen extends StatelessWidget {
               children: [
                 const Text(
                   'What Would you like to learn Today?\nSearch Below.',
-                  style: TextStyle(
-                      fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -142,9 +93,7 @@ class EducartoonScreen extends StatelessWidget {
                     hintText: 'Search for..',
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: const Icon(Icons.tune),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                     filled: true,
                     fillColor: Colors.white,
                   ),
@@ -160,23 +109,15 @@ class EducartoonScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Categories',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+                    const Text('Categories', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const Categories()),
+                          MaterialPageRoute(builder: (context) => const Categories()),
                         );
                       },
-                      child: const Text(
-                        'SEE ALL',
-                        style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                      ),
+                      child: const Text('SEE ALL', style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 ),
@@ -195,19 +136,12 @@ class EducartoonScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Popular Courses',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+                    const Text('Popular Courses', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     TextButton(
                       onPressed: () {
-                        context.push(Routes.popularCoursesScreen);
+                        // Add navigation to popular courses if needed
                       },
-                      child: const Text(
-                        'SEE ALL',
-                        style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                      ),
+                      child: const Text('', style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 ),
@@ -218,14 +152,29 @@ class EducartoonScreen extends StatelessWidget {
                     itemCount: courses.length,
                     itemBuilder: (context, index) {
                       final course = courses[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: CourseCard(
-                          title: course['title'],
-                          rating: course['rating'],
-                          students: course['students'],
-                          instructor: course['instructor'],
-                          img: course['img'],
+                      return GestureDetector(
+                        onTap: () {
+                          if (course['title'] == 'Bright Stars Zone') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const Popular()),
+                            );
+                          } else if (course['title'] == 'Special Stars Zone') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SpecialStarsZone(course: Course.fromMap(course), courseModel: null,)),
+                            );
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: CourseCard(
+                            title: course['title'],
+                            rating: course['rating'],
+                            students: course['students'],
+                            instructor: course['instructor'],
+                            img: course['img'],
+                          ),
                         ),
                       );
                     },
@@ -235,46 +184,36 @@ class EducartoonScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Top Mentor',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+                    const Text('Top Mentor', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) =>  const TopScoreScreen(),
-                        ));
+                          MaterialPageRoute(builder: (context) => const TopScoreScreen()),
+                        );
                       },
-                      child: const Text(
-                        'SEE ALL',
-                        style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                      ),
+                      child: const Text('SEE ALL', style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 ),
                 BlocBuilder<MentorsCubit, MentorsState>(
                   builder: (context, state) {
-                    if (state is MentorsSuccess){
+                    if (state is MentorsSuccess) {
                       return SizedBox(
                         height: 120,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: state.mentors.length,
                           itemBuilder: (context, index) {
-                            return   MentorCircle(mentor: state.mentors[index],);
+                            return MentorCircle(mentor: state.mentors[index]);
                           },
                         ),
                       );
-                    }else if (state is MentorsFailure){
-                      return const Center(child: Text('No Data yet..'),);
-
-                    }else {
-                      return const Center(child: CircularProgressIndicator(),);
+                    } else if (state is MentorsFailure) {
+                      return const Center(child: Text('No Data yet..'));
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
                     }
-
                   },
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
@@ -289,7 +228,6 @@ class EducartoonScreen extends StatelessWidget {
 
 class CategoryCard extends StatelessWidget {
   final String title;
-
   const CategoryCard({super.key, required this.title});
 
   @override
@@ -301,10 +239,7 @@ class CategoryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
+        child: Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -348,8 +283,7 @@ class CourseCard extends StatelessWidget {
                 image: AssetImage(img),
                 fit: BoxFit.cover,
               ),
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             ),
           ),
           Padding(
@@ -357,12 +291,9 @@ class CourseCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16)),
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                 const SizedBox(height: 4),
-                Text(instructor,
-                    style: const TextStyle(color: Colors.grey, fontSize: 14)),
+                Text(instructor, style: const TextStyle(color: Colors.grey, fontSize: 14)),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -388,13 +319,14 @@ class CourseCard extends StatelessWidget {
 
 class MentorCircle extends StatelessWidget {
   const MentorCircle({super.key, required this.mentor});
-final MentorsModel mentor;
+  final MentorsModel mentor;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 80,
       margin: const EdgeInsets.only(right: 10),
-      child:  Column(
+      child: Column(
         children: [
           CircleAvatar(
             radius: 30,
@@ -411,8 +343,7 @@ final MentorsModel mentor;
             ),
           ),
           const SizedBox(height: 8),
-          Text(mentor.name,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+          Text(mentor.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         ],
       ),
     );

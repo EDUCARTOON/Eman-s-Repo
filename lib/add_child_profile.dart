@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/FavoriteTopics.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/profile/data/models/child_model.dart';
@@ -11,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AddChildProfileScreen extends StatefulWidget {
-  const AddChildProfileScreen({super.key, this.isAdd,});
+  const AddChildProfileScreen({super.key, this.isAdd});
   final bool? isAdd;
 
   @override
@@ -21,7 +18,6 @@ class AddChildProfileScreen extends StatefulWidget {
 class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
 
   String? selectedPicture;
   DateTime? selectedDate;
@@ -35,6 +31,9 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
     'assets/img/v__10_-removebg-preview.png',
     'assets/img/v__9_-removebg-preview.png',
   ];
+
+  DateTime get _firstDate => DateTime.now().subtract(const Duration(days: 15 * 365));
+  DateTime get _lastDate => DateTime.now().subtract(const Duration(days: 3 * 365));
 
   @override
   Widget build(BuildContext context) {
@@ -81,14 +80,16 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
-                      initialDate: selectedDate ?? DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
+                      initialDate: selectedDate ?? _lastDate,
+                      firstDate: _firstDate,
+                      lastDate: _lastDate,
                     );
-                    setState(() {
-                      selectedDate = pickedDate;
-                      dateOfBirthController.text = "${pickedDate?.toLocal()}".split(' ')[0];
-                    });
+                    if (pickedDate != null) {
+                      setState(() {
+                        selectedDate = pickedDate;
+                        dateOfBirthController.text = "${pickedDate.toLocal()}".split(' ')[0];
+                      });
+                    }
                   },
                   decoration: InputDecoration(
                     labelText: 'Date of Birth',
@@ -113,7 +114,7 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
                   items: const [
                     DropdownMenuItem(value: 'Male', child: Text('Male')),
                     DropdownMenuItem(value: 'Female', child: Text('Female')),
-                    DropdownMenuItem(value: 'Other', child: Text('Other')),
+                
                   ],
                   onChanged: (value) {
                     setState(() {
