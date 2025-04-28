@@ -303,11 +303,10 @@ class _DownSyndromeState extends State<Downsyndrome> {
                                       borderRadius: BorderRadius.circular(6),
                                       child: CachedNetworkImage(
                                         imageUrl:
-                                            AppConstant.convertGoogleDriveUrl(
                                           course1.urlImg(
                                               age: course.ageGroup,
                                               cat: course.title),
-                                        ), // التأكد من وجود قيمة URL للصورة
+                                        // التأكد من وجود قيمة URL للصورة
                                         width: 90,
                                         height: 100,
                                         fit: BoxFit.cover,

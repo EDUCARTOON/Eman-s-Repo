@@ -18,20 +18,20 @@ import '../../../../core/routing/routes.dart';
 import '../../../layout/layout_body.dart';
 import '../../data/data_sources/courses_remote_datasources.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Popular(),
-    );
-  }
-}
+// void main() {
+//   runApp(const MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: Popular(),
+//     );
+//   }
+// }
 
 class Course {
   final String title;
