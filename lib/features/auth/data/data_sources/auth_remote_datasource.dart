@@ -9,6 +9,8 @@ import 'package:flutter_application_3/core/services/secure_storage_sevice.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/auth/data/models/sign_up_model.dart';
 
+import '../../../../core/services/firebase_services.dart';
+
 abstract class IAuthDatasource {
   Future<String> signIn({required email, required password});
   Future<RegisterModel> register({
@@ -20,6 +22,7 @@ abstract class IAuthDatasource {
   });
   Future<RegisterModel> getUserData({required String uid});
    Future<void> addUserPinCode({required String pin});
+  Future<RegisterModel?> googleLogin();
 }
 
 class RemoteDataSource implements IAuthDatasource {
@@ -101,5 +104,40 @@ class RemoteDataSource implements IAuthDatasource {
       userImage = userData?.image ?? '';
     });
     return userData!;
+  }
+
+  @override
+  Future<RegisterModel?> googleLogin() async{
+    RegisterModel? registerModel;
+    await FirebaseFile.signInWithGoogle().then((onValue) async {
+      User user = onValue.user;
+      await newAccount(onValue, user);
+      registerModel = await getUserDataFunction(uid: onValue.user.uid);
+      await  getIt<SecureStorageServices>().saveData(key: 'UID', value:user.uid);
+      return registerModel!;
+    });
+    return registerModel;
+  }
+  Future<void> newAccount(onValue, User user) async {
+    if (onValue.additionalUserInfo!.isNewUser) {
+      RegisterModel registerModel = RegisterModel(firstName: user.displayName, lastName: '', email: user.email, uId: user.uid
+          );
+      // CustomerModel customerModel = await createCustomer(
+      //   registerModel: registerModel,
+      // );
+       createUser(uId: user.uid, registerModel: registerModel);
+    }
+  }
+  Future<RegisterModel> getUserDataFunction({required uid}) async{
+    RegisterModel? registerModel;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) {
+      registerModel = RegisterModel.fromJson(json:value.data());
+      return  registerModel;
+    });
+    return  registerModel!;
   }
 }

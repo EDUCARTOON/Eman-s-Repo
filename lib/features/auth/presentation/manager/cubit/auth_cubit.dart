@@ -6,13 +6,27 @@ import 'package:flutter_application_3/features/auth/data/models/sign_up_model.da
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/services/cache_helper.dart';
+
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({required this.authRepository}) : super(AuthInitial());
   static AuthCubit get(context) => BlocProvider.of(context);
   final AuthRepository authRepository;
-
+Future<void> googleLogin()async{
+  emit(LoginLoadingState());
+  final response =
+      await authRepository.googleLogin();
+  response.fold((errMessage) {
+    emit(LoginErrorState(errMessage: errMessage));
+  }, (r) async {
+    if(!isClosed) {
+      await CacheHelper.saveData(key: 'isFirstG', value: false);
+      emit(LoginSuccessState(uid: r!.uId));
+    }
+  });
+}
   String? passwordRegisValidator(value) {
     if (value!.isEmpty) {
       return 'Please enter your Email';

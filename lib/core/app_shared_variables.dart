@@ -7,3 +7,4 @@ RegisterModel? userModel;
 String userImage='';
 ChildModel ?childModel;
 bool isAddChild=true;
+bool googleLogin = true;
