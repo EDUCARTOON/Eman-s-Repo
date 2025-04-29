@@ -51,6 +51,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     response.fold(
         (errMessage){
           if(!isClosed) {
+            print(errMessage);
             emit(FillChildDataErrorState(errMessage: errMessage));
           }},
         (userData)async{if(!isClosed) {

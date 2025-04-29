@@ -217,5 +217,17 @@ class AuthRepository implements IAuthRepo {
     return left(e.toString());
   }
 }
+
+  @override
+  Future<Either<String, RegisterModel?>> googleLogin() async{
+  try {
+    var response = await remoteDataSource.googleLogin();
+    return right(response);
+  } catch (e) {
+    print(e);
+    return left(e.toString());
+  }
+
+  }
   
 }

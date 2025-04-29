@@ -23,6 +23,7 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
   uid = await getIt<SecureStorageServices>().getData(key: 'UID') ?? "";
+  googleLogin = await CacheHelper.getData( 'isFirstG')??true;
 
   runApp(
     MultiBlocProvider(

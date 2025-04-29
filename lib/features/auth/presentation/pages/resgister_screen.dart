@@ -56,6 +56,7 @@ class RegisterScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
+            appBar: AppBar(automaticallyImplyLeading: true,elevation: 0,backgroundColor: Colors.transparent,),
             backgroundColor:const Color(0xFF93AACF),
             body: Form(
               key: signUpFormKey,
