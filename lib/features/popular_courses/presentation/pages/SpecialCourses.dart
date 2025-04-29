@@ -265,10 +265,10 @@ class _SpecialCoursesScreenState extends State<Specialcourses> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(6),
                                     child: CachedNetworkImage(
-                                      imageUrl:
+                                      imageUrl:AppConstant.convertGoogleDriveUrl(
                                         course1.urlImg(
                                             age: course.ageGroup,
-                                            cat: course.title),
+                                            cat: course.title)),
                                       // التأكد من وجود قيمة URL للصورة
                                       width: 90,
                                       height: 100,
