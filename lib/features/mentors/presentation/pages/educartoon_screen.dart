@@ -44,7 +44,7 @@ class EducartoonScreen extends StatelessWidget {
         'rating': 4.1,
         'students': 3980,
         'instructor': 'Instructor Name',
-        'img': 'assets/img/Behavior 3-5.jpeg.jpg'
+        'img': 'assets/img/special_courses.png'
       },
     ];
 
@@ -338,7 +338,7 @@ class MentorCircle extends StatelessWidget {
                 height: 60,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                errorWidget: (context, url, error) => const CircularProgressIndicator(),
               ),
             ),
           ),
