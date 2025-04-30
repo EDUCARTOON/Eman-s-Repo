@@ -75,14 +75,13 @@ late TextEditingController controller;
         ),
         centerTitle: true,
       ),
-      body: BlocListener<ProfileCubit, ProfileState>(
+      body: BlocConsumer<ProfileCubit, ProfileState>(
   listener: (context, state) {
     if (state is FeedbackSuccess){
       ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(
           backgroundColor: Colors.green,
           content: Text("feedback added"),
-
         ),
       );
       controller.clear();
@@ -96,86 +95,88 @@ late TextEditingController controller;
       );
     }
   },
-  child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    color: Colors.black,
-                  ),
-                  const SizedBox(width: 5),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Education", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text("alphabet", style: TextStyle(fontSize: 14, color: Colors.grey)),
-                    ],
-                  )
-                ],
+  builder: (BuildContext context, ProfileState state) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 5),
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Education", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text("alphabet", style: TextStyle(fontSize: 14, color: Colors.grey)),
+                  ],
+                )
+              ],
+            ),
+          ),
+          const SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(5, (index) => buildStar(index)),
+          ),
+          const SizedBox(height: 5),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text("Write your Review", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ),
+          const SizedBox(height: 5),
+          Container(
+            height:150,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child:  TextField(
+              controller: controller,
+              maxLines: 4,
+              textAlignVertical: TextAlignVertical.top,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Would you like to write anything about this Product?",
               ),
             ),
-            const SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) => buildStar(index)),
-            ),
-            const SizedBox(height: 5),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text("Write your Review", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              height:150,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child:  TextField(
-                controller: controller,
-                maxLines: 4,
-                textAlignVertical: TextAlignVertical.top,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Would you like to write anything about this Product?",
+          ),
+          const SizedBox(height:15),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: ElevatedButton(
+              onPressed: () {
+                ProfileCubit.get(context).setFeedback(note: controller.text);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 239, 250, 255),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
-            ),
-            const SizedBox(height:15),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  ProfileCubit.get(context).setFeedback(note: controller.text);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 239, 250, 255),
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: const Text(
-                  "Submit Review",
-                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                ),
+              child: const Text(
+                "Submit Review",
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  },
 ),
     ),
 );
