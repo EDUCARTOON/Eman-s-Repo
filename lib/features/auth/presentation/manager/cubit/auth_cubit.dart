@@ -19,11 +19,12 @@ Future<void> googleLogin()async{
   final response =
       await authRepository.googleLogin();
   response.fold((errMessage) {
+    print("$errMessage////////////////////");
     emit(LoginErrorState(errMessage: errMessage));
   }, (r) async {
     if(!isClosed) {
       await CacheHelper.saveData(key: 'isFirstG', value: false);
-      emit(LoginSuccessState(uid: r!.uId));
+      emit(LoginSuccessState(uid:r==null? r!.uId:''));
     }
   });
 }
@@ -47,7 +48,7 @@ Future<void> googleLogin()async{
   }
 
   bool isPassword = true;
-  void passvisibility() {
+  void passVisibility() {
     isPassword = !isPassword;
     emit(IsObsecurePassState());
   }

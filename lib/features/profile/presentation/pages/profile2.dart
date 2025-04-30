@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/add_child_profile.dart';
 import 'package:flutter_application_3/core/app_constant.dart';
+import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/EditProfile.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/TermsConditions.dart';
@@ -109,10 +110,10 @@ class _Profile2PageState extends State<Profile2Page> {
                 Stack(
                   alignment: Alignment.bottomRight,
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 40,
                       backgroundColor: Colors.grey,
-                      child: Icon(Icons.person, size: 40, color: Colors.white),
+                      backgroundImage: AssetImage(childModel!.image),
                     ),
                     Container(
                       padding: const EdgeInsets.all(4),
@@ -125,8 +126,8 @@ class _Profile2PageState extends State<Profile2Page> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text("Educartoon", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const Text("eduhub946@gmail.com", style: TextStyle(color: Colors.grey)),
+                 Text(childModel!.fullName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                 Text(email!, style: TextStyle(color: Colors.grey)),
                 const SizedBox(height: 8),
                 _buildProfileOption(context, Icons.person, "Edit Profile"),
                 _buildProfileOption(context, Icons.language, "Language", trailing: const Text("English (US)", style: TextStyle(color: Colors.blue))),
@@ -165,7 +166,8 @@ class _Profile2PageState extends State<Profile2Page> {
     } else if (title == "Terms & Conditions") {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const TermsConditionsApp()));
     } else if (title == "Logout") {
-     context.go(Routes.loginScreen);
+      email = '';
+     context.go(Routes.signup1);
     }
     else if (title == "Invite Friends") {
       Navigator.push(context, MaterialPageRoute(builder: (context) =>  InviteFriendsApp()));

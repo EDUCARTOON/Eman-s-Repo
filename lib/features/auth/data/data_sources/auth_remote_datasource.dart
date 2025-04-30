@@ -110,11 +110,16 @@ class RemoteDataSource implements IAuthDatasource {
   Future<RegisterModel?> googleLogin() async{
     RegisterModel? registerModel;
     await FirebaseFile.signInWithGoogle().then((onValue) async {
-      User user = onValue.user;
-      await newAccount(onValue, user);
-      registerModel = await getUserDataFunction(uid: onValue.user.uid);
-      await  getIt<SecureStorageServices>().saveData(key: 'UID', value:user.uid);
-      return registerModel!;
+      if (onValue.user !=null){
+        User user = onValue.user;
+        await newAccount(onValue, user);
+        registerModel = await getUserDataFunction(uid: onValue.user.uid);
+        await  getIt<SecureStorageServices>().saveData(key: 'UID', value:user.uid);
+        return registerModel!;
+      }else{
+        registerModel = null;
+      }
+
     });
     return registerModel;
   }

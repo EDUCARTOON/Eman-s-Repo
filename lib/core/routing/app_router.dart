@@ -31,6 +31,7 @@ import '../../features/mentors/presentation/pages/educartoon_screen.dart';
 import '../../features/on_boarding/presentation/splash/splash1.dart';
 import '../../features/popular_courses/presentation/pages/popular.dart';
 import '../../features/profile/presentation/pages/EditProfile.dart';
+import '../../signup1.dart';
 
 abstract class AppRouter {
   static GoRouter router = GoRouter(
@@ -75,44 +76,6 @@ abstract class AppRouter {
           path: Routes.popularCoursesScreen,
           builder: (context, state) => const Popular(),
         ),
-        // GoRoute(
-        //   path: Routes.topScoreScreen,
-        //   builder: (context, state) => const TopScoreScreen(),
-        // ),
-
-        // GoRoute(
-        //   path: Routes.searchScreen,
-        //   builder: (context, state) {
-        //     final cubitContext = state.extra as BuildContext;
-        //     return BlocProvider.value(
-        //       value: cubitContext.read<HomeCubit>()
-        //         ..getCategoriesData()
-        //         ..getALLProducts(),
-        //       child: SearchScreen(cubitContext: cubitContext),
-        //     );
-        //   },
-        // ),
-        // GoRoute(
-        //   path: Routes.productDetailsScreen,
-        //   builder: (context, state) {
-        //     final args = state.extra as Map<String, dynamic>?;
-        //     return ProductDetailsScreen(
-        //       product: args?['product'],
-        //       cubit: args?['cubit'],
-        //     );
-        //   },
-        // ),
-        // GoRoute(
-        //   path: Routes.categoryDetailsScreen,
-        //   builder: (context, state) {
-        //     final args = state.extra as Map<String, dynamic>?;
-        //     return CategoryDetails(
-        //       categoryName: args?['categoryName'],
-        //       cubitContext: args?['cubitContext'],
-        //       categoryId: args?['categoryId'],
-        //     );
-        //   },
-        // ),
 
         GoRoute(
           path: Routes.layoutScreen,
@@ -199,6 +162,12 @@ abstract class AppRouter {
           path: Routes.editProfileScreen,
           builder: (BuildContext context, GoRouterState state) {
             return const EditProfileApp();
+          },
+        ),
+        GoRoute(
+          path: Routes.signup1,
+          builder: (BuildContext context, GoRouterState state) {
+            return const Signup1();
           },
         ),
       ]);

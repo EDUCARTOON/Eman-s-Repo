@@ -15,6 +15,7 @@ class Routes {
         static const String popularCoursesScreen = '/popularCoursesScreen';
         static const String topScoreScreen = '/topScoreScreen';
   static const String editProfileScreen = '/editProfileScreen';
+  static const String signup1 = '/signup1';
 
 
 
