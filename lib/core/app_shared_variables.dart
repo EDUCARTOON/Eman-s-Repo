@@ -3,6 +3,7 @@ import 'package:flutter_application_3/features/profile/data/models/child_model.d
 
 
 String uid='';
+String? email='';
 RegisterModel? userModel;
 String userImage='';
 ChildModel ?childModel;

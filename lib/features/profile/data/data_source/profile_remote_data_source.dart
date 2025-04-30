@@ -71,10 +71,11 @@ Future<void> addChildData({required ChildModel childModel,required bool isAdd}) 
   @override
 
 Future<List<dynamic>> getUserChildren() async {
-  CollectionReference profileCollection = FirebaseFirestore.instance
+  var profileCollection = FirebaseFirestore.instance
       .collection('users')
-      .doc(uid)
-      .collection("children");
+      .doc(uid).
+      collection("children");
+  email = await getUserEmail(uid);
     return await profileCollection.get().then((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 }
 
@@ -83,6 +84,17 @@ Future<List<dynamic>> getUserChildren() async {
    FirebaseFile.addFeedback(note: note);
   }
 
+  Future<String?> getUserEmail(String uid) async {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get();
 
+    if (userDoc.exists) {
+      return userDoc['email']; // Make sure 'email' is a field in the document
+    } else {
+      return null; // or handle the case where user doesn't exist
+    }
+  }
  }
 
