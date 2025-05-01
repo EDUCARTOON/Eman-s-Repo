@@ -73,7 +73,7 @@ class _SpecialStarsZoneState extends State<SpecialStarsZone> with SingleTickerPr
               ),
               const SizedBox(height: 24),
               AnimatedCard(
-                imagePath: 'assets/img/Down Syndrome.png',
+                imagePath: 'assets/img/WhatsApp Image 2025-05-01 at 01.29.06_dff93ac9.jpg',
                 title: 'Down Syndrome',
                 onTap: () {
                   Navigator.push(

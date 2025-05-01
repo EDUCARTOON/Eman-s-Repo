@@ -8,7 +8,7 @@ import 'package:flutter_application_3/features/profile/presentation/pages/TermsC
 import 'package:flutter_application_3/features/profile/presentation/pages/invite%20friends.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_application_3/features/profile/presentation/pages/WRITE A REVIEWS.dart';
 import '../../../../core/routing/routes.dart';
 
 void main() async {
@@ -133,7 +133,7 @@ class _Profile2PageState extends State<Profile2Page> {
                 _buildProfileOption(context, Icons.language, "Language", trailing: const Text("English (US)", style: TextStyle(color: Colors.blue))),
                 _buildProfileOption(context, Icons.security, "Terms & Conditions"),
                 _buildProfileOption(context, Icons.mail, "Invite Friends"),
-                _buildProfileOption(context, Icons.child_care, "Add new child"),
+                _buildProfileOption(context, Icons.feedback, "feedback"),
                 _buildProfileOption(context, Icons.logout, "Logout"),
               ],
             ),
@@ -168,6 +168,8 @@ class _Profile2PageState extends State<Profile2Page> {
     } else if (title == "Logout") {
       email = '';
      context.go(Routes.signup1);
+    }else if (title == "feedback" ){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const ReviewPage()));
     }
     else if (title == "Invite Friends") {
       Navigator.push(context, MaterialPageRoute(builder: (context) =>  InviteFriendsApp()));
