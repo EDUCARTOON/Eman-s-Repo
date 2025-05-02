@@ -39,7 +39,7 @@ abstract class FirebaseFile {
 
   static Future signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn(serverClientId: '373074661731-hvs5uf5fkaga8b2etd04t5nfkl1qkiqb.apps.googleusercontent.com',).signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
         print('Google sign-in was cancelled by the user.');
         return;
