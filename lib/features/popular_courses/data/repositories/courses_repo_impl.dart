@@ -18,7 +18,7 @@ class PopularCoursesRepoImpl implements PopularCourseRepo {
       if (courses == null) {
         return right([]);
       }
-
+      print("process1");
       // Properly handle the casting for each course entry
       return right(
         courses.entries.map((entry) {

@@ -5,6 +5,7 @@ import 'package:flutter_application_3/course_video_player.dart';
 import 'package:flutter_application_3/web_view.dart';
 import 'package:go_router/go_router.dart';
 
+import 'Quiz3-5edu/AskingAboutName.dart';
 import 'features/popular_courses/data/models/course_model.dart';
 import 'features/popular_courses/presentation/pages/popular.dart';
 
@@ -35,11 +36,18 @@ class StartCoursesPage extends StatelessWidget {
       {super.key, required this.course, required this.courseModel});
   final Course course;
   String getFullTime(CourseModel course, int index) {
-    if (course.videoUrl2.isEmpty) {
+    if (course.videoUrl1[index].part2.isEmpty) {
       return getTime(course.videoUrl1[index].time);
     } else {
+      // int totalTime= 0;
+      // for(int i = 0;i<course.videoUrl1[index].part2.length;i++){
+      //   totalTime +=  course.videoUrl1[index].part2[i].time;
+      // }
+      int totalTime = course.videoUrl1[index].time +
+          course.videoUrl1[index].part2.fold(0, (sum, part) => sum + part.time);
+
       return getTime(
-          course.videoUrl1[index].time + course.videoUrl2[index].time);
+          totalTime);
     }
   }
 
@@ -53,15 +61,15 @@ class StartCoursesPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const Popular(
-            //        // أو حط كائن حقيقي لو متوفر
-            //     ),
-            //   ),
-            // );
-            context.pushReplacement(Routes.popularCoursesScreen);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Popular(
+
+                ),
+              ),
+            );
+            //context.pushReplacement(Routes.popularCoursesScreen);
           },
         ),
         title: const Text(
@@ -106,7 +114,7 @@ class StartCoursesPage extends StatelessWidget {
                               sectionTitle: course.title,
                               duration: getFullTime(courseModel!, index),
                               courseModel: courseModel!,
-                              courseId: index,
+                              courseId: index, course: course,
                             );
                           },
                         ),
@@ -125,13 +133,13 @@ class CourseSection extends StatelessWidget {
   final String duration;
   final CourseModel courseModel;
   final int courseId;
-
+final Course course;
   const CourseSection(
       {super.key,
       required this.sectionTitle,
       required this.duration,
       required this.courseModel,
-      required this.courseId});
+      required this.courseId, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -162,25 +170,31 @@ class CourseSection extends StatelessWidget {
                 title: courseModel.videoUrl1[courseId].name,
                 duration: getTime(courseModel.videoUrl1[courseId].time),
                 courseModel: courseModel,
-                courseId: courseId,
+                courseId: courseId, course: course,
               ),
               const SizedBox(height: 20),
-              courseModel.videoUrl2.isEmpty
-                  ? const SizedBox()
-                  : CourseItem(
-                      index: '02',
-                      title: courseModel.videoUrl2[courseId].name,
-                      duration: getTime(courseModel.videoUrl2[courseId].time),
-                      courseModel: courseModel,
-                      courseId: courseId,
-                    ),
+              if (courseModel.videoUrl1[courseId].part2.isNotEmpty)
+                ...List.generate(
+                  courseModel.videoUrl1[courseId].part2.length,
+                      (partIndex) => CourseItem(
+                    index: '0${partIndex + 2}', // dynamic label
+                    title: courseModel.videoUrl1[courseId].part2[partIndex].name,
+                    duration: getTime(courseModel.videoUrl1[courseId].part2[partIndex].time),
+                    courseModel: courseModel,
+                    courseId: courseId,
+                    partId: partIndex, // new!
+                    course: course,
+                  ),
+                ),
+
+
               const SizedBox(height: 20),
               CourseItem(
-                index: '03',
+                index:courseModel.videoUrl1[courseId].part2.isEmpty?'02':'0${courseModel.videoUrl1[courseId].part2.length+2}',
                 title: 'Quiz',
                 duration: '',
                 courseModel: courseModel,
-                courseId: courseId,
+                courseId: courseId,course: course,
               ),
             ],
           ),
@@ -196,13 +210,15 @@ class CourseItem extends StatelessWidget {
   final String duration;
   final CourseModel courseModel;
   final int courseId;
+  final Course course;
+  final int? partId;
   const CourseItem(
       {super.key,
       required this.index,
       required this.title,
       required this.duration,
       required this.courseModel,
-      required this.courseId});
+      required this.courseId, required this.course,  this.partId,});
   String convertGoogleDriveUrl(String url) {
     final regex = RegExp(r'd/([a-zA-Z0-9_-]+)');
     final match = regex.firstMatch(url);
@@ -230,14 +246,30 @@ class CourseItem extends StatelessWidget {
     alignment: Alignment.center,
       children: [
         // Thumbnail image with caching
-       index=='03'?CircleAvatar(
+        courseModel.videoUrl1[courseId].part2.isEmpty? index=='02'?CircleAvatar(
          backgroundColor: Colors.blue[100],
        ): ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: CachedNetworkImage(
+            imageUrl:  convertGoogleDriveUrl(courseModel.videoUrl1[courseId].thumbnail), // Replace with actual thumbnail URL
+            width: 65,
+            height: 60,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        ):index=='0${courseModel.videoUrl1[courseId].part2.length+2}'?CircleAvatar(backgroundColor: Colors.blue[100],):
+
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: CachedNetworkImage(
             imageUrl:  convertGoogleDriveUrl(index == '01'
                 ? courseModel.videoUrl1[courseId].thumbnail
-                : courseModel.videoUrl2[courseId].thumbnail,), // Replace with actual thumbnail URL
+                : courseModel.videoUrl1[courseId].part2[partId??0].thumbnail,), // Replace with actual thumbnail URL
             width: 65,
             height: 60,
             fit: BoxFit.cover,
@@ -249,32 +281,52 @@ class CourseItem extends StatelessWidget {
             ),
           ),
         ),
-
         // Circular play button
         IconButton(
           onPressed: () {
-            if (index == '03') {
+            if(courseModel.videoUrl1[courseId].part2.isEmpty){
+            if (index == '02') {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const WebViewScreen(
-                    url: "https://docs.google.com/forms/d/e/1FAIpQLSdD16HS-jyucqvOFA8CS3NP2Qnztal6Ed_DUFP6iTiI5FlW-w/viewform?usp=dialog",
+                  builder: (context) => course.quiz[courseId],
+                ),
+              );
+
+            }else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CourseVideoPlayerScreen(
+                    videoUrl:
+                         courseModel.videoUrl1[courseId].url
                   ),
                 ),
               );
-              return;
+            }
+            return;
             }
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CourseVideoPlayerScreen(
-                  videoUrl: index == '01'
-                      ? courseModel.videoUrl1[courseId].url
-                      : courseModel.videoUrl2[courseId].url,
-                ),
-              ),
-            );
+              if(index=='0${courseModel.videoUrl1[courseId].part2.length+2}'){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => course.quiz[courseId],
+                  ),
+                );
+              }else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CourseVideoPlayerScreen(
+                      videoUrl: index == '01'
+                          ? courseModel.videoUrl1[courseId].url
+                          : courseModel.videoUrl1[courseId].part2[partId??0].url,
+                    ),
+                  ),
+                );
+              }
+
           },
           icon: const Icon(Icons.play_arrow, color: Colors.black, size: 32),
          // child: const Icon(Icons.play_arrow, color: Colors.white, size: 32),
@@ -300,22 +352,6 @@ class WebViewScreen extends StatelessWidget {
     );
   }
 }
-
-class CourseVideoPlayerScreen extends StatelessWidget {
-  final String videoUrl;
-  const CourseVideoPlayerScreen({super.key, required this.videoUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Course Video Player")),
-      body: CourseVideoPlayerScreenBody(
-        videoUrl: videoUrl,
-      ),
-    );
-  }
-}
-
 String getTime(int time) {
   final minutes = time ~/ 60;
   final seconds = time % 60;
