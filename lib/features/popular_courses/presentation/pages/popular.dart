@@ -9,11 +9,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../Quiz 8-12edu/Space.dart';
+import '../../../../Quiz3-5edu/AskingAboutName.dart';
+import '../../../../Quiz3-5edu/EnglishLetters.dart';
+import '../../../../Quiz3-5edu/Family.dart';
+import '../../../../Quiz3-5edu/SeaAnimals.dart';
+import '../../../../Quiz3-5edu/TrafficSigns.dart';
+import '../../../../Quiz3-5edu/WildAnimals.dart';
+import '../../../../Quiz3-5relig/PillarsofIslam.dart';
+import '../../../../Quiz3-5relig/Pillarsoffaith.dart';
+import '../../../../Quiz3-5relig/Wudu.dart';
+import '../../../../Quiz5-8edu/AskingAboutNamem.dart';
+import '../../../../Quiz5-8edu/SeaCreaturesm.dart';
+import '../../../../Quiz5-8edu/TrafficLightsm.dart';
+import '../../../../Quiz5-8edu/WildAnimalsm.dart';
+import '../../../../Quiz5-8relig/PillarsofIslamdm.dart';
+import '../../../../Quiz5-8relig/Pillarsoffaithm.dart';
+import '../../../../Quiz5-8relig/Wududm.dart';
+import '../../../../Quiz8-12relig/BuildingtheKaabal.dart';
+import '../../../../Quiz8-12relig/Godseesusl.dart';
+import '../../../../Quiz8-12relig/HijriMonthsl.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../layout/layout_body.dart';
 import '../../data/data_sources/courses_remote_datasources.dart';
-
-
 
 class Course {
   final String title;
@@ -21,9 +39,11 @@ class Course {
   final double rating;
   final int students;
   final String ageGroup;
+  final List<Widget> quiz;
   bool isFavorite;
 
   Course({
+    required this.quiz,
     required this.title,
     required this.category,
     required this.rating,
@@ -51,6 +71,7 @@ class Course {
       students: map['students'] ?? 0,
       ageGroup: map['ageGroup'] ?? '',
       isFavorite: map['isFavorite'] ?? false,
+      quiz: map['quiz'] ?? '',
     );
   }
 }
@@ -64,24 +85,141 @@ class Popular extends StatefulWidget {
 class _PopularState extends State<Popular> {
   List<Course> favoriteCourses = [];
   List<Course> courses = [
-    Course(title: "Education", category: "Education", rating: 3.5, students: 3000, ageGroup: "3-5"),
-    Course(title: "Education", category: "Education", rating: 4.2, students: 3500, ageGroup: "5-8"),
-    Course(title: "Education", category: "Education", rating: 4.2, students: 3500, ageGroup: "8-12"),
-    Course(title: "Religion", category: "Religion", rating: 3.9, students: 2800, ageGroup: "3-5"),
-    Course(title: "Religion", category: "Religion", rating: 4.1, students: 3200, ageGroup: "5-8"),
-    Course(title: "Religion", category: "Religion", rating: 4.1, students: 3200, ageGroup: "8-12"),
-    Course(title: "Technology", category: "Technology", rating: 4.2, students: 4000, ageGroup: "3-5"),
-    Course(title: "Technology", category: "Technology", rating: 4.5, students: 4500, ageGroup: "5-8"),
-    Course(title: "Technology", category: "Technology", rating: 4.5, students: 4500, ageGroup: "8-12"),
-    Course(title: "Civilization", category: "Civilization", rating: 4.9, students: 5000, ageGroup: "3-5"),
-    Course(title: "Civilization", category: "Civilization", rating: 4.7, students: 5200, ageGroup: "5-8"),
-    Course(title: "Civilization", category: "Civilization", rating: 4.7, students: 5200, ageGroup: "8-12"),
-    Course(title: "Entertainment", category: "Entertainment", rating: 4.0, students: 3500, ageGroup: "3-5"),
-    Course(title: "Entertainment", category: "Entertainment", rating: 4.3, students: 3800, ageGroup: "5-8"),
-    Course(title: "Entertainment", category: "Entertainment", rating: 4.3, students: 3800, ageGroup: "8-12"),
-    Course(title: "Behavior", category: "Behavior", rating: 3.8, students: 3100, ageGroup: "3-5"),
-    Course(title: "Behavior", category: "Behavior", rating: 4.0, students: 3400, ageGroup: "5-8"),
-    Course(title: "Behavior", category: "Behavior", rating: 4.3, students: 3700, ageGroup: "8-12"),
+    Course(
+        title: "Education",
+        category: "Education",
+        rating: 3.5,
+        students: 3000,
+        ageGroup: "3-5", quiz: [
+      AskingAboutNameQuiz(),
+      EnglishLettersQuiz(),
+      TrafficSigns(),
+      FamilyQuiz(),
+      WildAnimalsQuiz(),
+      SeaAnimalsQuiz()
+    ],
+    ),
+    Course(
+        title: "Education",
+        category: "Education",
+        rating: 4.2,
+        students: 3500,
+        ageGroup: "5-8", quiz: [
+      AskingAboutNamem(),
+      TrafficLightsm(),
+      WildAnimalsm(),
+      SeaCreaturesm()
+    ]),
+    Course(
+        title: "Education",
+        category: "Education",
+        rating: 4.2,
+        students: 3500,
+        ageGroup: "8-12", quiz: [
+      QuizPage(),
+    ]),
+    Course(
+        title: "Religion",
+        category: "Religion",
+        rating: 3.9,
+        students: 2800,
+        ageGroup: "3-5", quiz: [
+      PillarsofIslam(),
+      Wudu(),
+      Pillarsoffaith(),
+    ]),
+    Course(
+        title: "Religion",
+        category: "Religion",
+        rating: 4.1,
+        students: 3200,
+        ageGroup: "5-8", quiz: [
+      PillarsofIslamdm(),
+      Wududm(),
+      Pillarsoffaithm()
+    ]),
+    Course(
+        title: "Religion",
+        category: "Religion",
+        rating: 4.1,
+        students: 3200,
+        ageGroup: "8-12", quiz: [
+      Godseesusl(),
+      HijriMonthsl(),
+      BuildingtheKaabal()
+    ]),
+    Course(
+        title: "Technology",
+        category: "Technology",
+        rating: 4.2,
+        students: 4000,
+        ageGroup: "3-5", quiz: []),
+    Course(
+        title: "Technology",
+        category: "Technology",
+        rating: 4.5,
+        students: 4500,
+        ageGroup: "5-8", quiz: []),
+    Course(
+        title: "Technology",
+        category: "Technology",
+        rating: 4.5,
+        students: 4500,
+        ageGroup: "8-12", quiz: []),
+    Course(
+        title: "Civilization",
+        category: "Civilization",
+        rating: 4.9,
+        students: 5000,
+        ageGroup: "3-5", quiz: []),
+    Course(
+        title: "Civilization",
+        category: "Civilization",
+        rating: 4.7,
+        students: 5200,
+        ageGroup: "5-8", quiz: []),
+    Course(
+        title: "Civilization",
+        category: "Civilization",
+        rating: 4.7,
+        students: 5200,
+        ageGroup: "8-12", quiz: []),
+    Course(
+        title: "Entertainment",
+        category: "Entertainment",
+        rating: 4.0,
+        students: 3500,
+        ageGroup: "3-5", quiz: []),
+    Course(
+        title: "Entertainment",
+        category: "Entertainment",
+        rating: 4.3,
+        students: 3800,
+        ageGroup: "5-8", quiz: []),
+    Course(
+        title: "Entertainment",
+        category: "Entertainment",
+        rating: 4.3,
+        students: 3800,
+        ageGroup: "8-12", quiz: []),
+    Course(
+        title: "Behavior",
+        category: "Behavior",
+        rating: 3.8,
+        students: 3100,
+        ageGroup: "3-5", quiz: []),
+    Course(
+        title: "Behavior",
+        category: "Behavior",
+        rating: 4.0,
+        students: 3400,
+        ageGroup: "5-8", quiz: []),
+    Course(
+        title: "Behavior",
+        category: "Behavior",
+        rating: 4.3,
+        students: 3700,
+        ageGroup: "8-12", quiz: []),
   ];
 
   String selectedCategory = "All";
@@ -123,9 +261,12 @@ class _PopularState extends State<Popular> {
         ? courses
         : selectedCategory == "Favorite Courses"
             ? favoriteCourses
-            : courses.where((course) => course.category == selectedCategory).toList();
+            : courses
+                .where((course) => course.category == selectedCategory)
+                .toList();
     return filtered
-        .where((course) => course.title.toLowerCase().contains(searchQuery.toLowerCase()))
+        .where((course) =>
+            course.title.toLowerCase().contains(searchQuery.toLowerCase()))
         .toList();
   }
 
@@ -161,8 +302,10 @@ class _PopularState extends State<Popular> {
       child: ElevatedButton(
         onPressed: () => setCategory(category),
         style: ElevatedButton.styleFrom(
-          backgroundColor: selectedCategory == category ? Colors.black : Colors.white,
-          foregroundColor: selectedCategory == category ? Colors.white : Colors.black,
+          backgroundColor:
+              selectedCategory == category ? Colors.black : Colors.white,
+          foregroundColor:
+              selectedCategory == category ? Colors.white : Colors.black,
         ),
         child: Text(category, style: const TextStyle(fontSize: 12)),
       ),
@@ -176,7 +319,7 @@ class _PopularState extends State<Popular> {
         PopularCoursesRepoImpl(
           popularCoursesRemoteDataSource: PopularCoursesRemoteDataSource(),
         ),
-      )..fetchCourses(path:"uploads"),
+      )..fetchCourses(path: "uploads"),
       child: Scaffold(
         backgroundColor: const Color(0xFF93AACF),
         appBar: AppBar(
@@ -199,10 +342,12 @@ class _PopularState extends State<Popular> {
                   ),
                   style: const TextStyle(color: Colors.black, fontSize: 16),
                 )
-              : const Text("Popular Courses", style: TextStyle(color: Colors.black)),
+              : const Text("Popular Courses",
+                  style: TextStyle(color: Colors.black)),
           actions: [
             IconButton(
-              icon: Icon(isSearching ? Icons.close : Icons.search, color: Colors.black),
+              icon: Icon(isSearching ? Icons.close : Icons.search,
+                  color: Colors.black),
               onPressed: () {
                 setState(() {
                   isSearching = !isSearching;
@@ -224,7 +369,8 @@ class _PopularState extends State<Popular> {
                 child: Row(
                   children: [
                     _buildFilterButton("All"),
-                    if (favoriteCourses.isNotEmpty) _buildFilterButton("Favorite Courses"),
+                    if (favoriteCourses.isNotEmpty)
+                      _buildFilterButton("Favorite Courses"),
                     _buildFilterButton("Education"),
                     _buildFilterButton("Religion"),
                     _buildFilterButton("Civilization"),
@@ -247,12 +393,15 @@ class _PopularState extends State<Popular> {
                       var course = filteredCourses[index];
                       var course1 = PopularCoursesCubit.get(context);
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 6.0),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.black, width: 3), // ✅ بوردر أسود للكارت كله
+                            border: Border.all(
+                                color: Colors.black,
+                                width: 3), // ✅ بوردر أسود للكارت كله
                           ),
                           child: InkWell(
                             onTap: () {
@@ -276,25 +425,36 @@ class _PopularState extends State<Popular> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black, width: 3), // ✅ بوردر أسود للصورة
+                                      border: Border.all(
+                                          color: Colors.black,
+                                          width: 3), // ✅ بوردر أسود للصورة
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(6),
                                       child: CachedNetworkImage(
-                                        imageUrl: AppConstant.convertGoogleDriveUrl(
-                                          course1.urlImg(age: course.ageGroup, cat: course.category),
+                                        imageUrl:
+                                            AppConstant.convertGoogleDriveUrl(
+                                          course1.urlImg(
+                                              age: course.ageGroup,
+                                              cat: course.category),
                                         ), // التأكد من وجود قيمة URL للصورة
                                         width: 90,
                                         height: 100,
                                         fit: BoxFit.cover,
-                                        placeholder: (context, url) => Container(
+                                        placeholder: (context, url) =>
+                                            Container(
                                           color: Colors.grey[300],
-                                          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                                          child: const Center(
+                                              child: CircularProgressIndicator(
+                                                  strokeWidth: 2)),
                                         ),
-                                        errorWidget: (context, url, error) => Container(
+                                        errorWidget: (context, url, error) =>
+                                            Container(
                                           color: Colors.grey[300],
-                                          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                                          child: const Center(
+                                              child: CircularProgressIndicator(
+                                                  strokeWidth: 2)),
                                         ),
                                       ),
                                     ),
@@ -302,13 +462,20 @@ class _PopularState extends State<Popular> {
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text("${course.title} (${course.ageGroup})",
-                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                        Text(
+                                            "${course.title} (${course.ageGroup})",
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold)),
                                         const SizedBox(height: 8),
-                                        Text("⭐ ${course.rating} | ${course.students} Students",
-                                            style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                                        Text(
+                                            "⭐ ${course.rating} | ${course.students} Students",
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey)),
                                         Align(
                                           alignment: Alignment.bottomRight,
                                           child: IconButton(
@@ -316,9 +483,12 @@ class _PopularState extends State<Popular> {
                                               course.isFavorite
                                                   ? Icons.bookmark
                                                   : Icons.bookmark_border,
-                                              color: course.isFavorite ? Colors.green : Colors.grey,
+                                              color: course.isFavorite
+                                                  ? Colors.green
+                                                  : Colors.grey,
                                             ),
-                                            onPressed: () => toggleFavorite(course),
+                                            onPressed: () =>
+                                                toggleFavorite(course),
                                           ),
                                         )
                                       ],
@@ -341,4 +511,3 @@ class _PopularState extends State<Popular> {
     );
   }
 }
-

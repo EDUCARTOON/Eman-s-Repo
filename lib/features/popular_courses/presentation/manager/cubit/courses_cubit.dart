@@ -13,6 +13,7 @@ class PopularCoursesCubit extends Cubit<PopularCoursesState> {
   final PopularCoursesRepoImpl popularCoursesRepoImpl;
   List<CourseModel>courses = [];
   Future<void> fetchCourses({required String path})async{
+    print("process2");
     final response = await popularCoursesRepoImpl.fetchCourses(path: path);
     response.fold(
         (l) {

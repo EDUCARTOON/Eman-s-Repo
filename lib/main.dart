@@ -13,6 +13,8 @@ import 'package:flutter_application_3/features/profile/data/repositories/profile
 import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
 import 'package:flutter_application_3/firebase_options.dart';
 
+import 'core/services/firebase_services.dart';
+
 // 👇 ValueNotifier للتحكم في وضع الثيم
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
@@ -24,7 +26,6 @@ void main() async {
   await CacheHelper.init();
   uid = await getIt<SecureStorageServices>().getData(key: 'UID') ?? "";
   googleLogin = await CacheHelper.getData( 'isFirstG')??true;
-
   runApp(
     MultiBlocProvider(
       providers: [
