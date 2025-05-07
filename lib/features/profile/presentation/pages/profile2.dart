@@ -134,6 +134,7 @@ class _Profile2PageState extends State<Profile2Page> {
                 _buildProfileOption(context, Icons.security, "Terms & Conditions"),
                 _buildProfileOption(context, Icons.mail, "Invite Friends"),
                 _buildProfileOption(context, Icons.feedback, "feedback"),
+                _buildProfileOption(context, Icons.child_care, "Add new child"),
                 _buildProfileOption(context, Icons.logout, "Logout"),
               ],
             ),
@@ -174,7 +175,7 @@ class _Profile2PageState extends State<Profile2Page> {
     else if (title == "Invite Friends") {
       Navigator.push(context, MaterialPageRoute(builder: (context) =>  InviteFriendsApp()));
     } else if (title == "Add new child") {
-      //context.go(Routes.addChildProfile);
+      context.go(Routes.addChildProfile,);
       Navigator.push(context, MaterialPageRoute(builder: (context) => const AddChildProfileScreen()));
     } else if (title == "Logout") {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));

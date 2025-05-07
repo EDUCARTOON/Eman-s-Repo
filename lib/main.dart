@@ -26,6 +26,8 @@ void main() async {
   await CacheHelper.init();
   uid = await getIt<SecureStorageServices>().getData(key: 'UID') ?? "";
   googleLogin = await CacheHelper.getData( 'isFirstG')??true;
+ // FirebaseFile.copyUploadData("E1", "E2");
+ // FirebaseFile.addVideoToList(childId: '-ONG9tlgxmXGxI2HJQiu');
   runApp(
     MultiBlocProvider(
       providers: [
