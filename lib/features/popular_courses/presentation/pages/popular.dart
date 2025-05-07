@@ -79,7 +79,7 @@ class Course {
       students: map['students'] ?? 0,
       ageGroup: map['ageGroup'] ?? '',
       isFavorite: map['isFavorite'] ?? false,
-      quiz: map['quiz'] ?? '',
+      quiz: map['quiz'] ?? [],
     );
   }
 }

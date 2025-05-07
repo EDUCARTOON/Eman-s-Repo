@@ -2,21 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/course_video_player.dart';
+import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
 import 'package:flutter_application_3/web_view.dart';
 import 'package:go_router/go_router.dart';
 
-import 'ContinueCourse.dart';
-import 'Quiz3-5edu/AskingAboutName.dart';
-import 'features/popular_courses/data/models/course_model.dart';
-import 'features/popular_courses/presentation/pages/DownSyndrome.dart';
-import 'features/popular_courses/presentation/pages/popular.dart';
+import '../../data/models/course_model.dart';
+import 'SpecialCourses.dart';
+
 
 // void main() {
 //   runApp(const StartCoursesPage());
 // }
 
-class StartCoursesApp extends StatelessWidget {
-  const StartCoursesApp(
+class StartCoursesAppCopy extends StatelessWidget {
+  const StartCoursesAppCopy(
       {super.key,  this.course, required this.courseModel,this.courseItem});
   final CourseItem? courseItem;
   final Course? course;

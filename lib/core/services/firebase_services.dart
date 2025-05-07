@@ -86,7 +86,7 @@ abstract class FirebaseFile {
     final databaseReference = FirebaseDatabase.instance.ref();
 
     // Define the path to the list (videoUrl1)
-    final path = databaseReference.child("$parentId/$childId/videoUrl1");
+    final path = databaseReference.child("esheDeaf/$childId/videoUrl1");
 
     // Fetch the current list from Firebase
     final snapshot = await path.once();
@@ -98,22 +98,11 @@ abstract class FirebaseFile {
     }
 
     // Create the new video item
-    final newVideo =  {
-      "name": "الذكاء الاصطناعي (1)",
-      "time": 48,
-      "url":
-      "https://drive.google.com/file/d/1SEI8etfjFWXnb4QWVeqbfBzutSj0wa_v/view?usp=sharing",
-      "thumbnail": "",
-      'part2': [
-        {
-          "name": "الذكاء الاصطناعي (2)",
-          "time": 38,
-          "url":
-          "https://drive.google.com/file/d/15b68dcYHyiPdqIE7caU99UTEwPnnh7U7/view?usp=sharing",
-          "thumbnail": "",
-        }
-      ]
-      //put value and key like this
+    final newVideo =    {
+      "name": "Ai",
+      "thumbnail": "https://drive.google.com/file/d/1Ln1mL0MI6pd43qX7l7qR3JU6thk2tCY6/view?usp=sharing",
+      "time":128,
+      "url": "https://drive.google.com/file/d/1X1wVvb1mDRq1iOpqzOWNUr2dsn_Ew-NM/view?usp=sharing"
     };
 
     // Add the new video item to the list
@@ -183,7 +172,7 @@ abstract class FirebaseFile {
   static Future<void> copyUploadData(String fromId, String toId) async {
     final db = FirebaseDatabase.instance;
     final sourceRef = db.ref('uploads/$fromId');
-    final destRef = db.ref('uploads/$toId');
+    final destRef = db.ref('downloads/$toId');
 
     try {
       final snapshot = await sourceRef.get();
