@@ -10,6 +10,13 @@ import 'package:flutter_application_3/features/popular_courses/presentation/page
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../Down5-15edu/Englishletterd.dart';
+import '../../../../Down5-15edu/HealthyFoodsd.dart';
+import '../../../../Down5-15edu/dayofweekd.dart';
+import '../../../../Down5-15relig/AllahYaranad.dart';
+import '../../../../Down5-15relig/ArkanImand.dart';
+import '../../../../Down5-15relig/ArkanIslamd.dart';
+import '../../../../StartCourses.dart';
 import '../../../../core/app_constant.dart';
 import '../../data/data_sources/courses_remote_datasources.dart';
 import '../../data/repositories/courses_repo_impl.dart';
@@ -54,27 +61,59 @@ class _DownSyndromeState extends State<Downsyndrome> {
 
   final List<CourseItem> _courses = [
     CourseItem(
-        title: 'Education', ageGroup: '5-15', rating: 3.5, students: 3000),
+        title: 'Education',
+        ageGroup: '5-15',
+        rating: 3.5,
+        students: 3000,
+        quiz: [
+          HealthyFoodsd(),
+          Dayofweek(),
+          Englishletterd()
+        ]),
     // CourseItem(title: 'Education Down', ageGroup: '5-15', rating: 4.2, students: 3500),
     //  CourseItem(title: 'Education Down', ageGroup: '5-15', rating: 4.2, students: 3500),
     CourseItem(
-        title: 'Religion', ageGroup: '5-15', rating: 3.9, students: 2800),
+        title: 'Religion',
+        ageGroup: '5-15',
+        rating: 3.9,
+        students: 2800,
+        quiz: [
+          ArkanIslamQuiz(),
+          AllahYaranad(),
+          ArkanImand()
+        ]),
     // CourseItem(title: 'Religion Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Religion Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     CourseItem(
-        title: 'Technology', ageGroup: '5-15', rating: 3.9, students: 2800),
+        title: 'Technology',
+        ageGroup: '5-15',
+        rating: 3.9,
+        students: 2800,
+        quiz: []),
     // CourseItem(title: 'Technology Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Technology Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     CourseItem(
-        title: 'Civilization', ageGroup: '5-15', rating: 3.9, students: 2800),
+        title: 'Civilization',
+        ageGroup: '5-15',
+        rating: 3.9,
+        students: 2800,
+        quiz: []),
     //  CourseItem(title: 'Civilization Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Civilization Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     CourseItem(
-        title: 'Entertainment', ageGroup: '5-15', rating: 3.9, students: 2800),
+        title: 'Entertainment',
+        ageGroup: '5-15',
+        rating: 3.9,
+        students: 2800,
+        quiz: []),
     // CourseItem(title: 'Entertainment Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Entertainment Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     CourseItem(
-        title: 'Behavior', ageGroup: '5-15', rating: 3.9, students: 2800),
+        title: 'Behavior',
+        ageGroup: '5-15',
+        rating: 3.9,
+        students: 2800,
+        quiz: []),
     // CourseItem(title: 'Behavior Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Behavior Down', ageGroup: '5-15', rating: 4.1, students: 3200),
   ];
@@ -238,55 +277,33 @@ class _DownSyndromeState extends State<Downsyndrome> {
                       // var course = filteredCourses[index];
                       var course1 = PopularCoursesCubit.get(context);
                       final course = filteredCourses[index];
-                      return GestureDetector(
-                        onTap: () {
-                          if (course.title.contains('Education')) {
-                            Navigator.push(
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 6.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                                color: Colors.black,
+                                width: 3), // ✅ بوردر أسود للكارت كله
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Educationdown()));
-                          } else if (course.title.contains('Religion')) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Religiondown()));
-                          } else if (course.title.contains('Civilization')) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Civilizationdown()));
-                          } else if (course.title.contains('Technology')) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Technologydown()));
-                          } else if (course.title.contains('Entertainment')) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Entertainmentdown()));
-                          } else if (course.title.contains('Behavior')) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Behaviordown()));
-                          }
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 6.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.black, width: 3),
-                            ),
+                                  builder: (context) => StartCoursesApp(
+                                    //course: courses[index],
+                                    courseItem: _courses[index],
+                                    courseModel: course1.course(
+                                      age: course.ageGroup,
+                                      cat: course.title,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
@@ -302,11 +319,12 @@ class _DownSyndromeState extends State<Downsyndrome> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(6),
                                       child: CachedNetworkImage(
-                                        imageUrl:AppConstant.convertGoogleDriveUrl(
+                                        imageUrl:
+                                            AppConstant.convertGoogleDriveUrl(
                                           course1.urlImg(
                                               age: course.ageGroup,
-                                              cat: course.title)),
-                                        // التأكد من وجود قيمة URL للصورة
+                                              cat: course.title),
+                                        ), // التأكد من وجود قيمة URL للصورة
                                         width: 90,
                                         height: 100,
                                         fit: BoxFit.cover,
@@ -386,9 +404,10 @@ class CourseItem {
   final double rating;
   final int students;
   bool isFavorite;
-
+  List<Widget> quiz;
   CourseItem({
     required this.title,
+    required this.quiz,
     required this.ageGroup,
     required this.rating,
     required this.students,
