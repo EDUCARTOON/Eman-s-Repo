@@ -10,13 +10,59 @@ abstract class FirebaseFile {
 
   static void add1({required String childId}) {
     final path = dbRef.child("$parentId/$childId/videoUrl1/0");
-    path.update({
-      "name": "اطعام ومراعات الحيوانات",
-      "time": 13,
-      "url": "https://drive.google.com/file/d/15-B7YZeraPVvy74352R33cuUyCQCTqt0/view?usp=sharing",
-      "thumbnail": "",
-       //put value and key like this
-    });
+    path.push().set([
+      {
+        "name": "الادوات التكنولوجيا الجزء الاول1",
+        "time": 126,
+        "url":
+            "https://drive.google.com/file/d/1r1ErB6EOvSLlaSULyxnGWs1XPu127E2O/view?usp=sharing",
+        "thumbnail": "",
+        'part2': [
+          {
+            "name": "الادوات التكنولوجيا الجزء الاول2",
+            "time": 92,
+            "url":
+                "https://drive.google.com/file/d/1666agjVrNbeFiJSlHtFrk5zNRgBBZBQT/view?usp=sharing",
+            "thumbnail": "",
+          }
+        ]
+        //put value and key like this
+      },
+      {
+        "name": "الادوات التكنولوجيا الجزء الثاني1",
+        "time": 146,
+        "url":
+        "https://drive.google.com/file/d/1NauvQaDH8_NE7-6EvoKqFFM5tPUvSdxQ/view?usp=sharing",
+        "thumbnail": "",
+        'part2': [
+          {
+            "name": "الادوات التكنولوجيا الجزء الثاني2",
+            "time": 114,
+            "url":
+            "https://drive.google.com/file/d/1-Thenj9CdY2suDZm3cpzPBl8MbQLzBsf/view?usp=sharing",
+            "thumbnail": "",
+          }
+        ]
+        //put value and key like this
+      },
+      {
+        "name": "الادوات التكنولوجيا الجزء الثالث1",
+        "time": 132,
+        "url":
+        "https://drive.google.com/file/d/1PzgL-9aHQaakIqn_aSDwnqte7Yt_rKl5/view?usp=sharing",
+        "thumbnail": "",
+        'part2': [
+          {
+            "name": "الادوات التكنولوجيا الجزء الثالث2",
+            "time": 117,
+            "url":
+            "https://drive.google.com/file/d/1ct2zTB4Ab772hDwo1wWW7Ku8taYKC4YZ/view?usp=sharing",
+            "thumbnail": "",
+          }
+        ]
+        //put value and key like this
+      }
+    ]);
   }
 
   //............................................................
@@ -32,18 +78,15 @@ abstract class FirebaseFile {
 //   }
 
 //............................................................
-//to add a value in video
-
+//to add a value in videourl1
 
   static void addVideoToList({
-    required String videoId,
     required String childId,
-
   }) async {
     final databaseReference = FirebaseDatabase.instance.ref();
 
     // Define the path to the list (videoUrl1)
-    final path = databaseReference.child("$parentId/$childId/$videoId");
+    final path = databaseReference.child("$parentId/$childId/videoUrl1");
 
     // Fetch the current list from Firebase
     final snapshot = await path.once();
@@ -55,11 +98,22 @@ abstract class FirebaseFile {
     }
 
     // Create the new video item
-    final newVideo = {
-      "name": "",
-      "time": 0,
-      "url": "",
+    final newVideo =  {
+      "name": "الذكاء الاصطناعي (1)",
+      "time": 48,
+      "url":
+      "https://drive.google.com/file/d/1SEI8etfjFWXnb4QWVeqbfBzutSj0wa_v/view?usp=sharing",
       "thumbnail": "",
+      'part2': [
+        {
+          "name": "الذكاء الاصطناعي (2)",
+          "time": 38,
+          "url":
+          "https://drive.google.com/file/d/15b68dcYHyiPdqIE7caU99UTEwPnnh7U7/view?usp=sharing",
+          "thumbnail": "",
+        }
+      ]
+      //put value and key like this
     };
 
     // Add the new video item to the list
@@ -75,7 +129,7 @@ abstract class FirebaseFile {
   static void addVideoPartToList({
     required String videoId,
     required String childId,
-    required List<Map<String, dynamic>> part2Videos ,
+    required List<Map<String, dynamic>> part2Videos,
   }) async {
     final databaseReference = FirebaseDatabase.instance.ref();
     final path = databaseReference.child("$parentId/$childId/$videoId");
@@ -118,8 +172,6 @@ abstract class FirebaseFile {
     print("Part2 videos added to the list at index 0.");
   }
 
-
-
   static void addFeedback({required String note}) {
     final path = dbRef.child("feedback");
     path.push().set({
@@ -127,6 +179,26 @@ abstract class FirebaseFile {
     });
   }
 
+  //.......................................................................
+  static Future<void> copyUploadData(String fromId, String toId) async {
+    final db = FirebaseDatabase.instance;
+    final sourceRef = db.ref('uploads/$fromId');
+    final destRef = db.ref('uploads/$toId');
+
+    try {
+      final snapshot = await sourceRef.get();
+      if (snapshot.exists) {
+        await destRef.set(snapshot.value);
+        print('Data copied from $fromId to $toId successfully.');
+      } else {
+        print('No data found at uploads/$fromId');
+      }
+    } catch (e) {
+      print('Error copying upload data: $e');
+    }
+  }
+
+//....................................................................
   static Future signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();

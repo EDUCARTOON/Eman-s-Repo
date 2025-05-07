@@ -115,7 +115,7 @@ abstract class AppRouter {
           path: Routes.addChildProfile,
           builder: (BuildContext context, GoRouterState state) {
             return AddChildProfileScreen(
-              isAdd: state.extra as bool,
+              //isAdd: state.extra as bool,
             );
           },
         ),

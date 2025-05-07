@@ -19,6 +19,9 @@ import '../../../../Quiz3-5edu/WildAnimals.dart';
 import '../../../../Quiz3-5relig/PillarsofIslam.dart';
 import '../../../../Quiz3-5relig/Pillarsoffaith.dart';
 import '../../../../Quiz3-5relig/Wudu.dart';
+import '../../../../Quiz3-5tec/Technologytoola.dart';
+import '../../../../Quiz3-5tec/Technologytoolb.dart';
+import '../../../../Quiz3-5tec/Technologytoolc.dart';
 import '../../../../Quiz5-8edu/AskingAboutNamem.dart';
 import '../../../../Quiz5-8edu/SeaCreaturesm.dart';
 import '../../../../Quiz5-8edu/TrafficLightsm.dart';
@@ -26,9 +29,14 @@ import '../../../../Quiz5-8edu/WildAnimalsm.dart';
 import '../../../../Quiz5-8relig/PillarsofIslamdm.dart';
 import '../../../../Quiz5-8relig/Pillarsoffaithm.dart';
 import '../../../../Quiz5-8relig/Wududm.dart';
+import '../../../../Quiz5-8tec/WhatIsTechnologya.dart';
+import '../../../../Quiz5-8tec/WhatIsTechnologyb.dart';
+import '../../../../Quiz5-8tec/WhatIsTechnologyd.dart';
+import '../../../../Quiz5-8tec/WhatIsTechnologye.dart';
 import '../../../../Quiz8-12relig/BuildingtheKaabal.dart';
 import '../../../../Quiz8-12relig/Godseesusl.dart';
 import '../../../../Quiz8-12relig/HijriMonthsl.dart';
+import '../../../../Quiz8-12tec/WhatIsAI.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../layout/layout_body.dart';
 import '../../data/data_sources/courses_remote_datasources.dart';
@@ -86,140 +94,161 @@ class _PopularState extends State<Popular> {
   List<Course> favoriteCourses = [];
   List<Course> courses = [
     Course(
-        title: "Education",
-        category: "Education",
-        rating: 3.5,
-        students: 3000,
-        ageGroup: "3-5", quiz: [
-      AskingAboutNameQuiz(),
-      EnglishLettersQuiz(),
-      TrafficSigns(),
-      FamilyQuiz(),
-      WildAnimalsQuiz(),
-      SeaAnimalsQuiz()
-    ],
+      title: "Education",
+      category: "Education",
+      rating: 3.5,
+      students: 3000,
+      ageGroup: "3-5",
+      quiz: [
+        AskingAboutNameQuiz(),
+        EnglishLettersQuiz(),
+        TrafficSigns(),
+        FamilyQuiz(),
+        WildAnimalsQuiz(),
+        SeaAnimalsQuiz()
+      ],
     ),
     Course(
         title: "Education",
         category: "Education",
         rating: 4.2,
         students: 3500,
-        ageGroup: "5-8", quiz: [
-      AskingAboutNamem(),
-      TrafficLightsm(),
-      WildAnimalsm(),
-      SeaCreaturesm()
-    ]),
+        ageGroup: "5-8",
+        quiz: [
+          AskingAboutNamem(),
+          TrafficLightsm(),
+          WildAnimalsm(),
+          SeaCreaturesm()
+        ]),
     Course(
         title: "Education",
         category: "Education",
         rating: 4.2,
         students: 3500,
-        ageGroup: "8-12", quiz: [
-      QuizPage(),
-    ]),
+        ageGroup: "8-12",
+        quiz: [
+          QuizPage(),
+        ]),
     Course(
         title: "Religion",
         category: "Religion",
         rating: 3.9,
         students: 2800,
-        ageGroup: "3-5", quiz: [
-      PillarsofIslam(),
-      Wudu(),
-      Pillarsoffaith(),
-    ]),
+        ageGroup: "3-5",
+        quiz: [
+          PillarsofIslam(),
+          Wudu(),
+          Pillarsoffaith(),
+        ]),
     Course(
         title: "Religion",
         category: "Religion",
         rating: 4.1,
         students: 3200,
-        ageGroup: "5-8", quiz: [
-      PillarsofIslamdm(),
-      Wududm(),
-      Pillarsoffaithm()
-    ]),
+        ageGroup: "5-8",
+        quiz: [PillarsofIslamdm(), Wududm(), Pillarsoffaithm()]),
     Course(
         title: "Religion",
         category: "Religion",
         rating: 4.1,
         students: 3200,
-        ageGroup: "8-12", quiz: [
-      Godseesusl(),
-      HijriMonthsl(),
-      BuildingtheKaabal()
-    ]),
+        ageGroup: "8-12",
+        quiz: [Godseesusl(), HijriMonthsl(), BuildingtheKaabal()]),
     Course(
         title: "Technology",
         category: "Technology",
         rating: 4.2,
         students: 4000,
-        ageGroup: "3-5", quiz: []),
+        ageGroup: "3-5",
+        quiz: [
+          Technologytoola(),
+          Technologytoolb(),
+          Technologytoolc(),
+        ]),
     Course(
         title: "Technology",
         category: "Technology",
         rating: 4.5,
         students: 4500,
-        ageGroup: "5-8", quiz: []),
+        ageGroup: "5-8",
+        quiz: [
+          WhatIsTechnologya(),
+          WhatIsTechnologyb(),
+          WhatIsTechnologyd(),
+          WhatIsTechnologye()
+        ]),
     Course(
         title: "Technology",
         category: "Technology",
         rating: 4.5,
         students: 4500,
-        ageGroup: "8-12", quiz: []),
+        ageGroup: "8-12",
+        quiz: [
+          WhatIsAI()
+        ]),
     Course(
         title: "Civilization",
         category: "Civilization",
         rating: 4.9,
         students: 5000,
-        ageGroup: "3-5", quiz: []),
+        ageGroup: "3-5",
+        quiz: []),
     Course(
         title: "Civilization",
         category: "Civilization",
         rating: 4.7,
         students: 5200,
-        ageGroup: "5-8", quiz: []),
+        ageGroup: "5-8",
+        quiz: []),
     Course(
         title: "Civilization",
         category: "Civilization",
         rating: 4.7,
         students: 5200,
-        ageGroup: "8-12", quiz: []),
+        ageGroup: "8-12",
+        quiz: []),
     Course(
         title: "Entertainment",
         category: "Entertainment",
         rating: 4.0,
         students: 3500,
-        ageGroup: "3-5", quiz: []),
+        ageGroup: "3-5",
+        quiz: []),
     Course(
         title: "Entertainment",
         category: "Entertainment",
         rating: 4.3,
         students: 3800,
-        ageGroup: "5-8", quiz: []),
+        ageGroup: "5-8",
+        quiz: []),
     Course(
         title: "Entertainment",
         category: "Entertainment",
         rating: 4.3,
         students: 3800,
-        ageGroup: "8-12", quiz: []),
+        ageGroup: "8-12",
+        quiz: []),
     Course(
         title: "Behavior",
         category: "Behavior",
         rating: 3.8,
         students: 3100,
-        ageGroup: "3-5", quiz: []),
+        ageGroup: "3-5",
+        quiz: []),
     Course(
         title: "Behavior",
         category: "Behavior",
         rating: 4.0,
         students: 3400,
-        ageGroup: "5-8", quiz: []),
+        ageGroup: "5-8",
+        quiz: []),
     Course(
         title: "Behavior",
         category: "Behavior",
         rating: 4.3,
         students: 3700,
-        ageGroup: "8-12", quiz: []),
+        ageGroup: "8-12",
+        quiz: []),
   ];
 
   String selectedCategory = "All";
