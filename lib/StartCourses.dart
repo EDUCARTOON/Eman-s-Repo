@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import 'ContinueCourse.dart';
 import 'Quiz3-5edu/AskingAboutName.dart';
+import 'core/widgets/quiz_not_found.dart';
 import 'features/popular_courses/data/models/course_model.dart';
 import 'features/popular_courses/presentation/pages/DownSyndrome.dart';
 import 'features/popular_courses/presentation/pages/popular.dart';
@@ -302,9 +303,9 @@ class CourseItems extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     if (course != null){
-                      return course?.quiz[courseId]??SizedBox();
+                      return course!.quiz.isEmpty || courseId >= course!.quiz.length?QuizNotFound(): course!.quiz[courseId];
                     }
-                    return courseItem?.quiz[courseId]??SizedBox();
+                    return courseItem!.quiz.isEmpty || courseId >= courseItem!.quiz.length?QuizNotFound(): courseItem!.quiz[courseId];   //courseItem?.quiz[courseId]!=null?courseItem!.quiz.isEmpty || courseId >= courseItem!.quiz.length?QuizNotFound():courseItem!.quiz[courseId]:QuizNotFound();
                   },
                 ),
               );
@@ -329,9 +330,9 @@ class CourseItems extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) {
                       if (course != null){
-                        return course?.quiz[courseId]??SizedBox();
+                        return course!.quiz.isEmpty || courseId >= course!.quiz.length?QuizNotFound(): course!.quiz[courseId];
                       }
-                      return courseItem?.quiz[courseId]??SizedBox();
+                      return courseItem!.quiz.isEmpty || courseId >= courseItem!.quiz.length?QuizNotFound(): courseItem!.quiz[courseId];   //courseItem?.quiz[courseId]!=null?courseItem!.quiz.isEmpty || courseId >= courseItem!.quiz.length?QuizNotFound():courseItem!.quiz[courseId]:QuizNotFound();
                     },
                   ),
                 );

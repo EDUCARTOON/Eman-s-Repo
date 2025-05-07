@@ -6,6 +6,7 @@ import 'package:flutter_application_3/features/popular_courses/presentation/page
 import 'package:flutter_application_3/web_view.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/widgets/quiz_not_found.dart';
 import '../../data/models/course_model.dart';
 import 'SpecialCourses.dart';
 
@@ -301,9 +302,9 @@ class CourseItems extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     if (course != null){
-                      return course?.quiz[courseId]??SizedBox();
+                      return course!.quiz.isEmpty || courseId >= course!.quiz.length?QuizNotFound(): course!.quiz[courseId];
                     }
-                    return courseItem?.quiz[courseId]??SizedBox();
+                    return courseItem!.quiz.isEmpty || courseId >= courseItem!.quiz.length?QuizNotFound(): courseItem!.quiz[courseId];   //courseItem?.quiz[courseId]!=null?courseItem!.quiz.isEmpty || courseId >= courseItem!.quiz.length?QuizNotFound():courseItem!.quiz[courseId]:QuizNotFound();
                   },
                 ),
               );
@@ -328,9 +329,9 @@ class CourseItems extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) {
                       if (course != null){
-                        return course?.quiz[courseId]??SizedBox();
+                        return course!.quiz.isEmpty || courseId >= course!.quiz.length?QuizNotFound(): course!.quiz[courseId];
                       }
-                      return courseItem?.quiz[courseId]??SizedBox();
+                      return courseItem!.quiz.isEmpty || courseId >= courseItem!.quiz.length?QuizNotFound(): courseItem!.quiz[courseId];   //courseItem?.quiz[courseId]!=null?courseItem!.quiz.isEmpty || courseId >= courseItem!.quiz.length?QuizNotFound():courseItem!.quiz[courseId]:QuizNotFound();
                     },
                   ),
                 );
