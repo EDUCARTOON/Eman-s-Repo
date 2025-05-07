@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animate_do/animate_do.dart';
-
+import '../core/app_shared_variables.dart';
+import '../core/services/firebase_services.dart';
 class BuildingtheKaabal extends StatefulWidget {
   const BuildingtheKaabal({super.key});
 
@@ -147,6 +148,8 @@ class _KaabaBuildingQuizScreenState extends State<BuildingtheKaabal> with Ticker
             }
             quizFinished = true;
             _saveLastScore();
+            FirebaseFile.addResult(email!, "Religion", "5-15", '$firstScore', 'Days of the Week Quiz');// حفظ النتيجة عند انتهاء الاختبار
+
           }
         });
       });

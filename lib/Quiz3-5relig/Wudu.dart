@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animate_do/animate_do.dart'; // إضافة مكتبة الرسوم المتحركة
-
+import '../core/app_shared_variables.dart';
+import '../core/services/firebase_services.dart';
 void main() {
   runApp(const Wudu());
 }
@@ -165,7 +166,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               firstScore = correctAnswersCount;
             }
             quizFinished = true;
-            _saveLastScore(); // حفظ النتيجة عند انتهاء الاختبار
+            _saveLastScore();
+            FirebaseFile.addResult(email!, "Religion", "3-5", '$firstScore', 'لعبة أركان الإسلام');// حفظ النتيجة عند انتهاء الاختبار
+// حفظ النتيجة عند انتهاء الاختبار
           }
         });
       });

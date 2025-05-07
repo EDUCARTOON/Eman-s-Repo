@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -5,6 +6,71 @@ import 'package:google_sign_in/google_sign_in.dart';
 abstract class FirebaseFile {
   static final dbRef = FirebaseDatabase.instance.ref();
   static const String parentId = "uploads";
+  //............................................................
+
+
+  static Future<void> addResult(String email, String title, String age, String result, String QuizTitle) async {
+    final firestore = FirebaseFirestore.instance;
+
+    // Get user document by email
+    final userQuery = await firestore
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .limit(1)
+        .get();
+
+    if (userQuery.docs.isEmpty) {
+      print('❌ No user found with email $email');
+      return;
+    }
+
+    final userDoc = userQuery.docs.first.reference;
+    final docRef = userDoc.collection('QuizResult').doc('$title$age');
+
+    final docSnapshot = await docRef.get();
+
+    if (docSnapshot.exists) {
+      final existingData = docSnapshot.data();
+      final List<dynamic> quizList = existingData?['quiz'] ?? [];
+
+      bool updated = false;
+
+      // Modify existing quiz result if QuizTitle matches
+      for (var item in quizList) {
+        if (item['QuizTitle'] == QuizTitle) {
+          item['Result'] = result; // update result
+          updated = true;
+          break;
+        }
+      }
+
+      // If QuizTitle not found, add a new one
+      if (!updated) {
+        quizList.add({
+          'QuizTitle': QuizTitle,
+          'Result': result,
+        });
+      }
+
+      await docRef.update({'quiz': quizList});
+      print(updated
+          ? '✅ Existing quiz result updated.'
+          : '✅ New quiz result added to existing document.');
+    } else {
+      // Document doesn't exist, create new one
+      await docRef.set({
+        'quiz': [
+          {
+            'QuizTitle': QuizTitle,
+            'Result': result,
+          }
+        ]
+      });
+      print('✅ New document created and quiz result added.');
+    }
+  }
+
+
   //............................................................
   //to add a value into child of uploads
 
@@ -64,21 +130,6 @@ abstract class FirebaseFile {
       }
     ]);
   }
-
-  //............................................................
-//to add a video with info
-//   static void add2({required String childId, required String videoId}) {
-//     final path = dbRef.child("$parentId/$childId/$videoId");
-//     path.push().set({
-//       "name": "", //video name
-//       "time": 0, // video time
-//       "url": "", // video url
-//       "thumbnail": "" // video thumbnail
-//     });
-//   }
-
-//............................................................
-//to add a value in videourl1
 
   static void addVideoToList({
     required String childId,
