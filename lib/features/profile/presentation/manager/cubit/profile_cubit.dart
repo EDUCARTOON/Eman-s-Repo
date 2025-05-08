@@ -9,6 +9,8 @@ import 'package:flutter_application_3/features/profile/data/models/user_model.da
 import 'package:flutter_application_3/features/profile/domain/repositories/profile_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../pages/WRITE A REVIEWS.dart';
+
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
@@ -16,7 +18,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   static ProfileCubit get(context) => BlocProvider.of(context);
   final  ProfileBaseRepo profileRepository;
 
-
+List<Review> feedbacks = [];
   Future<void>fillUserProfile({required UserModel profileModel})async {
         emit(FillUserDataLoadingState());
 
@@ -37,13 +39,26 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   }
 
-  Future<void> setFeedback({required String note})async{
-    try {
-      profileRepository.setFeedback(note: note);
+  Future<void> setFeedback({required Review review})async{
+    try{
+      profileRepository.setFeedback(review: review);
       emit(FeedbackSuccess());
     } catch (e) {
       emit(FeedbackFailure());
     }
+  }
+  Future<void> fetchFeedbacks()async{
+   emit(GetFeedbacksLoadingState());
+    final response = await profileRepository.fetchFeedbacks();
+    response.fold(
+          (l) {
+        emit(GetFeedbacksErrorState());
+
+      },
+          (r) {
+        emit(GetFeedbacksSuccessState());
+        feedbacks = r;
+      },);
   }
 
   Future<void>addChid({required ChildModel childModel,required bool isAdd})async {

@@ -51,3 +51,9 @@ class FeedbackFailure extends ProfileState{}
 
 class UpdateSuccess extends ProfileState{}
 class UpdateFailure extends ProfileState{}
+class GetFeedbacksLoadingState extends ProfileState {}
+class GetFeedbacksSuccessState extends ProfileState {
+}
+
+class GetFeedbacksErrorState extends ProfileState {
+}

@@ -36,7 +36,6 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
   DateTime get _lastDate => DateTime.now().subtract(const Duration(days: 3 * 365));
 @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     fullNameController.dispose();
     dateOfBirthController.dispose();

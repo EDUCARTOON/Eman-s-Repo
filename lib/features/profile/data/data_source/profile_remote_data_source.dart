@@ -2,20 +2,25 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/core/services/firebase_services.dart';
 import 'package:flutter_application_3/features/profile/data/models/child_model.dart';
 
+import '../../presentation/pages/WRITE A REVIEWS.dart';
 import '../models/user_model.dart';
 
 abstract class ProfileDataSource { 
   Future<void> fillUserProfile({required UserModel profileModel});
   Future<void> addChildData({required ChildModel childModel,required bool isAdd});
   Future<List<dynamic>> getUserChildren() ;
-  Future<void> setFeedback({required String note});
- }
+  Future<void> setFeedback({required Review review});
+  Future<Map<dynamic, dynamic>?>fetchFeedbacks();
+}
 
  class ProfileRemoteDataSource implements ProfileDataSource {
+   final DatabaseReference ref = FirebaseDatabase.instance.ref();
+
   @override
 Future<void> fillUserProfile({required UserModel profileModel}) async {
   CollectionReference profileCollection = FirebaseFirestore.instance
@@ -80,8 +85,8 @@ Future<List<dynamic>> getUserChildren() async {
 }
 
   @override
-  Future<void> setFeedback({required String note}) async {
-   FirebaseFile.addFeedback(note: note);
+  Future<void> setFeedback({required Review review}) async {
+   FirebaseFile.addFeedback(review: review);
   }
 
   Future<String?> getUserEmail(String uid) async {
@@ -96,5 +101,12 @@ Future<List<dynamic>> getUserChildren() async {
       return null; // or handle the case where user doesn't exist
     }
   }
+   @override
+   Future<Map<dynamic, dynamic>?> fetchFeedbacks() async{
+     //Map<dynamic,dynamic>? data;
+     final DatabaseEvent event = await ref.child('feedback').once();
+     final data = event.snapshot.value as Map<dynamic, dynamic>?;
+     return data;
+   }
  }
 

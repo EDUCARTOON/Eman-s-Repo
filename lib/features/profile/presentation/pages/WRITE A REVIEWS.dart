@@ -15,14 +15,15 @@ class Review {
 
   Map<String, dynamic> toJson() {
     return {
-      'text': text,
+      'feedbackNote': text,
       'stars': stars,
+      'userName':userName
     };
   }
 
   factory Review.fromJson(Map<String, dynamic> json) {
     return Review(
-      text: json['text'] as String,
+      text: json['feedbackNote'] as String,
       stars: json['stars'] as int,
       userName: json['userName']
     );
@@ -114,7 +115,7 @@ class _ReviewPageState extends State<ReviewPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) =>
-            ProfileCubit(profileRepository: getIt.get<ProfileRepoImpl>()),
+            ProfileCubit(profileRepository: getIt.get<ProfileRepoImpl>())..fetchFeedbacks(),
         child: Scaffold(
             backgroundColor: const Color(0xFF9BB1E3),
             appBar: AppBar(
@@ -126,7 +127,35 @@ class _ReviewPageState extends State<ReviewPage> {
               ),
               centerTitle: true,
             ),
-            body: Padding(
+            body: BlocConsumer<ProfileCubit, ProfileState>(
+  listener: (context, state) {
+    if(state is FeedbackSuccess){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text("Feedback Submitted.."),
+        ),
+
+      );
+
+    }
+    if(state is FeedbackFailure){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("Feedback Failed to submit.."),
+        ),
+      );
+    }
+  },
+  builder: (context, state) {
+    if (state is GetFeedbacksLoadingState){
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    final List<Review> feedbacks = ProfileCubit.get(context).feedbacks;
+    return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
               child: Column(
                 children: [
@@ -136,6 +165,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            ProfileCubit.get(context).fetchFeedbacks();
                             _showWriteReview = false;
                           });
                         },
@@ -182,88 +212,114 @@ class _ReviewPageState extends State<ReviewPage> {
                   const SizedBox(height: 16),
                   Expanded(
                     child: _showWriteReview
-                        ? Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              "Course Review",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                        ? SingleChildScrollView(
+                          child: Column(
+                                                children: [
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:
-                          List.generate(5, (index) => buildStar(index)),
-                        ),
-                        const SizedBox(height: 8),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Write your Review",
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          height: 120,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: TextField(
-                            controller: controller,
-                            maxLines: 4,
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText:
-                              "Would you like to write anything about this product?",
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: ElevatedButton(
-                            onPressed: () => _submitReview(context),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromARGB(
-                                  255, 239, 250, 255),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                            child: const Center(
+                              child: Text(
+                                "Course Review",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
-                            child: const Text(
-                              "Submit Review",
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:
+                            List.generate(5, (index) => buildStar(index)),
+                          ),
+                          const SizedBox(height: 8),
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Write your Review",
                               style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                                  fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                        : _reviews.isEmpty
+                          const SizedBox(height: 8),
+                          Container(
+                            height: 120,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: TextField(
+                              controller: controller,
+                              maxLines: 4,
+                              textAlignVertical: TextAlignVertical.top,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                hintText:
+                                "Would you like to write anything about this product?",
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_selectedStars <= 0){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text("Please select stars."),
+                                    ),
+                                  );
+                                }else{
+                                  if(controller.text.isEmpty||controller.text==''){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text("Please write a review."),
+                                      ),
+                                    );
+                                  }else{
+                                    ProfileCubit.get(context).setFeedback(review: Review.fromJson({
+                                      'feedbackNote':controller.text,
+                                      'stars':_selectedStars,
+                                      'userName':childModel?.fullName??'Anonymous person'
+                                    }));
+                                  }
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(
+                                    255, 239, 250, 255),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: const Text(
+                                "Submit Review",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                                                ],
+                                              ),
+                        )
+                        : feedbacks.isEmpty
                         ? const Center(
                       child: Text("No reviews yet. Be the first to write one!"),
                     )
                         : ListView.builder(
-                      itemCount: _reviews.length,
+                      itemCount: feedbacks.length,
                       itemBuilder: (context, index) {
-                        final review = _reviews[index];
+                        //final review = _reviews[index];
                         return Card(
                           margin: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 16),
@@ -277,23 +333,23 @@ class _ReviewPageState extends State<ReviewPage> {
                                   children: [
                                     Icon(Icons.person),
                                     SizedBox(width: 8),
-                                    Text(review.userName),
+                                    Text(feedbacks[index].userName),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
                                 Row(
                                   children: List.generate(
-                                    review.stars,
+                                    feedbacks[index].stars,
                                         (i) => const Icon(Icons.star, color: Colors.amber),
                                   ) +
                                       List.generate(
-                                        5 - review.stars,
+                                        5 - feedbacks[index].stars,
                                             (i) => const Icon(Icons.star_border),
                                       ),
                                 ),
 
                                 const SizedBox(height: 8),
-                                Text(review.text),
+                                Text(feedbacks[index].text),
                               ],
                             ),
                           ),
@@ -303,7 +359,9 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                 ],
               ),
-            ),
+            );
+  },
+),
             ),
         );
     }
