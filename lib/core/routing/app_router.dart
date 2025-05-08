@@ -97,12 +97,7 @@ abstract class AppRouter {
         GoRoute(
           path: Routes.childrenScreen,
           builder: (BuildContext context, GoRouterState state) {
-//             if(state.extra!=null){
-//                return  BlocProvider.value(
-// value:  state.extra as ProfileCubit, //ProfileCubit(profileRepository:  getIt.get<ProfileRepoImpl>())..getUserChildren(),
-//     child:
-//               const ChildrenScreen());
-//             }
+
             log("================---");
             return BlocProvider(
                 create: (context) => ProfileCubit(

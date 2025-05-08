@@ -5,7 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 abstract class PopularCoursesDataSource{
 
   Future<Map<dynamic, dynamic>?>fetchCourses({required String path});
-  Future<Map<dynamic, dynamic>?>fetchSpecialCourses();
+  Future<Map<dynamic, dynamic>?>fetchFeedbacks();
 
 }
 class PopularCoursesRemoteDataSource implements PopularCoursesDataSource{
@@ -29,9 +29,9 @@ return data;
 }
 
   @override
-  Future<Map?> fetchSpecialCourses() async{
+  Future<Map?> fetchFeedbacks() async{
     //Map<dynamic,dynamic>? data;
-    final DatabaseEvent event = await ref.child('downloads').once();
+    final DatabaseEvent event = await ref.child('feedback').once();
     final data = event.snapshot.value as Map<dynamic, dynamic>?;
     // ref.onValue.listen((event) {
     //   final fetchData = event.snapshot.value as Map<dynamic, dynamic>?;

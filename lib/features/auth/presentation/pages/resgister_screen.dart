@@ -4,7 +4,6 @@ import 'package:flutter_application_3/core/app_constant.dart';
 import 'package:flutter_application_3/core/routing/routes.dart';
 import 'package:flutter_application_3/core/services/cache_helper.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
-import 'package:flutter_application_3/core/utils/auth_locator.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flutter_application_3/features/auth/presentation/manager/cubit/auth_cubit.dart';
 import 'package:flutter_application_3/features/auth/presentation/pages/login_screen.dart';

@@ -5,35 +5,12 @@ import 'package:flutter_application_3/course_video_player.dart';
 import 'package:flutter_application_3/web_view.dart';
 import 'package:go_router/go_router.dart';
 
-import 'ContinueCourse.dart';
 import 'Quiz3-5edu/AskingAboutName.dart';
 import 'core/widgets/quiz_not_found.dart';
 import 'features/popular_courses/data/models/course_model.dart';
 import 'features/popular_courses/presentation/pages/DownSyndrome.dart';
 import 'features/popular_courses/presentation/pages/popular.dart';
 
-// void main() {
-//   runApp(const StartCoursesPage());
-// }
-
-// class StartCoursesApp extends StatelessWidget {
-//   const StartCoursesApp(
-//       {super.key,  this.course, required this.courseModel,this.courseItem});
-//   final CourseItem? courseItem;
-//   final Course? course;
-//   final CourseModel? courseModel;
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: StartCoursesPage(
-//         course: course,
-//         courseModel: courseModel,
-//         courseItem: courseItem,
-//       ),
-//     );
-//   }
-// }
 
 class StartCoursesPage extends StatelessWidget {
   final CourseModel? courseModel;

@@ -31,11 +31,7 @@ class Signup1 extends StatelessWidget {
                 ),
               );
               googleLogin?context.push(Routes.pinCodeScreen,extra: AuthCubit.get(context)):context.push(Routes.childrenScreen);
-              // context.push(Routes.childrenScreen);
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const Profile1()),
-              // );
+
             } else if (state is LoginErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

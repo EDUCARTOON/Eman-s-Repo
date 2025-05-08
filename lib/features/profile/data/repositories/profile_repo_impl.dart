@@ -10,6 +10,8 @@ import 'package:flutter_application_3/features/profile/data/models/child_model.d
 import 'package:flutter_application_3/features/profile/data/models/user_model.dart';
 import 'package:flutter_application_3/features/profile/domain/repositories/profile_repo.dart';
 
+import '../../presentation/pages/WRITE A REVIEWS.dart';
+
 class ProfileRepoImpl implements ProfileBaseRepo {
   final ProfileDataSource profileRemoteDataSource;
 
@@ -75,7 +77,30 @@ class ProfileRepoImpl implements ProfileBaseRepo {
   }
 
   @override
-  Future<void> setFeedback({required String note}) async {
-    profileRemoteDataSource.setFeedback(note: note);
+  Future<void> setFeedback({required Review review}) async {
+    profileRemoteDataSource.setFeedback(review: review);
+  }
+
+  @override
+  Future<Either<String, List<Review>>> fetchFeedbacks() async {
+    try {
+      final feedbacks = await profileRemoteDataSource.fetchFeedbacks();
+
+      if (feedbacks == null) {
+        return right([]);
+      }
+      print("process1");
+      // Properly handle the casting for each course entry
+      return right(
+        feedbacks.entries.map((entry) {
+          // Ensure that the data is properly cast to Map<String, dynamic>
+          final itemMap = Map<String, dynamic>.from(entry.value as Map);
+          return Review.fromJson(itemMap);
+        }).toList(),
+      );
+    } catch (e) {
+      print(e.toString());
+      return left(e.toString());
+    }
   }
 }

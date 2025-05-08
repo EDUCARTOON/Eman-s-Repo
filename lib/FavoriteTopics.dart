@@ -49,13 +49,6 @@ class _FavoriteTopicsScreenState extends State<FavoriteTopicsScreen> {
           if(state is FillChildDataSuccessState) {
           //  widget.profileCubit.getUserChildren();
                       context.push(Routes.childrenScreen,);
-//             Navigator.pushAndRemoveUntil(
-//   context,
-//   MaterialPageRoute(
-//     builder: (context) => const ChildrenScreen(),
-//   ),
-//   (route) => false, // هذا يجعل الشاشة الجديدة هي الوحيدة في السجل
-// );
 
           }
         },
@@ -140,11 +133,7 @@ class _FavoriteTopicsScreenState extends State<FavoriteTopicsScreen> {
                           .toList();
                       widget.profileCubit
                           .addChid(childModel: widget.childModel, isAdd:widget.isAdd??false );
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => const ReaderApp()),
-                      // );
+
                     },
                     child: Container(
                       width: 60,
