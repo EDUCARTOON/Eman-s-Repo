@@ -163,7 +163,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             }
             quizFinished = true;
             _saveLastScore();
-            FirebaseFile.addResult(email!, "Religion", "5-15", '$firstScore', 'Days of the Week Quiz');// حفظ النتيجة عند انتهاء الاختبار
+            FirebaseFile.addResult(email!, "Technology", "8-12", '$firstScore', 'What is Artificial Intelligence?');// حفظ النتيجة عند انتهاء الاختبار
 // Save the score when the quiz ends
           }
         });

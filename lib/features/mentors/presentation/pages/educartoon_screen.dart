@@ -157,7 +157,7 @@ class EducartoonScreen extends StatelessWidget {
                           if (course['title'] == 'Bright Stars Zone') {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const Popular()),
+                              MaterialPageRoute(builder: (context) =>  Popular()),
                             );
                           } else if (course['title'] == 'Special Stars Zone') {
                             Navigator.push(

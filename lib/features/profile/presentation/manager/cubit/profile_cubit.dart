@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/features/auth/data/models/sign_up_model.dart';
 import 'package:flutter_application_3/features/auth/data/repositories/auth_repo_impl.dart';
@@ -84,14 +85,45 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   }
 
-  // Future<void> getUserData({required String uid}) async {
-  //   emit(GetUserDataLoadingState());
-  //   final response = await authRepository.getUserProfile(uid: uid);
-  //   response.fold(
-  //       (errMessage){
-  //         if(!isClosed) {
-  //           emit(GetUserDataErrorState(errMessage: errMessage));
-  //         }},
-  //       (userData){if(!isClosed) { emit(GetUserDataSuccessState(userData: userData));}});
-  // }
+  Future<void>updateProfile({ // email to find the user
+    required String newEmail, // new email to update
+    required Map<String, dynamic> childData,
+  })async{
+    final usersRef = FirebaseFirestore.instance.collection('users');
+
+    try {
+      // Step 1: Find user by old email
+      final querySnapshot = await usersRef.where('email', isEqualTo: email).get();
+
+      if (querySnapshot.docs.isEmpty) {
+        print('No user found with email: $email');
+        return;
+      }
+
+      final userDoc = querySnapshot.docs.first;
+      final userId = userDoc.id;
+
+      // Step 2: Update user email
+      await usersRef.doc(userId).update({'email': newEmail});
+      print('User email updated to $newEmail');
+
+      // Step 3: Update child data
+      await usersRef
+          .doc(userId)
+          .collection('children')
+          .doc(childModel!.docId)
+          .update(childData);
+      final childDoc = await usersRef
+          .doc(userId)
+          .collection('children')
+          .doc(childModel!.docId)
+          .get();
+      childModel = ChildModel.fromMap(childDoc.data()!);
+      emit(UpdateSuccess());
+      print('Child data updated successfully!');
+    } catch (e) {
+      emit(UpdateFailure());
+      print('Error updating data: $e');
+    }
+  }
 }

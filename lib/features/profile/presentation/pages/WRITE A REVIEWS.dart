@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/core/app_shared_variables.dart';
 import 'package:flutter_application_3/features/profile/presentation/manager/cubit/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,8 +10,8 @@ import 'dart:convert';
 class Review {
   final String text;
   final int stars;
-
-  Review({required this.text, required this.stars});
+ final String userName;
+  Review({required this.text, required this.stars,required this.userName});
 
   Map<String, dynamic> toJson() {
     return {
@@ -23,6 +24,7 @@ class Review {
     return Review(
       text: json['text'] as String,
       stars: json['stars'] as int,
+      userName: json['userName']
     );
   }
 }
@@ -57,7 +59,7 @@ class _ReviewPageState extends State<ReviewPage> {
   void _submitReview(BuildContext context) {
     if (_selectedStars > 0 && controller.text.isNotEmpty) {
       setState(() {
-        _reviews.add(Review(text: controller.text, stars: _selectedStars));
+        _reviews.add(Review(text: controller.text, stars: _selectedStars, userName: childModel?.fullName??'Anonymous user'));
         _showWriteReview = false;
         controller.clear();
         _selectedStars = 0;
@@ -271,11 +273,11 @@ class _ReviewPageState extends State<ReviewPage> {
                               crossAxisAlignment:
                               CrossAxisAlignment.start,
                               children: [
-                                const Row(
+                                 Row(
                                   children: [
                                     Icon(Icons.person),
                                     SizedBox(width: 8),
-                                    Text("User"),
+                                    Text(review.userName),
                                   ],
                                 ),
                                 const SizedBox(height: 8),

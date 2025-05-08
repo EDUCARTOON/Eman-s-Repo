@@ -293,7 +293,7 @@ class _DownSyndromeState extends State<Downsyndrome> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => StartCoursesApp(
+                                  builder: (context) => StartCoursesPage(
                                     //course: courses[index],
                                     courseItem: _courses[index],
                                     courseModel: course1.course(

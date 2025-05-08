@@ -295,7 +295,7 @@ class _SpecialCoursesScreenState extends State<Specialcourses> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => StartCoursesAppCopy(
+                                  builder: (context) => StartCoursesPageCopy(
                                     //course: courses[index],
                                     courseItem: _courses[index],
                                     courseModel: course1.course(

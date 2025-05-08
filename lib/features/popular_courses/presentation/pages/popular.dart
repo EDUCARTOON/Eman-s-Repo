@@ -356,7 +356,7 @@ class _PopularState extends State<Popular> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              context.pushReplacement(Routes.layoutScreen);
+              Navigator.pop(context);
             },
           ),
           title: isSearching
@@ -437,7 +437,7 @@ class _PopularState extends State<Popular> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => StartCoursesApp(
+                                  builder: (context) => StartCoursesPage(
                                     course: courses[index],
                                     courseModel: course1.course(
                                       age: course.ageGroup,
