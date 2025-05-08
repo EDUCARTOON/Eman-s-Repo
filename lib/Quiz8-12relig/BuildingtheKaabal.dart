@@ -148,7 +148,7 @@ class _KaabaBuildingQuizScreenState extends State<BuildingtheKaabal> with Ticker
             }
             quizFinished = true;
             _saveLastScore();
-            FirebaseFile.addResult(email!, "Religion", "5-15", '$firstScore', 'Days of the Week Quiz');// حفظ النتيجة عند انتهاء الاختبار
+            FirebaseFile.addResult(email!, "Religion", "8-12", '$firstScore', 'بناء الكعبه');// حفظ النتيجة عند انتهاء الاختبار
 
           }
         });

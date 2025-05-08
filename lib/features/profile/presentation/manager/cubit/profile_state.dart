@@ -48,3 +48,6 @@ class GetUserChildrenErrorState extends ProfileState {
 }
 class FeedbackSuccess extends ProfileState{}
 class FeedbackFailure extends ProfileState{}
+
+class UpdateSuccess extends ProfileState{}
+class UpdateFailure extends ProfileState{}

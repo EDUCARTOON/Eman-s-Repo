@@ -6,6 +6,6 @@ String uid='';
 String? email='';
 RegisterModel? userModel;
 String userImage='';
-ChildModel ?childModel;
+ChildModel? childModel;
 bool isAddChild=true;
 bool googleLogin = true;

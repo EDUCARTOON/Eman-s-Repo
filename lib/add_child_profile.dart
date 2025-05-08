@@ -34,7 +34,13 @@ class _AddChildProfileScreenState extends State<AddChildProfileScreen> {
 
   DateTime get _firstDate => DateTime.now().subtract(const Duration(days: 15 * 365));
   DateTime get _lastDate => DateTime.now().subtract(const Duration(days: 3 * 365));
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    fullNameController.dispose();
+    dateOfBirthController.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -16,24 +16,24 @@ import 'features/popular_courses/presentation/pages/popular.dart';
 //   runApp(const StartCoursesPage());
 // }
 
-class StartCoursesApp extends StatelessWidget {
-  const StartCoursesApp(
-      {super.key,  this.course, required this.courseModel,this.courseItem});
-  final CourseItem? courseItem;
-  final Course? course;
-  final CourseModel? courseModel;
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: StartCoursesPage(
-        course: course,
-        courseModel: courseModel,
-        courseItem: courseItem,
-      ),
-    );
-  }
-}
+// class StartCoursesApp extends StatelessWidget {
+//   const StartCoursesApp(
+//       {super.key,  this.course, required this.courseModel,this.courseItem});
+//   final CourseItem? courseItem;
+//   final Course? course;
+//   final CourseModel? courseModel;
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: StartCoursesPage(
+//         course: course,
+//         courseModel: courseModel,
+//         courseItem: courseItem,
+//       ),
+//     );
+//   }
+// }
 
 class StartCoursesPage extends StatelessWidget {
   final CourseModel? courseModel;
@@ -67,14 +67,7 @@ class StartCoursesPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Popular(
-
-                ),
-              ),
-            );
+            Navigator.pop(context);
             //context.pushReplacement(Routes.popularCoursesScreen);
           },
         ),
