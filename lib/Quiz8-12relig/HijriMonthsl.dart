@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animate_do/animate_do.dart';
-import '../core/app_shared_variables.dart';
-import '../core/services/firebase_services.dart';
+
 void main() {
   runApp(const HijriMonthsl());
 }
@@ -193,8 +192,6 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             }
             quizFinished = true;
             _saveLastScore();
-            FirebaseFile.addResult(email!, "Religion", "8-12", '$firstScore', 'اختبار الشهور الهجرية');// حفظ النتيجة عند انتهاء الاختبار
-
           }
         });
       });

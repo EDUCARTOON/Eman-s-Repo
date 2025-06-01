@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/core/app_constant.dart';
-import 'package:flutter_application_3/core/app_shared_variables.dart';
-import 'package:flutter_application_3/core/services/firebase_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animate_do/animate_do.dart'; // إضافة مكتبة الرسوم المتحركة
 
@@ -139,8 +136,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               firstScore = correctAnswersCount;
             }
             quizFinished = true;
-            _saveLastScore();
-            FirebaseFile.addResult(email!, "Religion", "5-15", '$firstScore', 'كويز الرياضة في الإسلام');// حفظ النتيجة عند انتهاء الاختبار
+            _saveLastScore(); // حفظ النتيجة عند انتهاء الاختبار
           }
         });
       });

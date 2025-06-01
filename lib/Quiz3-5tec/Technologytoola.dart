@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animate_do/animate_do.dart'; // Adding animation library
-import '../core/app_shared_variables.dart';
-import '../core/services/firebase_services.dart';
+
 void main() {
   runApp(const Technologytoola());
 }
@@ -177,9 +176,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               firstScore = correctAnswersCount;
             }
             quizFinished = true;
-            _saveLastScore();
-            FirebaseFile.addResult(email!, "Technology", "3-5", '$firstScore',  'Technology Tools (Ages 3-5)');// حفظ النتيجة عند انتهاء الاختبار
-// Save the score when the quiz ends
+            _saveLastScore(); // Save the score when the quiz ends
           }
         });
       });
