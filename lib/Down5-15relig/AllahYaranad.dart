@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:animate_do/animate_do.dart';
-
-import '../core/app_shared_variables.dart';
-import '../core/services/firebase_services.dart'; // إضافة مكتبة الرسوم المتحركة
+import 'package:animate_do/animate_do.dart'; // إضافة مكتبة الرسوم المتحركة
 
 void main() {
   runApp(const AllahYaranad());
@@ -184,9 +181,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               firstScore = correctAnswersCount;
             }
             quizFinished = true;
-            _saveLastScore();
-            FirebaseFile.addResult(email!, "Religion", "5-15", '$firstScore', 'كويز الله يرانا');// حفظ النتيجة عند انتهاء الاختبار
-// حفظ النتيجة عند انتهاء الاختبار
+            _saveLastScore(); // حفظ النتيجة عند انتهاء الاختبار
           }
         });
       });
