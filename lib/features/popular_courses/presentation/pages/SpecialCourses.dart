@@ -1,21 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/BehaviorSpe.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/CivilizationSpe.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/EducationSpe.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/EntertainmentSpe.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/ReligionSpe.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/TechnologySpe.dart';
 import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../StartCourses.dart';
 import '../../../../core/app_constant.dart';
+import '../../../../deaf5-15beh/Family.dart';
+import '../../../../deaf5-15beh/PinkMonsterEmotions.dart';
+import '../../../../deaf5-15cliv/BiladAlSham.dart';
 import '../../../../deaf5-15edu/FarmAnimalsdef.dart';
 import '../../../../deaf5-15edu/Professionsdef.dart';
 import '../../../../deaf5-15edu/numberdef.dart';
 import '../../../../deaf5-15edu/shapedef.dart';
+import '../../../../deaf5-15ent/Shapes.dart';
+import '../../../../deaf5-15ent/Sports.dart';
 import '../../../../deaf5-15relig/SportInIslamdef.dart';
 import '../../../../deaf5-15tec/WhatIsTechnologydef.dart';
 import '../../data/data_sources/courses_remote_datasources.dart';
@@ -99,7 +98,7 @@ class _SpecialCoursesScreenState extends State<Specialcourses> {
         rating: 3.9,
         students: 2800,
         isFavorite: false,
-        quiz: []),
+        quiz: [BiladAlShamQuizApp()]),
     // CourseItem(title: 'Civilization', ageGroup: '5-15', rating: 4.1, students: 3200, isFavorite: false),
     // CourseItem(title: 'Civilization', ageGroup: '5-15', rating: 4.1, students: 3200, isFavorite: false),
     CourseItem(
@@ -108,7 +107,10 @@ class _SpecialCoursesScreenState extends State<Specialcourses> {
         rating: 3.9,
         students: 2800,
         isFavorite: false,
-        quiz: []),
+        quiz: [
+          ShapesQuizApp(),
+          SportsQuizApp(),
+        ]),
     // CourseItem(title: 'Entertainment', ageGroup: '5-15', rating: 4.1, students: 3200, isFavorite: false),
     // CourseItem(title: 'Entertainment', ageGroup: '5-15', rating: 4.1, students: 3200, isFavorite: false),
     CourseItem(
@@ -117,7 +119,10 @@ class _SpecialCoursesScreenState extends State<Specialcourses> {
         rating: 3.9,
         students: 2800,
         isFavorite: false,
-        quiz: []),
+        quiz: [
+          FamilyQuizApp(),
+          PinkMonsterEmotionsQuizApp()
+        ]),
     // CourseItem(title: 'Behavior', ageGroup: '5-15', rating: 4.1, students: 3200, isFavorite: false),
     // CourseItem(title: 'Behavior', ageGroup: '5-15', rating: 4.1, students: 3200, isFavorite: false),
   ];

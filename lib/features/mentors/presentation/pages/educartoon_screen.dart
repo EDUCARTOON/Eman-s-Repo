@@ -8,8 +8,6 @@ import 'package:flutter_application_3/features/mentors/data/data_sources/mentors
 import 'package:flutter_application_3/features/mentors/data/models/mentors_model.dart';
 import 'package:flutter_application_3/features/mentors/data/repositories/mentors_repo_impl.dart';
 import 'package:flutter_application_3/features/mentors/presentation/manager/cubit/mentors_cubit.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/EducationSpe.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/ReligionSpe.dart';
 import 'package:flutter_application_3/features/popular_courses/Special%20Stars%20Zone/SpecialStarsZone.dart';
 import 'package:flutter_application_3/features/popular_courses/presentation/pages/SpecialCourses.dart';
 import 'package:flutter_application_3/features/profile/presentation/pages/profile_screen.dart';

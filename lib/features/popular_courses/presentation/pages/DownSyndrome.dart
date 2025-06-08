@@ -1,21 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Down%20Syndrome/Behaviordown.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Down%20Syndrome/Civilizationdown.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Down%20Syndrome/Educationdown%20.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Down%20Syndrome/Entertainmentdown.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Down%20Syndrome/Religiondown.dart';
-import 'package:flutter_application_3/features/popular_courses/Special%20Down%20Syndrome/Technologydown.dart';
 import 'package:flutter_application_3/features/popular_courses/presentation/pages/popular.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../Down5-15Ente/BabyAndCat.dart';
+import '../../../../Down5-15Ente/HalloweenBusTrip.dart';
+import '../../../../Down5-15Ente/SnackChoice.dart';
+import '../../../../Down5-15be/CaringForAnimals.dart';
+import '../../../../Down5-15be/PlayingWithFriends.dart';
+import '../../../../Down5-15be/UnderstandingEmotion.dart';
+import '../../../../Down5-15cilv/AncientEgypt.dart';
+import '../../../../Down5-15cilv/TimeTravelEgypt.dart';
 import '../../../../Down5-15edu/Englishletterd.dart';
 import '../../../../Down5-15edu/HealthyFoodsd.dart';
 import '../../../../Down5-15edu/dayofweekd.dart';
 import '../../../../Down5-15relig/AllahYaranad.dart';
 import '../../../../Down5-15relig/ArkanImand.dart';
 import '../../../../Down5-15relig/ArkanIslamd.dart';
+import '../../../../Down5-15tecn/InternetandFiles.dart';
+import '../../../../Down5-15tecn/MoreTechTools.dart';
+import '../../../../Down5-15tecn/Technologytool.dart';
 import '../../../../StartCourses.dart';
 import '../../../../core/app_constant.dart';
 import '../../data/data_sources/courses_remote_datasources.dart';
@@ -89,7 +94,12 @@ class _DownSyndromeState extends State<Downsyndrome> {
         ageGroup: '5-15',
         rating: 3.9,
         students: 2800,
-        quiz: []),
+        quiz: [
+          Technologytool(),
+          InternetandFiles(),
+          MoreTechTools()
+
+        ]),
     // CourseItem(title: 'Technology Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Technology Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     CourseItem(
@@ -97,7 +107,10 @@ class _DownSyndromeState extends State<Downsyndrome> {
         ageGroup: '5-15',
         rating: 3.9,
         students: 2800,
-        quiz: []),
+        quiz: [
+          AncientEgypt(),
+          TimeTravelEgypt()
+        ]),
     //  CourseItem(title: 'Civilization Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Civilization Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     CourseItem(
@@ -105,7 +118,11 @@ class _DownSyndromeState extends State<Downsyndrome> {
         ageGroup: '5-15',
         rating: 3.9,
         students: 2800,
-        quiz: []),
+        quiz: [
+          HalloweenBusTripQuizApp(),
+          SnackChoicesQuizApp(),
+          BabyAndCatQuizApp()
+        ]),
     // CourseItem(title: 'Entertainment Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Entertainment Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     CourseItem(
@@ -113,7 +130,11 @@ class _DownSyndromeState extends State<Downsyndrome> {
         ageGroup: '5-15',
         rating: 3.9,
         students: 2800,
-        quiz: []),
+        quiz: [
+          PlayingWithFriendsQuizApp(),
+          CaringForAnimalsQuizApp(),
+          UnderstandingEmotionsQuizApp()
+        ]),
     // CourseItem(title: 'Behavior Down', ageGroup: '5-15', rating: 4.1, students: 3200),
     // CourseItem(title: 'Behavior Down', ageGroup: '5-15', rating: 4.1, students: 3200),
   ];
